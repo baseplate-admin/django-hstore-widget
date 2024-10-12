@@ -15,9 +15,11 @@ export class DjangoHstoreWidget {
     @Prop() edit_svg_src: string = '/static/admin/img/icon-changelink.svg'; // Overrideable
 
     // State
+    @State() output_render_type: 'rows' | 'textarea' = 'rows';
+
+    // Very Fragile state. Please update with care
     @State() _json: Array<{ key: string; value: string; index: number }> = new Array();
     @State() _json_string: string = '';
-    @State() output_render_type: 'rows' | 'textarea' = 'rows';
 
     connectedCallback() {
         let json_object = JSON.parse(this.json);
