@@ -144,6 +144,7 @@ export class DjangoHstoreWidget {
                     {this.output_render_type === 'rows' ? (
                         <Fragment>
                             <div
+                                class="centered"
                                 onClick={() => {
                                     this.handleRowAdd();
                                 }}
