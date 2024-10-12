@@ -7,7 +7,9 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface DjangoHstoreWidget {
-        "_json": { test: string; };
+        "delete_svg_src": string;
+        "field_name": string;
+        "json": string;
     }
 }
 declare global {
@@ -23,7 +25,9 @@ declare global {
 }
 declare namespace LocalJSX {
     interface DjangoHstoreWidget {
-        "_json"?: { test: string; };
+        "delete_svg_src"?: string;
+        "field_name"?: string;
+        "json"?: string;
     }
     interface IntrinsicElements {
         "django-hstore-widget": DjangoHstoreWidget;
