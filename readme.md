@@ -52,4 +52,4 @@ class YourmodelAdmin(admin.ModelAdmin):
 
 ## Result
 
-![Rendered result](./assets/results.png)
+![Rendered result](./assets/rendered.png)
