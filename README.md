@@ -1,4 +1,5 @@
-# django-hstore-widget-2
+# django-hstore-widget
+
 
 FormField that properly render HStoreField Data in django Admin based on [`djangoauts package`](https://github.com/djangonauts/django-hstore) and updated fork of [`django-admin-hstore-widget`](https://github.com/PokaInc/django-admin-hstore-widget)
 
