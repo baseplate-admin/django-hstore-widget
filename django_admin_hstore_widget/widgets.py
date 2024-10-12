@@ -9,16 +9,6 @@ from django.utils.safestring import mark_safe
 
 
 class HStoreFormWidget(AdminTextareaWidget):
-    @property
-    def media(self):
-        internal_js = [
-            "django_admin_hstore_widget/index.js",
-        ]
-
-        js = [static("admin/js/%s" % path) for path in internal_js]
-
-        return forms.Media(js=js)
-
     def render(self, name, value, attrs=None, renderer=None):
         if attrs is None:
             attrs = {}
@@ -39,7 +29,7 @@ class HStoreFormWidget(AdminTextareaWidget):
         additional_html = template.render(template_context)
 
         # append additional HTML and mark as safe
-        html = html + additional_html
+        html = additional_html
         html = mark_safe(html)
 
         return html

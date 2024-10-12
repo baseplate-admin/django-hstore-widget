@@ -75,7 +75,6 @@ export class DjangoHstoreWidget {
     render() {
         return (
             <Host>
-                <h2>{this.field_name}</h2>
                 {this.output_render_type === 'textarea' && (
                     <Fragment>
                         <textarea

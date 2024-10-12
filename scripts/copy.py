@@ -3,7 +3,7 @@ import shutil
 
 BASE_DIR = Path(__file__).resolve().parent
 
-DIST_DIR = Path(BASE_DIR.parent, "dist", "components")
+DIST_DIR = Path(BASE_DIR.parent, "dist", "django-hstore-widget")
 TARGET_DIR = Path(
     BASE_DIR.parent,
     "django_admin_hstore_widget",
