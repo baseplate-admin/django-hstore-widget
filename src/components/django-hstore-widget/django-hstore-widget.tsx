@@ -76,22 +76,18 @@ export class DjangoHstoreWidget {
     render() {
         return (
             <Host>
-                {this.output_render_type === 'textarea' && (
-                    <Fragment>
-                        <textarea
-                            class="vLargeTextField"
-                            cols={40}
-                            name={`${this.field_name}`}
-                            rows={10}
-                            onInput={event => {
-                                const target = event.currentTarget as HTMLTextAreaElement;
-                                const value = target.value;
-                                this.handleTextAreaInput(value);
-                            }}
-                            value={JSON.stringify(this.getJSONWithoutIndex(), null, Object.keys(this._json).length === 1 ? 0 : 4)}
-                        />
-                    </Fragment>
-                )}
+                <textarea
+                    class={`${this.output_render_type === 'textarea' ? '' : 'hidden'} vLargeTextField`}
+                    cols={40}
+                    name={`${this.field_name}`}
+                    rows={10}
+                    onInput={event => {
+                        const target = event.currentTarget as HTMLTextAreaElement;
+                        const value = target.value;
+                        this.handleTextAreaInput(value);
+                    }}
+                    value={JSON.stringify(this.getJSONWithoutIndex(), null, Object.keys(this._json).length === 1 ? 0 : 4)}
+                />
 
                 {this.output_render_type === 'rows' && this._json && (
                     <Fragment>

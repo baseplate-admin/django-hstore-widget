@@ -23,4 +23,9 @@ django-hstore-widget {
         justify-content: space-between;
         align-items: center;
     }
+
+    .hidden {
+        display: none;
+        visibility: hidden;
+    }
 }
