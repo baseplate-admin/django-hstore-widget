@@ -4,16 +4,17 @@ export const config: Config = {
     plugins: [sass()],
     namespace: 'django-hstore-widget',
     outputTargets: [
-        {
-            type: 'dist',
-            esmLoaderPath: '../loader',
-            copy: [{ src: 'dist/index.js', dest: './django_admin_htsore_widget/django_admin_hstore_widget/static/admin/js' }],
-        },
         // {
-        //   type: 'dist-custom-elements',
-        //   customElementsExportBehavior: 'auto-define-custom-elements',
-        //   externalRuntime: false,
+        //     type: 'dist',
+        //     esmLoaderPath: '../loader',
         // },
+        {
+            type: 'dist-custom-elements',
+            minify: true,
+            customElementsExportBehavior: /*'auto-define-custom-elements' */ 'bundle',
+            externalRuntime: false,
+            empty: true,
+        },
         // {
         //   type: 'docs-readme',
         // },
