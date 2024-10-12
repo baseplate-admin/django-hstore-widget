@@ -9,6 +9,7 @@ export namespace Components {
     interface DjangoHstoreWidget {
         "add_svg_src": string;
         "delete_svg_src": string;
+        "edit_svg_src": string;
         "field_name": string;
         "json": string;
     }
@@ -28,6 +29,7 @@ declare namespace LocalJSX {
     interface DjangoHstoreWidget {
         "add_svg_src"?: string;
         "delete_svg_src"?: string;
+        "edit_svg_src"?: string;
         "field_name"?: string;
         "json"?: string;
     }
