@@ -11,7 +11,7 @@ export const config: Config = {
         {
             type: 'dist-custom-elements',
             minify: true,
-            customElementsExportBehavior: /*'auto-define-custom-elements' */ 'bundle',
+            customElementsExportBehavior: 'auto-define-custom-elements' /* 'bundle' */,
             externalRuntime: false,
             empty: true,
         },

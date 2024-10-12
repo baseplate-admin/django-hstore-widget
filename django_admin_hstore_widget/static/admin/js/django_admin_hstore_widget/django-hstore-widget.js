@@ -1,2 +1,222 @@
-const e="django-hstore-widget";const t={allRenderFn:true,appendChildSlotFix:false,asyncLoading:true,asyncQueue:false,attachStyles:true,cloneNodeFix:false,cmpDidLoad:false,cmpDidRender:false,cmpDidUnload:false,cmpDidUpdate:false,cmpShouldUpdate:false,cmpWillLoad:false,cmpWillRender:false,cmpWillUpdate:false,connectedCallback:true,constructableCSS:true,cssAnnotations:true,devTools:false,disconnectedCallback:false,element:false,event:false,experimentalScopedSlotChanges:false,experimentalSlotFixes:false,formAssociated:false,hasRenderFn:true,hostListener:false,hostListenerTarget:false,hostListenerTargetBody:false,hostListenerTargetDocument:false,hostListenerTargetParent:false,hostListenerTargetWindow:false,hotModuleReplacement:false,hydrateClientSide:false,hydrateServerSide:false,hydratedAttribute:false,hydratedClass:true,hydratedSelectorName:"hydrated",invisiblePrehydration:true,isDebug:false,isDev:false,isTesting:false,lazyLoad:false,lifecycle:false,lifecycleDOMEvents:false,member:true,method:false,mode:false,observeAttribute:true,profile:false,prop:true,propBoolean:false,propMutable:false,propNumber:false,propString:true,reflect:false,scoped:false,scopedSlotTextContentFix:false,scriptDataOpts:false,shadowDelegatesFocus:false,shadowDom:false,slot:false,slotChildNodesFix:false,slotRelocation:false,state:true,style:true,svg:false,taskQueue:true,updatable:true,vdomAttribute:true,vdomClass:true,vdomFunctional:true,vdomKey:true,vdomListener:true,vdomPropOrAttr:true,vdomRef:false,vdomRender:true,vdomStyle:false,vdomText:true,vdomXlink:false,watchCallback:false};var s=Object.defineProperty;var n=(e,t)=>{for(var n in t)s(e,n,{get:t[n],enumerable:true})};var l=new WeakMap;var r=e=>l.get(e);var a=(e,t)=>{const s={t:0,$hostElement$:e,l:t,i:new Map};{s.o=new Promise((e=>s.u=e));e["s-p"]=[];e["s-rc"]=[]}return l.set(e,s)};var i=(e,t)=>t in e;var o=(e,t)=>(0,console.error)(e,t);var f=new Map;var c="slot-fb{display:contents}slot-fb[hidden]{display:none}";var u=typeof window!=="undefined"?window:{};var d=u.document||{head:{}};var v=u.HTMLElement||class{};var h={t:0,v:"",jmp:e=>e(),raf:e=>requestAnimationFrame(e),ael:(e,t,s,n)=>e.addEventListener(t,s,n),rel:(e,t,s,n)=>e.removeEventListener(t,s,n),ce:(e,t)=>new CustomEvent(e,t)};var p=t.shadowDom;var m=e=>Promise.resolve(e);var b=(()=>{try{new CSSStyleSheet;return typeof(new CSSStyleSheet).replaceSync==="function"}catch(e){}return false})();var y=false;var g=[];var w=[];var k=(e,t)=>s=>{e.push(s);if(!y){y=true;if(t&&h.t&4){x(j)}else{h.raf(j)}}};var S=e=>{for(let t=0;t<e.length;t++){try{e[t](performance.now())}catch(e){o(e)}}e.length=0};var j=()=>{S(g);{S(w);if(y=g.length>0){h.raf(j)}}};var x=e=>m().then(e);var O=k(w,true);var $=e=>{const t=new URL(e,h.v);return t.origin!==u.location.origin?t.href:t.pathname};var C=e=>h.v=e;var _={};var A=e=>e!=null;var D=e=>{e=typeof e;return e==="object"||e==="function"};function E(e){var t,s,n;return(n=(s=(t=e.head)==null?void 0:t.querySelector('meta[name="csp-nonce"]'))==null?void 0:s.getAttribute("content"))!=null?n:void 0}var L={};n(L,{err:()=>F,map:()=>R,ok:()=>T,unwrap:()=>M,unwrapErr:()=>N});var T=e=>({isOk:true,isErr:false,value:e});var F=e=>({isOk:false,isErr:true,value:e});function R(e,t){if(e.isOk){const s=t(e.value);if(s instanceof Promise){return s.then((e=>T(e)))}else{return T(s)}}if(e.isErr){const t=e.value;return F(t)}throw"should never get here"}var M=e=>{if(e.isOk){return e.value}else{throw e.value}};var N=e=>{if(e.isErr){return e.value}else{throw e.value}};var P=(e,t="")=>{{return()=>{}}};var U=(e,t,...s)=>{let n=null;let l=null;let r=false;let a=false;const i=[];const o=t=>{for(let s=0;s<t.length;s++){n=t[s];if(Array.isArray(n)){o(n)}else if(n!=null&&typeof n!=="boolean"){if(r=typeof e!=="function"&&!D(n)){n=String(n)}if(r&&a){i[i.length-1].h+=n}else{i.push(r?W(null,n):n)}a=r}}};o(s);if(t){if(t.key){l=t.key}{const e=t.className||t.class;if(e){t.class=typeof e!=="object"?e:Object.keys(e).filter((t=>e[t])).join(" ")}}}if(typeof e==="function"){return e(t===null?{}:t,i,J)}const f=W(e,null);f.p=t;if(i.length>0){f.m=i}{f.k=l}return f};var W=(e,t)=>{const s={t:0,S:e,h:t,j:null,m:null};{s.p=null}{s.k=null}return s};var I={};var H=e=>e&&e.S===I;var J={forEach:(e,t)=>e.map(B).forEach(t),map:(e,t)=>e.map(B).map(t).map(Q)};var B=e=>({vattrs:e.p,vchildren:e.m,vkey:e.k,vname:e.O,vtag:e.S,vtext:e.h});var Q=e=>{if(typeof e.vtag==="function"){const t={...e.vattrs};if(e.vkey){t.key=e.vkey}if(e.vname){t.name=e.vname}return U(e.vtag,t,...e.vchildren||[])}const t=W(e.vtag,e.vtext);t.p=e.vattrs;t.m=e.vchildren;t.k=e.vkey;t.O=e.vname;return t};var q=(e,t)=>{if(e!=null&&!D(e)){if(t&1){return String(e)}return e}return e};var z=(e,t,s)=>{const n=h.ce(t,s);e.dispatchEvent(n);return n};var K=new WeakMap;var V=(e,t,s)=>{let n=f.get(e);if(b&&s){n=n||new CSSStyleSheet;if(typeof n==="string"){n=t}else{n.replaceSync(t)}}else{n=t}f.set(e,n)};var X=(e,t,s)=>{var n;const l=Y(t);const r=f.get(l);e=e.nodeType===11?e:d;if(r){if(typeof r==="string"){e=e.head||e;let s=K.get(e);let a;if(!s){K.set(e,s=new Set)}if(!s.has(l)){{a=d.createElement("style");a.innerHTML=r;const s=(n=h.$)!=null?n:E(d);if(s!=null){a.setAttribute("nonce",s)}if(!(t.t&1)){if(e.nodeName==="HEAD"){const t=e.querySelectorAll("link[rel=preconnect]");const s=t.length>0?t[t.length-1].nextSibling:e.querySelector("style");e.insertBefore(a,s)}else if("host"in e){const t=e.querySelector("style");if(t){t.innerHTML=r+t.innerHTML}else{e.prepend(a)}}else{e.append(a)}}if(t.t&1&&e.nodeName!=="HEAD"){e.insertBefore(a,null)}}if(t.t&4){a.innerHTML+=c}if(s){s.add(l)}}}else if(!e.adoptedStyleSheets.includes(r)){e.adoptedStyleSheets=[...e.adoptedStyleSheets,r]}}return l};var G=e=>{const t=e.l;const s=e.$hostElement$;const n=P("attachStyles",t.C);X(s.getRootNode(),t);n()};var Y=(e,t)=>"sc-"+e.C;var Z=(e,t,s,n,l,r)=>{if(s!==n){let a=i(e,t);let o=t.toLowerCase();if(t==="class"){const t=e.classList;const l=te(s);const r=te(n);t.remove(...l.filter((e=>e&&!r.includes(e))));t.add(...r.filter((e=>e&&!l.includes(e))))}else if(t==="key");else if(!e.__lookupSetter__(t)&&t[0]==="o"&&t[1]==="n"){if(t[2]==="-"){t=t.slice(3)}else if(i(u,o)){t=o.slice(2)}else{t=o[2]+t.slice(3)}if(s||n){const l=t.endsWith(se);t=t.replace(ne,"");if(s){h.rel(e,t,s,l)}if(n){h.ael(e,t,n,l)}}}else{const i=D(n);if((a||i&&n!==null)&&!l){try{if(!e.tagName.includes("-")){const l=n==null?"":n;if(t==="list"){a=false}else if(s==null||e[t]!=l){if(typeof e.__lookupSetter__(t)==="function"){e[t]=l}else{e.setAttribute(t,l)}}}else{e[t]=n}}catch(e){}}if(n==null||n===false){if(n!==false||e.getAttribute(t)===""){{e.removeAttribute(t)}}}else if((!a||r&4||l)&&!i){n=n===true?"":n;{e.setAttribute(t,n)}}}}};var ee=/\s/;var te=e=>!e?[]:e.split(ee);var se="Capture";var ne=new RegExp(se+"$");var le=(e,t,s)=>{const n=t.j.nodeType===11&&t.j.host?t.j.host:t.j;const l=e&&e.p||_;const r=t.p||_;{for(const e of re(Object.keys(l))){if(!(e in r)){Z(n,e,l[e],void 0,s,t.t)}}}for(const e of re(Object.keys(r))){Z(n,e,l[e],r[e],s,t.t)}};function re(e){return e.includes("ref")?[...e.filter((e=>e!=="ref")),"ref"]:e}var ae;var ie;var oe=false;var fe=false;var ce=(e,s,n,l)=>{const r=s.m[n];let a=0;let i;let o;if(r.h!==null){i=r.j=d.createTextNode(r.h)}else{i=r.j=d.createElement(!oe&&t.slotRelocation&&r.t&2?"slot-fb":r.S);{le(null,r,fe)}const s=i.getRootNode();const n=!s.querySelector("body");if(!n&&t.scoped&&A(ae)&&i["s-si"]!==ae){i.classList.add(i["s-si"]=ae)}if(r.m){for(a=0;a<r.m.length;++a){o=ce(e,r,a);if(o){i.appendChild(o)}}}}i["s-hn"]=ie;return i};var ue=(e,t,s,n,l,r)=>{let a=e;let i;for(;l<=r;++l){if(n[l]){i=ce(null,s,l);if(i){n[l].j=i;me(a,i,t)}}}};var de=(e,t,s)=>{for(let n=t;n<=s;++n){const t=e[n];if(t){const e=t.j;if(e){e.remove()}}}};var ve=(e,t,s,n,l=false)=>{let r=0;let a=0;let i=0;let o=0;let f=t.length-1;let c=t[0];let u=t[f];let d=n.length-1;let v=n[0];let h=n[d];let p;let m;while(r<=f&&a<=d){if(c==null){c=t[++r]}else if(u==null){u=t[--f]}else if(v==null){v=n[++a]}else if(h==null){h=n[--d]}else if(he(c,v,l)){pe(c,v,l);c=t[++r];v=n[++a]}else if(he(u,h,l)){pe(u,h,l);u=t[--f];h=n[--d]}else if(he(c,h,l)){pe(c,h,l);me(e,c.j,u.j.nextSibling);c=t[++r];h=n[--d]}else if(he(u,v,l)){pe(u,v,l);me(e,u.j,c.j);u=t[--f];v=n[++a]}else{i=-1;{for(o=r;o<=f;++o){if(t[o]&&t[o].k!==null&&t[o].k===v.k){i=o;break}}}if(i>=0){m=t[i];if(m.S!==v.S){p=ce(t&&t[a],s,i)}else{pe(m,v,l);t[i]=void 0;p=m.j}v=n[++a]}else{p=ce(t&&t[a],s,a);v=n[++a]}if(p){{me(c.j.parentNode,p,c.j)}}}}if(r>f){ue(e,n[d+1]==null?null:n[d+1].j,s,n,a,d)}else if(a>d){de(t,r,f)}};var he=(e,t,s=false)=>{if(e.S===t.S){if(!s){return e.k===t.k}return true}return false};var pe=(e,s,n=false)=>{const l=s.j=e.j;const r=e.m;const a=s.m;const i=s.h;if(i===null){{{le(e,s,fe)}}if(r!==null&&a!==null){ve(l,r,s,a,n)}else if(a!==null){if(e.h!==null){l.textContent=""}ue(l,null,s,a,0,a.length-1)}else if(!n&&t.updatable&&r!==null){de(r,0,r.length-1)}}else if(e.h!==i){l.data=i}};var me=(e,t,s)=>{const n=e==null?void 0:e.insertBefore(t,s);return n};var be=(e,t,s=false)=>{const n=e.$hostElement$;const l=e._||W(null,null);const r=H(t)?t:U(null,null,t);ie=n.tagName;if(s&&r.p){for(const e of Object.keys(r.p)){if(n.hasAttribute(e)&&!["key","ref","style","class"].includes(e)){r.p[e]=n[e]}}}r.S=null;r.t|=4;e._=r;r.j=l.j=n;oe=p;pe(l,r,s)};var ye=(e,t)=>{if(t&&!e.A&&t["s-p"]){t["s-p"].push(new Promise((t=>e.A=t)))}};var ge=(e,t)=>{{e.t|=16}if(e.t&4){e.t|=512;return}ye(e,e.D);const s=()=>we(e,t);return O(s)};var we=(e,t)=>{const s=e.$hostElement$;const n=P("scheduleUpdate",e.l.C);const l=s;if(!l){throw new Error(`Can't render component <${s.tagName.toLowerCase()} /> with invalid Stencil runtime! Make sure this imported component is compiled with a \`externalRuntime: true\` flag. For more information, please refer to https://stenciljs.com/docs/custom-elements#externalruntime`)}let r;n();return ke(r,(()=>je(e,l,t)))};var ke=(e,t)=>Se(e)?e.then(t).catch((e=>{console.error(e);t()})):t();var Se=e=>e instanceof Promise||e&&e.then&&typeof e.then==="function";var je=async(e,t,s)=>{var n;const l=e.$hostElement$;const r=P("update",e.l.C);const a=l["s-rc"];if(s){G(e)}const i=P("render",e.l.C);{xe(e,t,l,s)}if(a){a.map((e=>e()));l["s-rc"]=void 0}i();r();{const t=(n=l["s-p"])!=null?n:[];const s=()=>Oe(e);if(t.length===0){s()}else{Promise.all(t).then(s);e.t|=4;t.length=0}}};var xe=(e,t,s,n)=>{try{t=t.render();{e.t&=~16}{e.t|=2}{{{be(e,t,n)}}}}catch(t){o(t,e.$hostElement$)}return null};var Oe=e=>{const t=e.l.C;const s=e.$hostElement$;const n=P("postUpdate",t);const l=e.D;if(!(e.t&64)){e.t|=64;{Ce(s)}n();{e.u(s);if(!l){$e()}}}else{n()}{if(e.A){e.A();e.A=void 0}if(e.t&512){x((()=>ge(e,false)))}e.t&=~(4|512)}};var $e=t=>{{Ce(d.documentElement)}x((()=>z(u,"appload",{detail:{namespace:e}})))};var Ce=e=>{var s;return e.classList.add((s=t.hydratedSelectorName)!=null?s:"hydrated")};var _e=(e,t)=>r(e).i.get(t);var Ae=(e,t,s,n)=>{const l=r(e);const a=l.i.get(t);const i=l.t;s=q(s,n.L[t][0]);const o=Number.isNaN(a)&&Number.isNaN(s);const f=s!==a&&!o;if(f){l.i.set(t,s);{if((i&(2|16))===2){ge(l,false)}}}};var De=(e,s,n)=>{var l,a;const i=e.prototype;if(s.L||t.watchCallback){const t=Object.entries((l=s.L)!=null?l:{});t.map((([e,[t]])=>{if(t&31||t&32){Object.defineProperty(i,e,{get(){return _e(this,e)},set(t){Ae(this,e,t,s)},configurable:true,enumerable:true})}}));{const n=new Map;i.attributeChangedCallback=function(e,t,l){h.jmp((()=>{var a;const o=n.get(e);if(this.hasOwnProperty(o)){l=this[o];delete this[o]}else if(i.hasOwnProperty(o)&&typeof this[o]==="number"&&this[o]==l){return}else if(o==null){const n=r(this);const i=n==null?void 0:n.t;if(i&&!(i&8)&&i&128&&l!==t){const n=this;const r=n;const i=(a=s.T)==null?void 0:a[e];i==null?void 0:i.forEach((s=>{if(r[s]!=null){r[s].call(r,l,t,e)}}))}return}this[o]=l===null&&typeof this[o]==="boolean"?false:l}))};e.observedAttributes=Array.from(new Set([...Object.keys((a=s.T)!=null?a:{}),...t.filter((([e,t])=>t[0]&15)).map((([e,t])=>{const s=t[1]||e;n.set(s,e);return s}))]))}}return e};var Ee=async(e,t,s,n)=>{let l;if((t.t&32)===0){t.t|=32;{l=e.constructor;const s=e.localName;customElements.whenDefined(s).then((()=>t.t|=128))}if(l&&l.style){let e;if(typeof l.style==="string"){e=l.style}const t=Y(s);if(!f.has(t)){const n=P("registerStyles",s.C);V(t,e,!!(s.t&1));n()}}}const r=t.D;const a=()=>ge(t,true);if(r&&r["s-rc"]){r["s-rc"].push(a)}else{a()}};var Le=e=>{};var Te=e=>{if((h.t&1)===0){const t=r(e);const s=t.l;const n=P("connectedCallback",s.C);if(!(t.t&1)){t.t|=1;{let s=e;while(s=s.parentNode||s.host){if(s["s-p"]){ye(t,t.D=s);break}}}if(s.L){Object.entries(s.L).map((([t,[s]])=>{if(s&31&&e.hasOwnProperty(t)){const s=e[t];delete e[t];e[t]=s}}))}{Ee(e,t,s)}}else{if(t==null?void 0:t.F);else if(t==null?void 0:t.o){t.o.then((()=>Le()))}}n()}};var Fe=async e=>{if((h.t&1)===0){r(e)}};var Re=(e,t)=>{const s={t:t[0],C:t[1]};{s.L=t[2]}const n=e.prototype.connectedCallback;Object.assign(e.prototype,{__registerHost(){a(this,s)},connectedCallback(){r(this);Te(this);if(n){n.call(this)}},disconnectedCallback(){Fe(this)},__attachShadow(){{this.shadowRoot=this}}});e.is=s.C;return De(e,s)};var Me=(e,t)=>t;var Ne=e=>h.$=e;var Pe=e=>Object.assign(h,e);const Ue="django-hstore-widget .wrapper{display:flex;gap:10px}django-hstore-widget .left{min-width:150px}django-hstore-widget .right{min-width:300px}django-hstore-widget .image-div{display:flex;align-items:center;justify-content:center}django-hstore-widget .end-items{display:flex;justify-content:space-between;align-items:center}";const We=Ue;var Ie=undefined&&undefined.__rest||function(e,t){var s={};for(var n in e)if(Object.prototype.hasOwnProperty.call(e,n)&&t.indexOf(n)<0)s[n]=e[n];if(e!=null&&typeof Object.getOwnPropertySymbols==="function")for(var l=0,n=Object.getOwnPropertySymbols(e);l<n.length;l++){if(t.indexOf(n[l])<0&&Object.prototype.propertyIsEnumerable.call(e,n[l]))s[n[l]]=e[n[l]]}return s};const He=Re(class e extends v{constructor(){super();this.__registerHost();this.json=undefined;this.field_name=undefined;this.delete_svg_src="/static/admin/img/icon-deletelink.svg";this.add_svg_src="/static/admin/img/icon-addlink.svg";this.edit_svg_src="/static/admin/img/icon-changelink.svg";this._json={};this.output_render_type="rows"}connectedCallback(){this._json=JSON.parse(this.json);this._json["hello"]="world"}handleDelete(e){const t=Object.keys(this._json);if(e>=0&&e<t.length){const s=t[e];const n=this._json,l=s,r=Ie(n,[typeof l==="symbol"?l:l+""]);this._json=r}else{console.error("Invalid index")}}handleRowAdd(){this._json[""]="";this._json=Object.assign({},this._json)}handleToggleClick(){switch(this.output_render_type){case"rows":this.output_render_type="textarea";break;case"textarea":this.output_render_type="rows";break;default:console.error("Something is wrong with `output_render_type`");break}}handleDataInput(e,t,s){if(e in this._json&&e!==t){delete this._json[e]}this._json[t]=s;if(e!==t){const e={};for(const s of Object.keys(this._json)){if(s!==t){e[s]=this._json[s]}}e[t]=s;this._json=e}}render(){return U(I,{key:"530ab6bc12722fe7de03930e48ff930f9a705ec7"},U("h2",{key:"e1916bfc573b1e00362ce8a9e22101f0d918ab72"},this.field_name),this.output_render_type==="textarea"&&U(Me,{key:"b53aea578d386271fda140670059e1c60ce63e9e"},U("textarea",{key:"b2d322e1d350991efcb980873c13a12c42646428",class:"vLargeTextField",cols:40,name:`${this.field_name}`,rows:10,onInput:e=>{const t=e.currentTarget;const s=t.value;this._json=Object.assign({},JSON.parse(s))},value:JSON.stringify(this._json,null,Object.keys(this._json).length===1?0:4)})),this.output_render_type==="rows"&&this._json&&U(Me,{key:"2b68a57bbdc09203c8027bc53c4cfb13d4a38af4"},Object.entries(this._json).map(((e,t)=>U("div",{class:"form-row field-data"},U("div",{class:"wrapper"},U("input",{value:e[0],onInput:t=>{const s=t.currentTarget;const n=s.value;const l=e[0];e[0]=n;this.handleDataInput(l,e[0],e[1])},placeholder:"key",class:"left"}),U("strong",null,":"),U("input",{value:e[1],onInput:t=>{const s=t.currentTarget;const n=s.value;const l=e[1];e[1]=n;this.handleDataInput(l,e[0],e[1])},placeholder:"value",class:"right"}),U("div",{class:"image-div",onClick:()=>{this.handleDelete(t)}},U("img",{src:this.delete_svg_src,alt:"❌"}))))))),U("div",{key:"314bcf057fe79d1b1942924fd150f65591877ab5",class:"form-row end-items"},this.output_render_type==="rows"?U(Me,null,U("div",{onClick:()=>{this.handleRowAdd()}},U("img",{src:this.add_svg_src,alt:"➕"}),"Add row")):U(Me,null,U("div",null)),U("div",{key:"05605ea2df4fbf9d1002f59a91d77f7f7bc9b16e",onClick:()=>{this.handleToggleClick()}},this.output_render_type==="textarea"&&U(Me,{key:"7e6dc0119e5ed5df6bf3bdbe9e102ea753e87594"},U("img",{key:"888bed11c2ff09014b049523024ad109d504e7a7",src:this.delete_svg_src,alt:"❌"}),"Close TextArea"),this.output_render_type==="rows"&&U(Me,{key:"a84281311af3a3b8fde1b6228ac1860ab6d0d1c6"},U("img",{key:"fadbf64976246794a1001146a4f491c984b45d63",src:this.edit_svg_src,alt:"✏️"}),"Open TextArea"))))}static get style(){return We}},[0,"django-hstore-widget",{json:[1],field_name:[1],delete_svg_src:[1],add_svg_src:[1],edit_svg_src:[1],_json:[32],output_render_type:[32]}]);function Je(){if(typeof customElements==="undefined"){return}const e=["django-hstore-widget"];e.forEach((e=>{switch(e){case"django-hstore-widget":if(!customElements.get(e)){customElements.define(e,He)}break}}))}const Be=He;const Qe=Je;export{Be as DjangoHstoreWidget,Ne as a,Pe as b,Qe as defineCustomElement,$ as g,C as s};
+import { p as e, H as t, h as s, F as i, c as n } from './p-c76398a1.js';
+const a =
+    'django-hstore-widget .wrapper{display:flex;gap:10px}django-hstore-widget .left{min-width:150px}django-hstore-widget .right{min-width:300px}django-hstore-widget .image-div{display:flex;align-items:center;justify-content:center}django-hstore-widget .end-items{display:flex;justify-content:space-between;align-items:center}';
+const c = a;
+var d =
+    (undefined && undefined.__rest) ||
+    function (e, t) {
+        var s = {};
+        for (var i in e) if (Object.prototype.hasOwnProperty.call(e, i) && t.indexOf(i) < 0) s[i] = e[i];
+        if (e != null && typeof Object.getOwnPropertySymbols === 'function')
+            for (var n = 0, i = Object.getOwnPropertySymbols(e); n < i.length; n++) {
+                if (t.indexOf(i[n]) < 0 && Object.prototype.propertyIsEnumerable.call(e, i[n])) s[i[n]] = e[i[n]];
+            }
+        return s;
+    };
+const o = e(
+    class e extends t {
+        constructor() {
+            super();
+            this.__registerHost();
+            this.json = undefined;
+            this.field_name = undefined;
+            this.delete_svg_src = '/static/admin/img/icon-deletelink.svg';
+            this.add_svg_src = '/static/admin/img/icon-addlink.svg';
+            this.edit_svg_src = '/static/admin/img/icon-changelink.svg';
+            this._json = {};
+            this.output_render_type = 'rows';
+        }
+        connectedCallback() {
+            this._json = JSON.parse(this.json);
+            this._json['hello'] = 'world';
+        }
+        handleDelete(e) {
+            const t = Object.keys(this._json);
+            if (e >= 0 && e < t.length) {
+                const s = t[e];
+                const i = this._json,
+                    n = s,
+                    a = d(i, [typeof n === 'symbol' ? n : n + '']);
+                this._json = a;
+            } else {
+                console.error('Invalid index');
+            }
+        }
+        handleRowAdd() {
+            this._json[''] = '';
+            this._json = Object.assign({}, this._json);
+        }
+        handleToggleClick() {
+            switch (this.output_render_type) {
+                case 'rows':
+                    this.output_render_type = 'textarea';
+                    break;
+                case 'textarea':
+                    this.output_render_type = 'rows';
+                    break;
+                default:
+                    console.error('Something is wrong with `output_render_type`');
+                    break;
+            }
+        }
+        handleDataInput(e, t, s) {
+            if (e in this._json && e !== t) {
+                delete this._json[e];
+            }
+            this._json[t] = s;
+            if (e !== t) {
+                const e = {};
+                for (const s of Object.keys(this._json)) {
+                    if (s !== t) {
+                        e[s] = this._json[s];
+                    }
+                }
+                e[t] = s;
+                this._json = e;
+            }
+        }
+        render() {
+            return s(
+                n,
+                { key: '530ab6bc12722fe7de03930e48ff930f9a705ec7' },
+                s('h2', { key: 'e1916bfc573b1e00362ce8a9e22101f0d918ab72' }, this.field_name),
+                this.output_render_type === 'textarea' &&
+                    s(
+                        i,
+                        { key: 'b53aea578d386271fda140670059e1c60ce63e9e' },
+                        s('textarea', {
+                            key: 'b2d322e1d350991efcb980873c13a12c42646428',
+                            class: 'vLargeTextField',
+                            cols: 40,
+                            name: `${this.field_name}`,
+                            rows: 10,
+                            onInput: e => {
+                                const t = e.currentTarget;
+                                const s = t.value;
+                                this._json = Object.assign({}, JSON.parse(s));
+                            },
+                            value: JSON.stringify(this._json, null, Object.keys(this._json).length === 1 ? 0 : 4),
+                        }),
+                    ),
+                this.output_render_type === 'rows' &&
+                    this._json &&
+                    s(
+                        i,
+                        { key: '2b68a57bbdc09203c8027bc53c4cfb13d4a38af4' },
+                        Object.entries(this._json).map((e, t) =>
+                            s(
+                                'div',
+                                { class: 'form-row field-data' },
+                                s(
+                                    'div',
+                                    { class: 'wrapper' },
+                                    s('input', {
+                                        value: e[0],
+                                        onInput: t => {
+                                            const s = t.currentTarget;
+                                            const i = s.value;
+                                            const n = e[0];
+                                            e[0] = i;
+                                            this.handleDataInput(n, e[0], e[1]);
+                                        },
+                                        placeholder: 'key',
+                                        class: 'left',
+                                    }),
+                                    s('strong', null, ':'),
+                                    s('input', {
+                                        value: e[1],
+                                        onInput: t => {
+                                            const s = t.currentTarget;
+                                            const i = s.value;
+                                            const n = e[1];
+                                            e[1] = i;
+                                            this.handleDataInput(n, e[0], e[1]);
+                                        },
+                                        placeholder: 'value',
+                                        class: 'right',
+                                    }),
+                                    s(
+                                        'div',
+                                        {
+                                            class: 'image-div',
+                                            onClick: () => {
+                                                this.handleDelete(t);
+                                            },
+                                        },
+                                        s('img', { src: this.delete_svg_src, alt: '❌' }),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                s(
+                    'div',
+                    { key: '314bcf057fe79d1b1942924fd150f65591877ab5', class: 'form-row end-items' },
+                    this.output_render_type === 'rows'
+                        ? s(
+                              i,
+                              null,
+                              s(
+                                  'div',
+                                  {
+                                      onClick: () => {
+                                          this.handleRowAdd();
+                                      },
+                                  },
+                                  s('img', { src: this.add_svg_src, alt: '➕' }),
+                                  'Add row',
+                              ),
+                          )
+                        : s(i, null, s('div', null)),
+                    s(
+                        'div',
+                        {
+                            key: '05605ea2df4fbf9d1002f59a91d77f7f7bc9b16e',
+                            onClick: () => {
+                                this.handleToggleClick();
+                            },
+                        },
+                        this.output_render_type === 'textarea' &&
+                            s(
+                                i,
+                                { key: '7e6dc0119e5ed5df6bf3bdbe9e102ea753e87594' },
+                                s('img', { key: '888bed11c2ff09014b049523024ad109d504e7a7', src: this.delete_svg_src, alt: '❌' }),
+                                'Close TextArea',
+                            ),
+                        this.output_render_type === 'rows' &&
+                            s(
+                                i,
+                                { key: 'a84281311af3a3b8fde1b6228ac1860ab6d0d1c6' },
+                                s('img', { key: 'fadbf64976246794a1001146a4f491c984b45d63', src: this.edit_svg_src, alt: '✏️' }),
+                                'Open TextArea',
+                            ),
+                    ),
+                ),
+            );
+        }
+        static get style() {
+            return c;
+        }
+    },
+    [0, 'django-hstore-widget', { json: [1], field_name: [1], delete_svg_src: [1], add_svg_src: [1], edit_svg_src: [1], _json: [32], output_render_type: [32] }],
+);
+function r() {
+    if (typeof customElements === 'undefined') {
+        return;
+    }
+    const e = ['django-hstore-widget'];
+    e.forEach(e => {
+        switch (e) {
+            case 'django-hstore-widget':
+                if (!customElements.get(e)) {
+                    customElements.define(e, o);
+                }
+                break;
+        }
+    });
+}
+r();
+const l = o;
+const h = r;
+export { l as DjangoHstoreWidget, h as defineCustomElement };
 //# sourceMappingURL=django-hstore-widget.js.map

@@ -12,8 +12,7 @@ class HStoreFormWidget(AdminTextareaWidget):
     @property
     def media(self):
         internal_js = [
-            "django_admin_hstore_widget/underscore-min.js",
-            "django_admin_hstore_widget/django_admin_hstore_widget.js",
+            "django_admin_hstore_widget/index.js",
         ]
 
         js = [static("admin/js/%s" % path) for path in internal_js]
@@ -25,14 +24,13 @@ class HStoreFormWidget(AdminTextareaWidget):
             attrs = {}
             # it's called "original" because it will be replaced by a copy
 
-        attrs["class"] = "hstore-original-textarea"
-
         # get default HTML from AdminTextareaWidget
         html = super().render(name, value, attrs)
 
         # prepare template context
         template_context = {
             "field_name": name,
+            "field_data": value,
         }
 
         # get template object
