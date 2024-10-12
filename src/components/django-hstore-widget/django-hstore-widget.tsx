@@ -15,29 +15,36 @@ export class DjangoHstoreWidget {
     @Prop() edit_svg_src: string = '/static/admin/img/icon-changelink.svg'; // Overrideable
 
     // State
-    @State() _json: { [key: string]: string } = {};
+    @State() _json: Array<{ key: string; value: string; index: number }> = new Array();
     @State() output_render_type: 'rows' | 'textarea' = 'rows';
 
     connectedCallback() {
-        this._json = JSON.parse(this.json);
-        this._json['hello'] = 'world';
+        let json_object = JSON.parse(this.json);
+        let json = Object.keys(json_object).map((key, index) => ({
+            key: key,
+            value: json_object[key],
+            index: index,
+        }));
+        this._json = json;
+        console.log(this._json);
     }
 
     private handleDelete(index: number) {
-        const keys = Object.keys(this._json);
-
-        if (index >= 0 && index < keys.length) {
-            const keyToDelete = keys[index];
-            const { [keyToDelete]: _, ...rest } = this._json;
-            this._json = rest;
-        } else {
-            console.error('Invalid index');
-        }
+        const json = this._json.filter(obj => obj.index !== index);
+        this._json = structuredClone(json);
     }
 
     private handleRowAdd() {
-        this._json[''] = '';
-        this._json = { ...this._json };
+        let json = this._json;
+        const last_item = json.at(-1);
+
+        const data = {
+            index: last_item.index + 1,
+            key: '',
+            value: '',
+        };
+        json.push(data);
+        this._json = structuredClone(json);
     }
 
     private handleToggleClick() {
@@ -53,23 +60,17 @@ export class DjangoHstoreWidget {
                 break;
         }
     }
-    private handleDataInput(old_key: string, key: string, value: string) {
-        if (old_key in this._json && old_key !== key) {
-            delete this._json[old_key];
-        }
 
-        this._json[key] = value;
+    private getJSONWithoutIndex() {
+        return this._json.reduce((acc, curr) => {
+            acc[curr.key] = curr.value;
+            return acc;
+        }, {} as Record<string, string>);
+    }
 
-        if (old_key !== key) {
-            const orderedJson = {};
-            for (const k of Object.keys(this._json)) {
-                if (k !== key) {
-                    orderedJson[k] = this._json[k];
-                }
-            }
-            orderedJson[key] = value;
-            this._json = orderedJson;
-        }
+    private handleTextAreaInput(text: string) {
+        this.json = text;
+        this.connectedCallback();
     }
 
     render() {
@@ -85,42 +86,36 @@ export class DjangoHstoreWidget {
                             onInput={event => {
                                 const target = event.currentTarget as HTMLTextAreaElement;
                                 const value = target.value;
-                                this._json = { ...JSON.parse(value) };
+                                this.handleTextAreaInput(value);
                             }}
-                            value={JSON.stringify(this._json, null, Object.keys(this._json).length === 1 ? 0 : 4)}
+                            value={JSON.stringify(this.getJSONWithoutIndex(), null, Object.keys(this._json).length === 1 ? 0 : 4)}
                         />
                     </Fragment>
                 )}
 
                 {this.output_render_type === 'rows' && this._json && (
                     <Fragment>
-                        {Object.entries(this._json).map((item, index) => {
+                        {this._json.map((item, index) => {
                             return (
                                 <div class="form-row field-data">
                                     <div class="wrapper">
                                         <input
-                                            value={item[0]}
+                                            value={item.key}
                                             onInput={event => {
                                                 const target = event.currentTarget as HTMLInputElement;
                                                 const value = target.value;
-                                                const old_key = item[0];
-                                                item[0] = value;
-
-                                                this.handleDataInput(old_key, item[0], item[1]);
+                                                item.key = value;
                                             }}
                                             placeholder="key"
                                             class="left"
                                         />
                                         <strong>:</strong>
                                         <input
-                                            value={item[1]}
-                                            onInput={event => {
+                                            value={item.value}
+                                            onInput={() => {
                                                 const target = event.currentTarget as HTMLInputElement;
                                                 const value = target.value;
-                                                const old_key = item[1];
-                                                item[1] = value;
-
-                                                this.handleDataInput(old_key, item[0], item[1]);
+                                                item.value = value;
                                             }}
                                             placeholder="value"
                                             class="right"

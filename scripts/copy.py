@@ -13,5 +13,9 @@ TARGET_DIR = Path(
     "django_admin_hstore_widget",
 )
 
+shutil.rmtree(TARGET_DIR)
+
+TARGET_DIR.mkdir(parents=True, exist_ok=True)
+
 for js_file in DIST_DIR.glob("*.js"):
     shutil.copy(js_file, TARGET_DIR / js_file.name)
