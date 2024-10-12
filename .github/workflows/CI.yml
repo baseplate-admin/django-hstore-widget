@@ -30,9 +30,6 @@ jobs:
             - name: Build ( frontend )
               run: npm run build
 
-            - name: Build using nx
-              run: npm run build
-
             - uses: actions/checkout@v4
             - name: Install Poetry
               uses: snok/install-poetry@v1
