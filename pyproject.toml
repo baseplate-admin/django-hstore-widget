@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "django-hstore-widget-2"
+name = "django-hstore-widget"
 version = "0.0.1"
-description = "Continual of django-admin-hstore-widget"
+description = "Human friendly HStoreWidget. Continual of django-admin-hstore-widget."
 authors = ["baseplate-admin <61817579+baseplate-admin@users.noreply.github.com>"]
 readme = "README.md"
 license = "MIT"
@@ -18,6 +18,8 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python :: Implementation :: PyPy",
     "Programming Language :: Python",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -28,7 +30,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = ">3.8"
+python = ">3.6"
 django = "*"
 
 

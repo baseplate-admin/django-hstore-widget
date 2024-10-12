@@ -6,11 +6,11 @@ BASE_DIR = Path(__file__).resolve().parent
 DIST_DIR = Path(BASE_DIR.parent, "dist", "django-hstore-widget")
 TARGET_DIR = Path(
     BASE_DIR.parent,
-    "django_admin_hstore_widget",
+    "django_hstore_widget",
     "static",
     "admin",
     "js",
-    "django_admin_hstore_widget",
+    "django_hstore_widget",
 )
 
 shutil.rmtree(TARGET_DIR)
