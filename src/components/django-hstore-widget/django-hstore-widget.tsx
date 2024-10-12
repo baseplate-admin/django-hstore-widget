@@ -144,7 +144,7 @@ export class DjangoHstoreWidget {
                     {this.output_render_type === 'rows' ? (
                         <Fragment>
                             <div
-                                class="centered"
+                                class="centered gap-1"
                                 onClick={() => {
                                     this.handleRowAdd();
                                 }}
@@ -159,7 +159,7 @@ export class DjangoHstoreWidget {
                         </Fragment>
                     )}
                     <div
-                        class="centered"
+                        class="centered gap-1"
                         onClick={() => {
                             this.handleToggleClick();
                         }}

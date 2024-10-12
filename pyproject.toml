@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "django-hstore-widget-2"
+version = "0.0.1"
+description = "Continual of django-admin-hstore-widget"
+authors = ["baseplate-admin <61817579+baseplate-admin@users.noreply.github.com>"]
+readme = "README.md"
+license = "MIT"
+packages = [{include = "django_admin_hstore_widget"}]
+classifiers = [ 
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: Django",
+    "Framework :: Django :: 3.2",
+    "Framework :: Django :: 4.1",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Framework :: Django :: 5.1",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+
+]
+
+[tool.poetry.dependencies]
+python = ">3.8"
+django = "*"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
