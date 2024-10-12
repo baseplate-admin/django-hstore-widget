@@ -40,6 +40,10 @@ export class DjangoHstoreWidget {
     private handleRowAdd() {
         let json = this._json;
         const last_item = json.at(-1);
+        if (!last_item) {
+            console.error('`this._json` is empty.');
+            return;
+        }
 
         const data = {
             index: last_item.index + 1,
