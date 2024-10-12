@@ -16,6 +16,7 @@ export class DjangoHstoreWidget {
 
     // State
     @State() _json: Array<{ key: string; value: string; index: number }> = new Array();
+    @State() _json_string: string = '';
     @State() output_render_type: 'rows' | 'textarea' = 'rows';
 
     connectedCallback() {
@@ -26,7 +27,7 @@ export class DjangoHstoreWidget {
             index: index,
         }));
         this._json = json;
-        console.log(this._json);
+        this.updateJSONString();
     }
 
     private handleDelete(index: number) {
@@ -68,6 +69,10 @@ export class DjangoHstoreWidget {
         }, {} as Record<string, string>);
     }
 
+    private updateJSONString() {
+        this._json_string = JSON.stringify(this.getJSONWithoutIndex(), null, Object.keys(this._json).length === 1 ? 0 : 4);
+    }
+
     private handleTextAreaInput(text: string) {
         this.json = text;
         this.connectedCallback();
@@ -86,8 +91,9 @@ export class DjangoHstoreWidget {
                         const value = target.value;
                         this.handleTextAreaInput(value);
                     }}
-                    value={JSON.stringify(this.getJSONWithoutIndex(), null, Object.keys(this._json).length === 1 ? 0 : 4)}
-                />
+                >
+                    {this._json_string}
+                </textarea>
 
                 {this.output_render_type === 'rows' && this._json && (
                     <Fragment>
@@ -101,6 +107,7 @@ export class DjangoHstoreWidget {
                                                 const target = event.currentTarget as HTMLInputElement;
                                                 const value = target.value;
                                                 item.key = value;
+                                                this.updateJSONString();
                                             }}
                                             placeholder="key"
                                             class="left"
@@ -112,6 +119,7 @@ export class DjangoHstoreWidget {
                                                 const target = event.currentTarget as HTMLInputElement;
                                                 const value = target.value;
                                                 item.value = value;
+                                                this.updateJSONString();
                                             }}
                                             placeholder="value"
                                             class="right"
