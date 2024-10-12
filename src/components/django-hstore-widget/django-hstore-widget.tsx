@@ -126,7 +126,7 @@ export class DjangoHstoreWidget {
                                             class="right"
                                         />
                                         <div
-                                            class="image-div"
+                                            class="centered"
                                             onClick={() => {
                                                 this.handleDelete(index);
                                             }}
@@ -157,6 +157,7 @@ export class DjangoHstoreWidget {
                         </Fragment>
                     )}
                     <div
+                        class="centered"
                         onClick={() => {
                             this.handleToggleClick();
                         }}
