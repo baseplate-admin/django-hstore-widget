@@ -1,9 +1,9 @@
 name: Release
 
 on:
-    push:
-        branches:
-            - master
+    release:
+        types:
+            - created
 
 jobs:
     release:
@@ -36,11 +36,15 @@ jobs:
               with:
                   virtualenvs-create: true
                   virtualenvs-in-project: true
-            - name: Install python dependencies
+
+            # - name: Install python dependencies
+            #   run: |
+            #       poetry install --sync --no-interaction --no-root
+
+            - name: Set pypi token
               run: |
-                  poetry install --sync --no-interaction --no-root
                   poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
 
-            # - name: Publish
-            #   run: |
-            #       poetry publish --build
+            - name: Publish
+              run: |
+                  poetry publish --build
