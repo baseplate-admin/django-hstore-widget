@@ -24,7 +24,7 @@ class HStoreFormWidget(AdminTextareaWidget):
         }
 
         # get template object
-        template = get_template("django_admin_hstore_widget.html")
+        template = get_template("django_hstore_widget.html")
         # render additional html
         additional_html = template.render(template_context)
 
