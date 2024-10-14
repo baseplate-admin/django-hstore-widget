@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Fragment } from '@stencil/core';
+import { Component, Host, h, Prop, State, Fragment, Watch } from '@stencil/core';
 
 @Component({
     tag: 'django-hstore-widget',
@@ -18,11 +18,23 @@ export class DjangoHstoreWidget {
     @State() output_render_type: 'rows' | 'textarea' = 'rows';
 
     // Very Fragile state. Please update with care
-    @State() _json: Array<{ key: string; value: string; index: number }> = new Array();
+    @State() _json = new Array<{ key: string; value: string; index: number }>();
     @State() _json_string: string = '';
 
+    // Watchers
+    @Watch('json')
+    jsonWatcher(newValue: string) {
+        this.#parseJson(newValue);
+    }
+
+    // Callbacks
     connectedCallback() {
-        let json_object = JSON.parse(this.json);
+        this.#parseJson(this.json);
+    }
+
+    // Functions
+    #parseJson(json_string: string) {
+        let json_object = JSON.parse(json_string);
         let json = Object.keys(json_object).map((key, index) => ({
             key: key,
             value: json_object[key],
@@ -32,12 +44,12 @@ export class DjangoHstoreWidget {
         this.updateJSONString();
     }
 
-    private handleDelete(index: number) {
+    #handleDelete(index: number) {
         const json = this._json.filter(obj => obj.index !== index);
         this._json = structuredClone(json);
     }
 
-    private handleRowAdd() {
+    #handleRowAdd() {
         let json = this._json;
         const last_item = json.at(-1);
         if (!last_item) {
@@ -54,7 +66,7 @@ export class DjangoHstoreWidget {
         this._json = structuredClone(json);
     }
 
-    private handleToggleClick() {
+    #handleToggleClick() {
         switch (this.output_render_type) {
             case 'rows':
                 this.output_render_type = 'textarea';
@@ -68,7 +80,7 @@ export class DjangoHstoreWidget {
         }
     }
 
-    private getJSONWithoutIndex() {
+    #getJSONWithoutIndex() {
         return this._json.reduce((acc, curr) => {
             acc[curr.key] = curr.value;
             return acc;
@@ -76,7 +88,7 @@ export class DjangoHstoreWidget {
     }
 
     private updateJSONString() {
-        this._json_string = JSON.stringify(this.getJSONWithoutIndex(), null, Object.keys(this._json).length === 1 ? 0 : 4);
+        this._json_string = JSON.stringify(this.#getJSONWithoutIndex(), null, Object.keys(this._json).length === 1 ? 0 : 4);
     }
 
     private handleTextAreaInput(text: string) {
@@ -133,7 +145,7 @@ export class DjangoHstoreWidget {
                                         <div
                                             class="centered"
                                             onClick={() => {
-                                                this.handleDelete(index);
+                                                this.#handleDelete(index);
                                             }}
                                         >
                                             <img src={this.delete_svg_src} alt="❌" />
@@ -150,7 +162,7 @@ export class DjangoHstoreWidget {
                             <div
                                 class="centered gap-1"
                                 onClick={() => {
-                                    this.handleRowAdd();
+                                    this.#handleRowAdd();
                                 }}
                             >
                                 <img src={this.add_svg_src} alt="➕" />
@@ -165,7 +177,7 @@ export class DjangoHstoreWidget {
                     <div
                         class="centered gap-1"
                         onClick={() => {
-                            this.handleToggleClick();
+                            this.#handleToggleClick();
                         }}
                     >
                         {this.output_render_type === 'textarea' && (
