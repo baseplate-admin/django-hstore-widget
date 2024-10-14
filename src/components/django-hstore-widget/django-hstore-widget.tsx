@@ -19,7 +19,6 @@ export class DjangoHstoreWidget {
 
     // Very Fragile state. Please update with care
     @State() _json = new Array<{ key: string; value: string; index: number }>();
-    @State() _json_string: string = '';
 
     // Watchers
     @Watch('json')
@@ -79,18 +78,23 @@ export class DjangoHstoreWidget {
         }
     }
 
-    private getJSONString() {
-        const jsonObject = this._json.reduce((acc, curr) => {
+    #getJSONWithoutIndex() {
+        return this._json.reduce((acc, curr) => {
             acc[curr.key] = curr.value;
             return acc;
         }, {} as Record<string, string>);
+    }
 
+    private getJSONString() {
+        const jsonObject = this.#getJSONWithoutIndex();
         return JSON.stringify(jsonObject, null, Object.keys(jsonObject).length === 1 ? 0 : 4);
     }
 
-    private handleTextAreaInput(text: string) {
-        this.json = text;
-        this.connectedCallback();
+    private handleTextAreaInput(event: Event) {
+        const target = event.currentTarget as HTMLTextAreaElement;
+        const value = target.value;
+        this.json = value;
+        this.#parseJson(value);
     }
 
     render() {
@@ -103,7 +107,7 @@ export class DjangoHstoreWidget {
                     cols={40}
                     name={`${this.field_name}`}
                     rows={10}
-                    onInput={this.handleTextAreaInput.bind(this)}
+                    onInput={event => this.handleTextAreaInput(event)}
                 >
                     {jsonString}
                 </textarea>
@@ -112,7 +116,7 @@ export class DjangoHstoreWidget {
                     <Fragment>
                         {this._json.map((item, index) => {
                             return (
-                                <div class="form-row field-data">
+                                <div class="form-row field-data" key={item.index}>
                                     <div class="wrapper">
                                         <input
                                             value={item.key}
@@ -120,6 +124,7 @@ export class DjangoHstoreWidget {
                                                 const target = event.currentTarget as HTMLInputElement;
                                                 const value = target.value;
                                                 item.key = value;
+                                                this._json = [...this._json];
                                             }}
                                             placeholder="key"
                                             class="left"
@@ -127,10 +132,11 @@ export class DjangoHstoreWidget {
                                         <strong>:</strong>
                                         <input
                                             value={item.value}
-                                            onInput={() => {
+                                            onInput={event => {
                                                 const target = event.currentTarget as HTMLInputElement;
                                                 const value = target.value;
                                                 item.value = value;
+                                                this._json = [...this._json];
                                             }}
                                             placeholder="value"
                                             class="right"
