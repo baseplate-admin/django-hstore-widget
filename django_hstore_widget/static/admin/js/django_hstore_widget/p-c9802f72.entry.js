@@ -1,12 +1,17 @@
 import { r as e, h as t, F as i, H as s } from './p-7f61e167.js';
 var a,
     n,
-    d = function (e, t, i, s) {
+    c,
+    d,
+    r,
+    o,
+    h,
+    l = function (e, t, i, s) {
         if ('a' === i && !s) throw new TypeError('Private accessor was defined without a getter');
         if ('function' == typeof t ? e !== t || !s : !t.has(e)) throw new TypeError('Cannot read private member from an object whose class did not declare it');
         return 'm' === i ? s : 'a' === i ? s.call(e) : s ? s.value : t.get(e);
     };
-const r = class {
+const f = class {
     constructor(t) {
         e(this, t),
             a.add(this),
@@ -16,79 +21,46 @@ const r = class {
             (this.add_svg_src = '/static/admin/img/icon-addlink.svg'),
             (this.edit_svg_src = '/static/admin/img/icon-changelink.svg'),
             (this.output_render_type = 'rows'),
-            (this._json = new Array()),
-            (this._json_string = '');
+            (this._json = new Array());
     }
     jsonWatcher(e) {
-        d(this, a, 'm', n).call(this, e);
+        l(this, a, 'm', n).call(this, e);
     }
     connectedCallback() {
-        d(this, a, 'm', n).call(this, this.json);
-    }
-    handleDelete(e) {
-        const t = this._json.filter(t => t.index !== e);
-        this._json = structuredClone(t);
-    }
-    handleRowAdd() {
-        let e = this._json;
-        const t = e.at(-1);
-        t ? (e.push({ index: t.index + 1, key: '', value: '' }), (this._json = structuredClone(e))) : console.error('`this._json` is empty.');
-    }
-    handleToggleClick() {
-        switch (this.output_render_type) {
-            case 'rows':
-                this.output_render_type = 'textarea';
-                break;
-            case 'textarea':
-                this.output_render_type = 'rows';
-                break;
-            default:
-                console.error('Something is wrong with `output_render_type`');
-        }
-    }
-    getJSONWithoutIndex() {
-        return this._json.reduce((e, t) => ((e[t.key] = t.value), e), {});
-    }
-    updateJSONString() {
-        this._json_string = JSON.stringify(this.getJSONWithoutIndex(), null, 1 === Object.keys(this._json).length ? 0 : 4);
-    }
-    handleTextAreaInput(e) {
-        (this.json = e), this.connectedCallback();
+        l(this, a, 'm', n).call(this, this.json);
     }
     render() {
         return t(
             s,
-            { key: '4e4fd74414abf02f37274fb964ef6f8bf299a35d' },
+            { key: '4d0c0b3c83120ab754192748a7e4364af1eeaffe' },
             t(
                 'textarea',
                 {
-                    key: '20ee76ade9d9ab74df92d88db76e2543f89ca8da',
+                    key: 'bb09cb7513e8feff94c80d30f64ac4815c067b37',
                     class: ('textarea' === this.output_render_type ? '' : 'hidden') + ' vLargeTextField',
                     cols: 40,
-                    name: `${this.field_name}`,
+                    name: this.field_name,
                     rows: 10,
-                    onInput: e => {
-                        this.handleTextAreaInput(e.currentTarget.value);
-                    },
+                    onInput: e => l(this, a, 'm', o).call(this, e),
                 },
-                this._json_string,
+                l(this, a, 'm', h).call(this),
             ),
             'rows' === this.output_render_type &&
                 this._json &&
                 t(
                     i,
-                    { key: '7b688aa6c16e2593c9cc7675545e2e685b9a618c' },
+                    { key: 'd90fa2fa1cc8ddc906045abbf4a544c09f581623' },
                     this._json.map((e, i) =>
                         t(
                             'div',
-                            { class: 'form-row field-data' },
+                            { class: 'form-row field-data', key: e.index },
                             t(
                                 'div',
                                 { class: 'wrapper' },
                                 t('input', {
                                     value: e.key,
                                     onInput: t => {
-                                        (e.key = t.currentTarget.value), this.updateJSONString();
+                                        (e.key = t.currentTarget.value), (this._json = structuredClone(this._json));
                                     },
                                     placeholder: 'key',
                                     class: 'left',
@@ -96,9 +68,8 @@ const r = class {
                                 t('strong', null, ':'),
                                 t('input', {
                                     value: e.value,
-                                    onInput: () => {
-                                        const t = event.currentTarget;
-                                        (e.value = t.value), this.updateJSONString();
+                                    onInput: t => {
+                                        (e.value = t.currentTarget.value), (this._json = structuredClone(this._json));
                                     },
                                     placeholder: 'value',
                                     class: 'right',
@@ -108,7 +79,7 @@ const r = class {
                                     {
                                         class: 'centered',
                                         onClick: () => {
-                                            this.handleDelete(i);
+                                            l(this, a, 'm', c).call(this, i);
                                         },
                                     },
                                     t('img', { src: this.delete_svg_src, alt: '❌' }),
@@ -119,7 +90,7 @@ const r = class {
                 ),
             t(
                 'div',
-                { key: '0945c553b3a347ac6a9df9175c6ead36f9626847', class: 'form-row end-items' },
+                { key: 'af2ccd8029c357612e3cddd5faf17c0abbd9009b', class: 'form-row end-items' },
                 t(
                     i,
                     null,
@@ -129,7 +100,7 @@ const r = class {
                               {
                                   class: 'centered gap-1',
                                   onClick: () => {
-                                      this.handleRowAdd();
+                                      l(this, a, 'm', d).call(this);
                                   },
                               },
                               t('img', { src: this.add_svg_src, alt: '➕' }),
@@ -140,24 +111,24 @@ const r = class {
                 t(
                     'div',
                     {
-                        key: 'f5e472fd938d04a174e9eb49a3810778e2876b9a',
+                        key: '1e1545fefe9dc33bc6ba2d4dc9b10608097834e8',
                         class: 'centered gap-1',
                         onClick: () => {
-                            this.handleToggleClick();
+                            l(this, a, 'm', r).call(this);
                         },
                     },
                     'textarea' === this.output_render_type &&
                         t(
                             i,
-                            { key: 'b86924d70f69c0becc74cff66c875ab7f30033c9' },
-                            t('img', { key: 'f82cc90e442d9bc409ed94188a0891636cbe0128', src: this.delete_svg_src, alt: '❌' }),
+                            { key: '3487fe138d18cda2d67f8353e81d2dfa514c0671' },
+                            t('img', { key: '90456fab09e986ccf1585ed8091f563a4d0cf44e', src: this.delete_svg_src, alt: '❌' }),
                             'Close TextArea',
                         ),
                     'rows' === this.output_render_type &&
                         t(
                             i,
-                            { key: '886d58122b0b0cb1d1aa4063999777fc966ee09b' },
-                            t('img', { key: 'a9e3dc7a7c453fe928a7dfcd084c902905c2942f', src: this.edit_svg_src, alt: '✏️' }),
+                            { key: '818c157f5d8fa7d24d223b503e46a282ec9a441f' },
+                            t('img', { key: '0c7fab7cdc0189eb5cdfab88dbd5bd1482d95b59', src: this.edit_svg_src, alt: '✏️' }),
                             'Open TextArea',
                         ),
                 ),
@@ -172,8 +143,37 @@ const r = class {
     (n = function (e) {
         let t = JSON.parse(e),
             i = Object.keys(t).map((e, i) => ({ key: e, value: t[e], index: i }));
-        (this._json = i), this.updateJSONString();
+        this._json = i;
     }),
-    (r.style =
+    (c = function (e) {
+        const t = this._json.filter(t => t.index !== e);
+        this._json = structuredClone(t);
+    }),
+    (d = function () {
+        let e = this._json;
+        const t = e.at(-1);
+        e.push({ index: t ? t.index + 1 : 0, key: '', value: '' }), (this._json = structuredClone(e));
+    }),
+    (r = function () {
+        switch (this.output_render_type) {
+            case 'rows':
+                this.output_render_type = 'textarea';
+                break;
+            case 'textarea':
+                this.output_render_type = 'rows';
+                break;
+            default:
+                console.error('Something is wrong with `output_render_type`');
+        }
+    }),
+    (o = function (e) {
+        const t = e.currentTarget.value;
+        (this.json = t), l(this, a, 'm', n).call(this, t);
+    }),
+    (h = function () {
+        const e = this._json.reduce((e, t) => ((e[t.key] = t.value), e), {});
+        return JSON.stringify(e, null, 1 === Object.keys(e).length ? 0 : 4);
+    }),
+    (f.style =
         'django-hstore-widget .wrapper{display:flex;gap:10px}django-hstore-widget .left{min-width:150px}django-hstore-widget .right{min-width:300px}django-hstore-widget .centered{display:flex;align-items:center;justify-content:center}django-hstore-widget .end-items{display:flex;justify-content:space-between;align-items:center}django-hstore-widget .hidden{display:none;visibility:hidden}django-hstore-widget .gap-1{gap:0.25rem;}');
-export { r as django_hstore_widget };
+export { f as django_hstore_widget };

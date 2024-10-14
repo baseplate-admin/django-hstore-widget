@@ -6,6 +6,7 @@ import { Component, Host, h, Prop, State, Fragment, Watch } from '@stencil/core'
     shadow: false,
 })
 export class DjangoHstoreWidget {
+    // Primary Attributes
     @Prop() json: string;
     @Prop() field_name: string;
 
@@ -50,13 +51,9 @@ export class DjangoHstoreWidget {
     #handleRowAdd() {
         let json = this._json;
         const last_item = json.at(-1);
-        if (!last_item) {
-            console.error('`this._json` is empty.');
-            return;
-        }
 
         const data = {
-            index: last_item.index + 1,
+            index: last_item ? last_item.index + 1 : 0,
             key: '',
             value: '',
         };
@@ -78,38 +75,33 @@ export class DjangoHstoreWidget {
         }
     }
 
-    #getJSONWithoutIndex() {
-        return this._json.reduce((acc, curr) => {
-            acc[curr.key] = curr.value;
-            return acc;
-        }, {} as Record<string, string>);
-    }
-
-    private getJSONString() {
-        const jsonObject = this.#getJSONWithoutIndex();
-        return JSON.stringify(jsonObject, null, Object.keys(jsonObject).length === 1 ? 0 : 4);
-    }
-
-    private handleTextAreaInput(event: Event) {
+    #handleTextAreaInput(event: Event) {
         const target = event.currentTarget as HTMLTextAreaElement;
         const value = target.value;
         this.json = value;
         this.#parseJson(value);
     }
 
-    render() {
-        const jsonString = this.getJSONString();
+    // Getters
+    #getJSONString() {
+        const jsonObject = this._json.reduce((acc, curr) => {
+            acc[curr.key] = curr.value;
+            return acc;
+        }, {} as Record<string, string>);
+        return JSON.stringify(jsonObject, null, Object.keys(jsonObject).length === 1 ? 0 : 4);
+    }
 
+    render() {
         return (
             <Host>
                 <textarea
                     class={`${this.output_render_type === 'textarea' ? '' : 'hidden'} vLargeTextField`}
                     cols={40}
-                    name={`${this.field_name}`}
+                    name={this.field_name}
                     rows={10}
-                    onInput={event => this.handleTextAreaInput(event)}
+                    onInput={event => this.#handleTextAreaInput(event)}
                 >
-                    {jsonString}
+                    {this.#getJSONString()}
                 </textarea>
 
                 {this.output_render_type === 'rows' && this._json && (
@@ -124,7 +116,7 @@ export class DjangoHstoreWidget {
                                                 const target = event.currentTarget as HTMLInputElement;
                                                 const value = target.value;
                                                 item.key = value;
-                                                this._json = [...this._json];
+                                                this._json = structuredClone(this._json);
                                             }}
                                             placeholder="key"
                                             class="left"
@@ -136,7 +128,7 @@ export class DjangoHstoreWidget {
                                                 const target = event.currentTarget as HTMLInputElement;
                                                 const value = target.value;
                                                 item.value = value;
-                                                this._json = [...this._json];
+                                                this._json = structuredClone(this._json);
                                             }}
                                             placeholder="value"
                                             class="right"
