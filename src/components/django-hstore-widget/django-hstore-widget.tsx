@@ -56,16 +56,16 @@ export class DjangoHstoreWidget {
     }
 
     #handleRowAdd() {
-        let json = this._json;
-        const last_item = json.at(-1);
+        const last_item = this._json.at(-1);
 
         const data = {
             index: last_item ? last_item.index + 1 : 0,
             key: '',
             value: '',
         };
-        json.push(data);
-        this._json = structuredClone(json);
+        this._json.push(data);
+
+        this._json = structuredClone(this._json);
     }
 
     #handleToggleClick() {
