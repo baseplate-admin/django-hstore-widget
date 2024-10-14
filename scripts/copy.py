@@ -1,5 +1,6 @@
-from pathlib import Path
 import shutil
+import os
+from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -12,8 +13,8 @@ TARGET_DIR = Path(
     "js",
     "django_hstore_widget",
 )
-
-shutil.rmtree(TARGET_DIR)
+if os.path.exists(TARGET_DIR) and os.path.isdir(TARGET_DIR):
+    shutil.rmtree(TARGET_DIR)
 
 TARGET_DIR.mkdir(parents=True, exist_ok=True)
 
