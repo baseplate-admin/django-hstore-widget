@@ -41,7 +41,6 @@ export class DjangoHstoreWidget {
             index: index,
         }));
         this._json = json;
-        this.updateJSONString();
     }
 
     #handleDelete(index: number) {
@@ -80,15 +79,13 @@ export class DjangoHstoreWidget {
         }
     }
 
-    #getJSONWithoutIndex() {
-        return this._json.reduce((acc, curr) => {
+    private getJSONString() {
+        const jsonObject = this._json.reduce((acc, curr) => {
             acc[curr.key] = curr.value;
             return acc;
         }, {} as Record<string, string>);
-    }
 
-    private updateJSONString() {
-        this._json_string = JSON.stringify(this.#getJSONWithoutIndex(), null, Object.keys(this._json).length === 1 ? 0 : 4);
+        return JSON.stringify(jsonObject, null, Object.keys(jsonObject).length === 1 ? 0 : 4);
     }
 
     private handleTextAreaInput(text: string) {
@@ -97,6 +94,8 @@ export class DjangoHstoreWidget {
     }
 
     render() {
+        const jsonString = this.getJSONString();
+
         return (
             <Host>
                 <textarea
@@ -104,13 +103,9 @@ export class DjangoHstoreWidget {
                     cols={40}
                     name={`${this.field_name}`}
                     rows={10}
-                    onInput={event => {
-                        const target = event.currentTarget as HTMLTextAreaElement;
-                        const value = target.value;
-                        this.handleTextAreaInput(value);
-                    }}
+                    onInput={this.handleTextAreaInput.bind(this)}
                 >
-                    {this._json_string}
+                    {jsonString}
                 </textarea>
 
                 {this.output_render_type === 'rows' && this._json && (
@@ -125,7 +120,6 @@ export class DjangoHstoreWidget {
                                                 const target = event.currentTarget as HTMLInputElement;
                                                 const value = target.value;
                                                 item.key = value;
-                                                this.updateJSONString();
                                             }}
                                             placeholder="key"
                                             class="left"
@@ -137,7 +131,6 @@ export class DjangoHstoreWidget {
                                                 const target = event.currentTarget as HTMLInputElement;
                                                 const value = target.value;
                                                 item.value = value;
-                                                this.updateJSONString();
                                             }}
                                             placeholder="value"
                                             class="right"
