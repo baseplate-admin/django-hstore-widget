@@ -12,18 +12,24 @@ django-hstore-widget {
         min-width: 300px;
     }
 
-    .centered {
+    .flex {
         display: flex;
-        align-items: center;
+    }
+
+    .justify-center {
         justify-content: center;
+    }
+    .items-center {
+        align-items: center;
     }
 
     .end-items {
-        display: flex;
         justify-content: space-between;
         align-items: center;
     }
-
+    .flex-col {
+        flex-direction: column;
+    }
     .hidden {
         display: none;
         visibility: hidden;

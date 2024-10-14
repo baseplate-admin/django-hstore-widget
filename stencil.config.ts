@@ -6,6 +6,7 @@ export const config: Config = {
     namespace: 'django-hstore-widget',
     outputTargets: [
         {
+            // polyfills: true,
             type: 'dist',
             esmLoaderPath: '../loader',
         },

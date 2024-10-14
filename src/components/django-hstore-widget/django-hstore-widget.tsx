@@ -1,5 +1,7 @@
 import { Component, Host, h, Prop, State, Fragment, Watch } from '@stencil/core';
 
+const GITHUB_ISSUE_URL = 'https://github.com/baseplate-admin/django-hstore-widget/issues';
+
 @Component({
     tag: 'django-hstore-widget',
     styleUrl: 'django-hstore-widget.scss',
@@ -34,13 +36,18 @@ export class DjangoHstoreWidget {
 
     // Functions
     #parseJson(json_string: string) {
-        let json_object = JSON.parse(json_string);
-        let json = Object.keys(json_object).map((key, index) => ({
-            key: key,
-            value: json_object[key],
-            index: index,
-        }));
-        this._json = json;
+        try {
+            let json_object = JSON.parse(json_string);
+            let json = Object.keys(json_object).map((key, index) => ({
+                key: key,
+                value: json_object[key],
+                index: index,
+            }));
+            this._json = json;
+        } catch (err) {
+            console.error(err);
+            this._json = [];
+        }
     }
 
     #handleDelete(index: number) {
@@ -62,16 +69,12 @@ export class DjangoHstoreWidget {
     }
 
     #handleToggleClick() {
-        switch (this.output_render_type) {
-            case 'rows':
-                this.output_render_type = 'textarea';
-                break;
-            case 'textarea':
-                this.output_render_type = 'rows';
-                break;
-            default:
-                console.error('Something is wrong with `output_render_type`');
-                break;
+        if (this.output_render_type === 'rows') {
+            this.output_render_type = 'textarea';
+        } else if (this.output_render_type === 'textarea') {
+            this.output_render_type = 'rows';
+        } else {
+            console.error('Something is wrong with `output_render_type`');
         }
     }
 
@@ -80,6 +83,20 @@ export class DjangoHstoreWidget {
         const value = target.value;
         this.json = value;
         this.#parseJson(value);
+    }
+
+    #handleKeyInput(event: Event, item: (typeof this._json)[0]) {
+        const target = event.currentTarget as HTMLInputElement;
+        const value = target.value;
+        item.key = value;
+        this._json = structuredClone(this._json);
+    }
+
+    #handleValueInput(event: Event, item: (typeof this._json)[0]) {
+        const target = event.currentTarget as HTMLInputElement;
+        const value = target.value;
+        item.value = value;
+        this._json = structuredClone(this._json);
     }
 
     // Getters
@@ -92,100 +109,85 @@ export class DjangoHstoreWidget {
     }
 
     render() {
-        return (
-            <Host>
-                <textarea
-                    class={`${this.output_render_type === 'textarea' ? '' : 'hidden'} vLargeTextField`}
-                    cols={40}
-                    name={this.field_name}
-                    rows={10}
-                    onInput={event => this.#handleTextAreaInput(event)}
-                >
-                    {this.#getJSONString()}
-                </textarea>
+        if (this._json.length > 0 && Array.isArray(this._json)) {
+            return (
+                <Host>
+                    <textarea
+                        class={`${this.output_render_type === 'textarea' ? '' : 'hidden'} vLargeTextField`}
+                        cols={40}
+                        name={this.field_name}
+                        rows={10}
+                        onInput={event => this.#handleTextAreaInput(event)}
+                    >
+                        {this.#getJSONString()}
+                    </textarea>
 
-                {this.output_render_type === 'rows' && this._json && (
-                    <Fragment>
-                        {this._json.map((item, index) => {
-                            return (
-                                <div class="form-row field-data" key={item.index}>
-                                    <div class="wrapper">
-                                        <input
-                                            value={item.key}
-                                            onInput={event => {
-                                                const target = event.currentTarget as HTMLInputElement;
-                                                const value = target.value;
-                                                item.key = value;
-                                                this._json = structuredClone(this._json);
-                                            }}
-                                            placeholder="key"
-                                            class="left"
-                                        />
-                                        <strong>:</strong>
-                                        <input
-                                            value={item.value}
-                                            onInput={event => {
-                                                const target = event.currentTarget as HTMLInputElement;
-                                                const value = target.value;
-                                                item.value = value;
-                                                this._json = structuredClone(this._json);
-                                            }}
-                                            placeholder="value"
-                                            class="right"
-                                        />
-                                        <div
-                                            class="centered"
-                                            onClick={() => {
-                                                this.#handleDelete(index);
-                                            }}
-                                        >
-                                            <img src={this.delete_svg_src} alt="❌" />
+                    {this.output_render_type === 'rows' && this._json && (
+                        <Fragment>
+                            {this._json.map(item => {
+                                return (
+                                    <div class="form-row field-data" key={item.index}>
+                                        <div class="wrapper">
+                                            <input value={item.key} onInput={event => this.#handleKeyInput(event, item)} placeholder="key" class="left" />
+                                            <strong>:</strong>
+                                            <input value={item.value} onInput={event => this.#handleValueInput(event, item)} placeholder="value" class="right" />
+                                            <div class="items-center justify-center flex" onClick={() => this.#handleDelete(item.index)}>
+                                                <img src={this.delete_svg_src} alt="❌" />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            );
-                        })}
-                    </Fragment>
-                )}
-                <div class="form-row end-items">
-                    {this.output_render_type === 'rows' ? (
-                        <Fragment>
-                            <div
-                                class="centered gap-1"
-                                onClick={() => {
-                                    this.#handleRowAdd();
-                                }}
-                            >
-                                <img src={this.add_svg_src} alt="➕" />
-                                Add row
-                            </div>
-                        </Fragment>
-                    ) : (
-                        <Fragment>
-                            <div></div>
+                                );
+                            })}
                         </Fragment>
                     )}
-                    <div
-                        class="centered gap-1"
-                        onClick={() => {
-                            this.#handleToggleClick();
-                        }}
-                    >
-                        {this.output_render_type === 'textarea' && (
+                    <div class="form-row end-items flex">
+                        {this.output_render_type === 'rows' ? (
                             <Fragment>
-                                <img src={this.delete_svg_src} alt="❌" />
-                                Close TextArea
+                                <div class="items-center justify-center flex gap-1" onClick={() => this.#handleRowAdd()}>
+                                    <img src={this.add_svg_src} alt="➕" />
+                                    Add row
+                                </div>
+                            </Fragment>
+                        ) : (
+                            <Fragment>
+                                <div></div>
                             </Fragment>
                         )}
-                        {this.output_render_type === 'rows' && (
-                            <Fragment>
-                                <img src={this.edit_svg_src} alt="✏️" />
-                                Open TextArea
-                            </Fragment>
-                        )}
+                        <div
+                            class="items-center justify-center flex gap-1"
+                            onClick={() => {
+                                this.#handleToggleClick();
+                            }}
+                        >
+                            {this.output_render_type === 'textarea' && (
+                                <Fragment>
+                                    <img src={this.delete_svg_src} alt="❌" />
+                                    Close TextArea
+                                </Fragment>
+                            )}
+                            {this.output_render_type === 'rows' && (
+                                <Fragment>
+                                    <img src={this.edit_svg_src} alt="✏️" />
+                                    Open TextArea
+                                </Fragment>
+                            )}
+                        </div>
                     </div>
-                </div>
-            </Host>
-        );
+                </Host>
+            );
+        } else {
+            return (
+                <Host>
+                    <div class="flex items-center justify-center gap-1">
+                        <p>
+                            The provided json is <code>{this.json}</code> which is not valid.
+                        </p>
+                        <p>
+                            Please check the the json or <a href={GITHUB_ISSUE_URL}>file an issue at Github</a>
+                        </p>
+                    </div>
+                </Host>
+            );
+        }
     }
 }
