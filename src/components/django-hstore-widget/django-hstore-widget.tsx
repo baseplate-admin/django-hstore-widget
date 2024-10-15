@@ -209,7 +209,9 @@ export class DjangoHstoreWidget {
                                     Open TextArea
                                 </Fragment>
                             ) : (
-                                <div>Output render type is {this.output_render_type} which doesn't fall in `rows` or `textarea`</div>
+                                <div>
+                                    Output render type is {this.output_render_type} which doesn't fall in <code>rows</code> or <code>textarea</code>
+                                </div>
                             )}
                         </div>
                     </div>
