@@ -135,7 +135,7 @@ export class DjangoHstoreWidget {
     // Reusuable components
     JSONComponent(item: (typeof this.__json)[0]) {
         return (
-            <div class="form-row field-data" key={item.index}>
+            <div class="form-row field-data">
                 <div class="flex gap-2.5">
                     <input value={item.key} onInput={event => this.#handleKeyInput(event, item)} placeholder="key" class="min-width-[150px]" />
                     <strong>:</strong>
@@ -178,7 +178,13 @@ export class DjangoHstoreWidget {
                         {this.#getJSONString}
                     </textarea>
 
-                    {this.output_render_type === 'rows' && this.__json && <Fragment>{this.__json.map(item => this.JSONComponent(item))}</Fragment>}
+                    {this.output_render_type === 'rows' && this.__json && (
+                        <Fragment>
+                            {this.__json.map(item => {
+                                return this.JSONComponent(item);
+                            })}
+                        </Fragment>
+                    )}
                     <div class="form-row justify-between items-center flex">
                         <div
                             class={`items-center justify-center flex gap-1 cursor-pointer ${this.output_render_type === 'textarea' ? 'invisible' : ''}`}

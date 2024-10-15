@@ -49,6 +49,6 @@ django-hstore-widget {
     }
 
     .warning {
-        border-color: red;
+        border-color: var(--error-fg, red);
     }
 }
