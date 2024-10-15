@@ -72,7 +72,7 @@ export class DjangoHstoreWidget {
         } else if (this.output_render_type === 'textarea') {
             this.output_render_type = 'rows';
         } else {
-            console.error('Something is wrong with `output_render_type`');
+            console.error(`Something is wrong with \`output_render_type\`. It is ${this.output_render_type}`);
         }
     }
 
