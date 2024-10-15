@@ -20,3 +20,5 @@ TARGET_DIR.mkdir(parents=True, exist_ok=True)
 
 for js_file in DIST_DIR.glob("*.js"):
     shutil.copy(js_file, TARGET_DIR / js_file.name)
+
+print("DONE")
