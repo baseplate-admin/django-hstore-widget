@@ -20,8 +20,8 @@ export class DjangoHstoreWidget {
     // State
     @State() output_render_type: 'rows' | 'textarea' = 'rows';
 
-    // Very Fragile state. Please update with care
-    @State() _json = new Array<{ key: string; value: string; index: number }>();
+    // Very Fragile state. Please update with care. This is the core state of the entire code
+    @State() __json = new Array<{ key: string; value: string; index: number }>();
 
     // Watchers
     @Watch('json')
@@ -43,29 +43,28 @@ export class DjangoHstoreWidget {
                 value: json_object[key],
                 index: index,
             }));
-            this._json = json;
+            this.__json = json;
         } catch (err) {
             console.error(err);
-            this._json = [];
+            this.__json = [];
         }
     }
 
     #handleDelete(index: number) {
-        const json = this._json.filter(obj => obj.index !== index);
-        this._json = structuredClone(json);
+        const json = this.__json.filter(obj => obj.index !== index);
+        this.__json = structuredClone(json);
     }
 
     #handleRowAdd() {
-        const last_item = this._json.at(-1);
-
+        const last_item = this.__json.at(-1);
         const data = {
             index: last_item ? last_item.index + 1 : 0,
             key: '',
             value: '',
         };
-        this._json.push(data);
 
-        this._json = structuredClone(this._json);
+        this.__json.push(data);
+        this.__json = structuredClone(this.__json);
     }
 
     #handleToggleClick() {
@@ -81,35 +80,42 @@ export class DjangoHstoreWidget {
     #handleTextAreaInput(event: Event) {
         const target = event.currentTarget as HTMLTextAreaElement;
         const value = target.value;
-        this.json = value;
-        this.#parseJson(value);
+        this.json = value; // `jsonWatcher` invoked
     }
 
-    #handleKeyInput(event: Event, item: (typeof this._json)[0]) {
+    #handleKeyInput(event: Event, item: (typeof this.__json)[0]) {
         const target = event.currentTarget as HTMLInputElement;
         const value = target.value;
         item.key = value;
-        this._json = structuredClone(this._json);
+        this.__json = structuredClone(this.__json);
     }
 
-    #handleValueInput(event: Event, item: (typeof this._json)[0]) {
+    #handleValueInput(event: Event, item: (typeof this.__json)[0]) {
         const target = event.currentTarget as HTMLInputElement;
         const value = target.value;
         item.value = value;
-        this._json = structuredClone(this._json);
+        this.__json = structuredClone(this.__json);
     }
 
     // Getters
     #getJSONString() {
-        const jsonObject = this._json.reduce((acc, curr) => {
+        const jsonObject = this.__json.reduce((acc, curr) => {
             acc[curr.key] = curr.value;
             return acc;
         }, {} as Record<string, string>);
-        return JSON.stringify(jsonObject, null, Object.keys(jsonObject).length === 1 ? 0 : 4);
+
+        let indent: number | null = null;
+        if (Object.keys(jsonObject).length === 1) {
+            indent = 0;
+        } else {
+            indent = 4;
+        }
+
+        return JSON.stringify(jsonObject, null, indent);
     }
 
     render() {
-        if (this._json.length > 0 && Array.isArray(this._json)) {
+        if (this?.__json.length > 0 && Array.isArray(this?.__json)) {
             return (
                 <Host>
                     <textarea
@@ -122,9 +128,9 @@ export class DjangoHstoreWidget {
                         {this.#getJSONString()}
                     </textarea>
 
-                    {this.output_render_type === 'rows' && this._json && (
+                    {this.output_render_type === 'rows' && this.__json && (
                         <Fragment>
-                            {this._json.map(item => {
+                            {this.__json.map(item => {
                                 return (
                                     <div class="form-row field-data" key={item.index}>
                                         <div class="wrapper">
@@ -142,16 +148,12 @@ export class DjangoHstoreWidget {
                     )}
                     <div class="form-row end-items flex">
                         {this.output_render_type === 'rows' ? (
-                            <Fragment>
-                                <div class="items-center justify-center flex gap-1" onClick={() => this.#handleRowAdd()}>
-                                    <img src={this.add_svg_src} alt="➕" />
-                                    Add row
-                                </div>
-                            </Fragment>
+                            <div class="items-center justify-center flex gap-1" onClick={() => this.#handleRowAdd()}>
+                                <img src={this.add_svg_src} alt="➕" />
+                                Add row
+                            </div>
                         ) : (
-                            <Fragment>
-                                <div></div>
-                            </Fragment>
+                            <div></div>
                         )}
                         <div
                             class="items-center justify-center flex gap-1"
