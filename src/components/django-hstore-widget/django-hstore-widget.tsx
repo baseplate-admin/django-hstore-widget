@@ -180,7 +180,7 @@ export class DjangoHstoreWidget {
 
                     {this.output_render_type === 'rows' && this.__json && (
                         <Fragment>
-                            {this.__json.map(item => {
+                            {this.__json.map(async item => {
                                 return this.JSONComponent(item);
                             })}
                         </Fragment>
