@@ -132,6 +132,22 @@ export class DjangoHstoreWidget {
         this.__json = globalThis.structuredClone(this.__json);
     }
 
+    // Reusuable components
+    JSONComponent(item: (typeof this.__json)[0]) {
+        return (
+            <div class="form-row field-data">
+                <div class="flex gap-2.5">
+                    <input value={item.key} onInput={event => this.#handleKeyInput(event, item)} placeholder="key" class="min-width-[150px]" />
+                    <strong>:</strong>
+                    <input value={item.value} onInput={event => this.#handleValueInput(event, item)} placeholder="value" class="min-width-[300px]" />
+                    <div class="items-center justify-center flex cursor-pointer" onClick={() => this.#handleDelete(item.index)}>
+                        <img src={this.delete_svg_src} alt="❌" />
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     render() {
         if (!this.mounted) {
             return (
@@ -164,19 +180,8 @@ export class DjangoHstoreWidget {
 
                     {this.output_render_type === 'rows' && this.__json && (
                         <Fragment>
-                            {this.__json.map(item => {
-                                return (
-                                    <div class="form-row field-data" key={item.index}>
-                                        <div class="flex gap-2.5">
-                                            <input value={item.key} onInput={event => this.#handleKeyInput(event, item)} placeholder="key" class="min-width-[150px]" />
-                                            <strong>:</strong>
-                                            <input value={item.value} onInput={event => this.#handleValueInput(event, item)} placeholder="value" class="min-width-[300px]" />
-                                            <div class="items-center justify-center flex cursor-pointer" onClick={() => this.#handleDelete(item.index)}>
-                                                <img src={this.delete_svg_src} alt="❌" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                );
+                            {this.__json.map(async item => {
+                                return this.JSONComponent(item);
                             })}
                         </Fragment>
                     )}
