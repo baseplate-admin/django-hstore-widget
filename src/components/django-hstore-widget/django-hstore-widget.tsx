@@ -62,7 +62,6 @@ export class DjangoHstoreWidget {
             key: '',
             value: '',
         };
-
         this.__json.push(data);
         this.__json = structuredClone(this.__json);
     }
@@ -133,10 +132,10 @@ export class DjangoHstoreWidget {
                             {this.__json.map(item => {
                                 return (
                                     <div class="form-row field-data" key={item.index}>
-                                        <div class="wrapper">
-                                            <input value={item.key} onInput={event => this.#handleKeyInput(event, item)} placeholder="key" class="left" />
+                                        <div class="flex gap-2.5">
+                                            <input value={item.key} onInput={event => this.#handleKeyInput(event, item)} placeholder="key" class="min-width-[150px]" />
                                             <strong>:</strong>
-                                            <input value={item.value} onInput={event => this.#handleValueInput(event, item)} placeholder="value" class="right" />
+                                            <input value={item.value} onInput={event => this.#handleValueInput(event, item)} placeholder="value" class="min-width-[300px]" />
                                             <div class="items-center justify-center flex" onClick={() => this.#handleDelete(item.index)}>
                                                 <img src={this.delete_svg_src} alt="❌" />
                                             </div>
@@ -146,7 +145,7 @@ export class DjangoHstoreWidget {
                             })}
                         </Fragment>
                     )}
-                    <div class="form-row end-items flex">
+                    <div class="form-row justify-between items-center flex">
                         {this.output_render_type === 'rows' ? (
                             <div class="items-center justify-center flex gap-1" onClick={() => this.#handleRowAdd()}>
                                 <img src={this.add_svg_src} alt="➕" />
