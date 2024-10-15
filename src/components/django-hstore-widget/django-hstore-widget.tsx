@@ -1,7 +1,5 @@
 import { Component, Host, h, Prop, State, Fragment, Watch } from '@stencil/core';
 
-const GITHUB_ISSUE_URL = 'https://github.com/baseplate-admin/django-hstore-widget/issues';
-
 @Component({
     tag: 'django-hstore-widget',
     styleUrl: 'django-hstore-widget.scss',
@@ -34,25 +32,44 @@ export class DjangoHstoreWidget {
         this.#parseJson(this.json);
     }
 
+    // Constants
+    get #GITHUB_ISSUE_URL() {
+        return 'https://github.com/baseplate-admin/django-hstore-widget/issues';
+    }
+
+    // Getters
+    #getJSONString() {
+        const jsonObject = this.__json.reduce((acc, curr) => {
+            acc[curr.key] = curr.value;
+            return acc;
+        }, {} as Record<string, string>);
+
+        let indent: number = 0;
+        if (Object.keys(jsonObject).length > 0) {
+            indent = 4;
+        }
+        return JSON.stringify(jsonObject, null, indent);
+    }
     // Functions
     #parseJson(json_string: string) {
         try {
             let json_object = JSON.parse(json_string);
-            let json = Object.keys(json_object).map((key, index) => ({
+            this.__json = Object.keys(json_object).map((key, index) => ({
                 key: key,
                 value: json_object[key],
                 index: index,
             }));
-            this.__json = json;
         } catch (err) {
             console.error(err);
             this.__json = [];
+        } finally {
+            this.__json = structuredClone(this.__json);
         }
     }
 
     #handleDelete(index: number) {
-        const json = this.__json.filter(obj => obj.index !== index);
-        this.__json = structuredClone(json);
+        this.__json = this.__json.filter(obj => obj.index !== index);
+        this.__json = structuredClone(this.__json);
     }
 
     #handleRowAdd() {
@@ -96,99 +113,81 @@ export class DjangoHstoreWidget {
         this.__json = structuredClone(this.__json);
     }
 
-    // Getters
-    #getJSONString() {
-        const jsonObject = this.__json.reduce((acc, curr) => {
-            acc[curr.key] = curr.value;
-            return acc;
-        }, {} as Record<string, string>);
-
-        let indent: number | null = null;
-        if (Object.keys(jsonObject).length === 1) {
-            indent = 0;
-        } else {
-            indent = 4;
-        }
-
-        return JSON.stringify(jsonObject, null, indent);
-    }
-
     render() {
-        if (this?.__json.length > 0 && Array.isArray(this?.__json)) {
-            return (
-                <Host>
-                    <textarea
-                        class={`${this.output_render_type === 'textarea' ? '' : 'hidden'} vLargeTextField`}
-                        cols={40}
-                        name={this.field_name}
-                        rows={10}
-                        onInput={event => this.#handleTextAreaInput(event)}
-                    >
-                        {this.#getJSONString()}
-                    </textarea>
+        return (
+            <Host>
+                {this.__json && this.__json.length > 0 && Array.isArray(this.__json) ? (
+                    <Fragment>
+                        <textarea
+                            class={`${this.output_render_type === 'textarea' ? '' : 'hidden'} vLargeTextField`}
+                            cols={40}
+                            name={this.field_name}
+                            rows={10}
+                            onInput={event => this.#handleTextAreaInput(event)}
+                        >
+                            {this.#getJSONString()}
+                        </textarea>
 
-                    {this.output_render_type === 'rows' && this.__json && (
-                        <Fragment>
-                            {this.__json.map(item => {
-                                return (
-                                    <div class="form-row field-data" key={item.index}>
-                                        <div class="flex gap-2.5">
-                                            <input value={item.key} onInput={event => this.#handleKeyInput(event, item)} placeholder="key" class="min-width-[150px]" />
-                                            <strong>:</strong>
-                                            <input value={item.value} onInput={event => this.#handleValueInput(event, item)} placeholder="value" class="min-width-[300px]" />
-                                            <div class="items-center justify-center flex" onClick={() => this.#handleDelete(item.index)}>
-                                                <img src={this.delete_svg_src} alt="❌" />
+                        {this.output_render_type === 'rows' && this.__json && (
+                            <Fragment>
+                                {this.__json.map(item => {
+                                    return (
+                                        <div class="form-row field-data" key={item.index}>
+                                            <div class="flex gap-2.5">
+                                                <input value={item.key} onInput={event => this.#handleKeyInput(event, item)} placeholder="key" class="min-width-[150px]" />
+                                                <strong>:</strong>
+                                                <input value={item.value} onInput={event => this.#handleValueInput(event, item)} placeholder="value" class="min-width-[300px]" />
+                                                <div class="items-center justify-center flex" onClick={() => this.#handleDelete(item.index)}>
+                                                    <img src={this.delete_svg_src} alt="❌" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                );
-                            })}
-                        </Fragment>
-                    )}
-                    <div class="form-row justify-between items-center flex">
-                        {this.output_render_type === 'rows' ? (
-                            <div class="items-center justify-center flex gap-1" onClick={() => this.#handleRowAdd()}>
-                                <img src={this.add_svg_src} alt="➕" />
-                                Add row
-                            </div>
-                        ) : (
-                            <div></div>
+                                    );
+                                })}
+                            </Fragment>
                         )}
-                        <div
-                            class="items-center justify-center flex gap-1"
-                            onClick={() => {
-                                this.#handleToggleClick();
-                            }}
-                        >
-                            {this.output_render_type === 'textarea' && (
-                                <Fragment>
-                                    <img src={this.delete_svg_src} alt="❌" />
-                                    Close TextArea
-                                </Fragment>
+                        <div class="form-row justify-between items-center flex">
+                            {this.output_render_type === 'rows' ? (
+                                <div class="items-center justify-center flex gap-1" onClick={() => this.#handleRowAdd()}>
+                                    <img src={this.add_svg_src} alt="➕" />
+                                    Add row
+                                </div>
+                            ) : (
+                                <div></div>
                             )}
-                            {this.output_render_type === 'rows' && (
-                                <Fragment>
-                                    <img src={this.edit_svg_src} alt="✏️" />
-                                    Open TextArea
-                                </Fragment>
-                            )}
+                            <div
+                                class="items-center justify-center flex gap-1"
+                                onClick={() => {
+                                    this.#handleToggleClick();
+                                }}
+                            >
+                                {this.output_render_type === 'textarea' ? (
+                                    <Fragment>
+                                        <img src={this.delete_svg_src} alt="❌" />
+                                        Close TextArea
+                                    </Fragment>
+                                ) : this.output_render_type === 'rows' ? (
+                                    <Fragment>
+                                        <img src={this.edit_svg_src} alt="✏️" />
+                                        Open TextArea
+                                    </Fragment>
+                                ) : (
+                                    <Fragment></Fragment>
+                                )}
+                            </div>
                         </div>
-                    </div>
-                </Host>
-            );
-        } else {
-            return (
-                <Host>
+                    </Fragment>
+                ) : (
                     <div class="flex items-center justify-center gap-1">
                         <p>
                             The provided json is <code>{this.json}</code> which is not valid.
                         </p>
                         <p>
-                            Please check the the json or <a href={GITHUB_ISSUE_URL}>file an issue at Github</a>
+                            Please check the the json or <a href={this.#GITHUB_ISSUE_URL}>file an issue at Github</a>
                         </p>
                     </div>
-                </Host>
-            );
-        }
+                )}
+            </Host>
+        );
     }
 }
