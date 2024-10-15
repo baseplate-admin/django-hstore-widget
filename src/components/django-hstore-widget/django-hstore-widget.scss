@@ -38,4 +38,17 @@ django-hstore-widget {
     .gap-2\.5 {
         gap: 0.625rem; /* 10px */
     }
+    .opacity-60 {
+        opacity: 0.6;
+    }
+    .cursor-pointer {
+        cursor: pointer;
+    }
+    .cursor-default {
+        cursor: default;
+    }
+
+    .warning {
+        border-color: red;
+    }
 }

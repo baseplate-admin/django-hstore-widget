@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-hstore-widget"
-version = "0.0.7"
+version = "0.0.8"
 description = "Human friendly HStoreWidget. Continual of django-admin-hstore-widget."
 authors = [
     "Alexandre Dufour <adufour@poka.io>",
