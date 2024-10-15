@@ -7,8 +7,12 @@ import { Component, Host, h, Prop, State, Fragment, Watch } from '@stencil/core'
 })
 export class DjangoHstoreWidget {
     // Primary Attributes
-    @Prop() json: string;
+    @Prop({ mutable: true }) json: string;
     @Prop() field_name: string;
+
+    // Updateable from admin panel
+    @Prop() cols = 40;
+    @Prop() rows = 10;
 
     // Image
     @Prop() delete_svg_src: string = '/static/admin/img/icon-deletelink.svg'; // Overrideable
@@ -32,28 +36,27 @@ export class DjangoHstoreWidget {
         this.#parseJson(this.json);
     }
 
-    // Constants
+    // Getters
     get #GITHUB_ISSUE_URL() {
         return 'https://github.com/baseplate-admin/django-hstore-widget/issues';
     }
-
-    // Getters
-    #getJSONString() {
+    get #getJSONString() {
         const jsonObject = this.__json.reduce((acc, curr) => {
             acc[curr.key] = curr.value;
             return acc;
         }, {} as Record<string, string>);
 
         let indent: number = 0;
-        if (Object.keys(jsonObject).length > 0) {
+        if (Object.keys(jsonObject).length > 1) {
             indent = 4;
         }
-        return JSON.stringify(jsonObject, null, indent);
+        return globalThis.JSON.stringify(jsonObject, null, indent);
     }
+
     // Functions
     #parseJson(json_string: string) {
         try {
-            let json_object = JSON.parse(json_string);
+            let json_object = globalThis.JSON.parse(json_string);
             this.__json = Object.keys(json_object).map((key, index) => ({
                 key: key,
                 value: json_object[key],
@@ -63,13 +66,13 @@ export class DjangoHstoreWidget {
             console.error(err);
             this.__json = [];
         } finally {
-            this.__json = structuredClone(this.__json);
+            this.__json = globalThis.structuredClone(this.__json);
         }
     }
 
     #handleDelete(index: number) {
         this.__json = this.__json.filter(obj => obj.index !== index);
-        this.__json = structuredClone(this.__json);
+        this.__json = globalThis.structuredClone(this.__json);
     }
 
     #handleRowAdd() {
@@ -80,7 +83,7 @@ export class DjangoHstoreWidget {
             value: '',
         };
         this.__json.push(data);
-        this.__json = structuredClone(this.__json);
+        this.__json = globalThis.structuredClone(this.__json);
     }
 
     #handleToggleClick() {
@@ -103,14 +106,14 @@ export class DjangoHstoreWidget {
         const target = event.currentTarget as HTMLInputElement;
         const value = target.value;
         item.key = value;
-        this.__json = structuredClone(this.__json);
+        this.__json = globalThis.structuredClone(this.__json);
     }
 
     #handleValueInput(event: Event, item: (typeof this.__json)[0]) {
         const target = event.currentTarget as HTMLInputElement;
         const value = target.value;
         item.value = value;
-        this.__json = structuredClone(this.__json);
+        this.__json = globalThis.structuredClone(this.__json);
     }
 
     render() {
@@ -119,13 +122,13 @@ export class DjangoHstoreWidget {
                 {this.__json && this.__json.length > 0 && Array.isArray(this.__json) ? (
                     <Fragment>
                         <textarea
-                            class={`${this.output_render_type === 'textarea' ? '' : 'hidden'} vLargeTextField`}
-                            cols={40}
+                            class={`${this.output_render_type === 'textarea' ? '' : 'hidden invisible'} vLargeTextField`}
+                            cols={this.cols}
                             name={this.field_name}
-                            rows={10}
-                            onInput={event => this.#handleTextAreaInput(event)}
+                            rows={this.rows}
+                            onInput={this.#handleTextAreaInput.bind(this)}
                         >
-                            {this.#getJSONString()}
+                            {this.#getJSONString}
                         </textarea>
 
                         {this.output_render_type === 'rows' && this.__json && (
@@ -147,20 +150,15 @@ export class DjangoHstoreWidget {
                             </Fragment>
                         )}
                         <div class="form-row justify-between items-center flex">
-                            {this.output_render_type === 'rows' ? (
-                                <div class="items-center justify-center flex gap-1" onClick={() => this.#handleRowAdd()}>
-                                    <img src={this.add_svg_src} alt="➕" />
-                                    Add row
-                                </div>
-                            ) : (
-                                <div></div>
-                            )}
                             <div
-                                class="items-center justify-center flex gap-1"
-                                onClick={() => {
-                                    this.#handleToggleClick();
-                                }}
+                                class={`items-center justify-center flex gap-1 ${this.output_render_type === 'textarea' ? 'invisible' : ''}`}
+                                onClick={this.#handleRowAdd.bind(this)}
                             >
+                                <img src={this.add_svg_src} alt="➕" />
+                                Add row
+                            </div>
+
+                            <div class="items-center justify-center flex gap-1" onClick={this.#handleToggleClick.bind(this)}>
                                 {this.output_render_type === 'textarea' ? (
                                     <Fragment>
                                         <img src={this.delete_svg_src} alt="❌" />
@@ -172,7 +170,7 @@ export class DjangoHstoreWidget {
                                         Open TextArea
                                     </Fragment>
                                 ) : (
-                                    <Fragment></Fragment>
+                                    <div>Output render type is {this.output_render_type} which doesn't fall in `rows` or `textarea`</div>
                                 )}
                             </div>
                         </div>

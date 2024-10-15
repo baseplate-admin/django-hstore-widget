@@ -24,9 +24,11 @@ django-hstore-widget {
     .flex-col {
         flex-direction: column;
     }
+    .invisible {
+        visibility: hidden;
+    }
     .hidden {
         display: none;
-        visibility: hidden;
     }
 
     .gap-1 {
