@@ -106,11 +106,9 @@ export class DjangoHstoreWidget {
         if (value) {
             this.#parseJson(value)
                 .then(() => {
-                    if (target.classList.contains('warning')) target.classList.remove('warning');
                     this.close_textarea_clickable = true;
                 })
                 .catch(() => {
-                    if (!target.classList.contains('warning')) target.classList.add('warning');
                     this.close_textarea_clickable = false;
                 });
         } else {
@@ -168,7 +166,7 @@ export class DjangoHstoreWidget {
             return (
                 <Host>
                     <textarea
-                        class={`${this.output_render_type === 'textarea' ? '' : 'hidden invisible'} vLargeTextField`}
+                        class={`${this.output_render_type === 'textarea' ? '' : 'hidden invisible'} ${this.close_textarea_clickable ? '' : 'warning'} vLargeTextField`}
                         cols={this.cols}
                         name={this.field_name}
                         rows={this.rows}
