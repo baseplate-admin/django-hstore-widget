@@ -118,17 +118,16 @@ export class DjangoHstoreWidget {
         }
     }
 
-    async #handleKeyInput(event: Event, item: (typeof this.__json)[0]) {
+    async #handleDictionaryInput(event: Event, item: (typeof this.__json)[0], type: 'key' | 'value') {
         const target = event.currentTarget as HTMLInputElement;
         const value = target.value;
-        item.key = value;
-        this.__json = globalThis.structuredClone(this.__json);
-    }
 
-    async #handleValueInput(event: Event, item: (typeof this.__json)[0]) {
-        const target = event.currentTarget as HTMLInputElement;
-        const value = target.value;
-        item.value = value;
+        if (type === 'key') {
+            item.key = value;
+        } else if (type === 'value') {
+            item.value = value;
+        }
+
         this.__json = globalThis.structuredClone(this.__json);
     }
 
@@ -137,9 +136,9 @@ export class DjangoHstoreWidget {
         return (
             <div class="form-row field-data">
                 <div class="flex gap-2.5">
-                    <input value={item.key} onInput={event => this.#handleKeyInput(event, item)} placeholder="key" class="min-width-[150px]" />
+                    <input value={item.key} onInput={event => this.#handleDictionaryInput(event, item, 'key')} placeholder="key" class="min-width-[150px]" />
                     <strong>:</strong>
-                    <input value={item.value} onInput={event => this.#handleValueInput(event, item)} placeholder="value" class="min-width-[300px]" />
+                    <input value={item.value} onInput={event => this.#handleDictionaryInput(event, item, 'value')} placeholder="value" class="min-width-[300px]" />
                     <div class="items-center justify-center flex cursor-pointer" onClick={() => this.#handleDelete(item.index)}>
                         <img src={this.delete_svg_src} alt="❌" />
                     </div>
@@ -180,7 +179,7 @@ export class DjangoHstoreWidget {
 
                     {this.output_render_type === 'rows' && this.__json && (
                         <Fragment>
-                            {this.__json.map(async item => {
+                            {this.__json.map(item => {
                                 return this.JSONComponent(item);
                             })}
                         </Fragment>
