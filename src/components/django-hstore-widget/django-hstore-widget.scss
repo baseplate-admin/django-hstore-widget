@@ -1,3 +1,5 @@
+$red-color: var(--error-fg, red);
+
 django-hstore-widget {
     .min-width-\[150px\] {
         min-width: 150px;
@@ -47,8 +49,11 @@ django-hstore-widget {
     .cursor-default {
         cursor: default;
     }
-
+    .brightness-90 {
+        filter: brightness(0.9);
+    }
     .warning {
-        border-color: var(--error-fg, red);
+        color: $red-color;
+        border-color: $red-color;
     }
 }
