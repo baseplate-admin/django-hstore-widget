@@ -7,10 +7,10 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface DjangoHstoreWidget {
-        "add_svg_src": string;
+        "add_svg_src": string | null;
         "cols": number;
-        "delete_svg_src": string;
-        "edit_svg_src": string;
+        "delete_svg_src": string | null;
+        "edit_svg_src": string | null;
         "field_name": string;
         "json": string;
         "rows": number;
@@ -29,10 +29,10 @@ declare global {
 }
 declare namespace LocalJSX {
     interface DjangoHstoreWidget {
-        "add_svg_src"?: string;
+        "add_svg_src"?: string | null;
         "cols"?: number;
-        "delete_svg_src"?: string;
-        "edit_svg_src"?: string;
+        "delete_svg_src"?: string | null;
+        "edit_svg_src"?: string | null;
         "field_name"?: string;
         "json"?: string;
         "rows"?: number;

@@ -15,9 +15,9 @@ export class DjangoHstoreWidget {
     @Prop({ reflect: true }) rows = 10;
 
     // Image
-    @Prop() delete_svg_src: string = '/static/admin/img/icon-deletelink.svg'; // Overrideable
-    @Prop() add_svg_src: string = '/static/admin/img/icon-addlink.svg'; // Overrideable
-    @Prop() edit_svg_src: string = '/static/admin/img/icon-changelink.svg'; // Overrideable
+    @Prop() delete_svg_src: string | null = null; // Overrideable
+    @Prop() add_svg_src: string | null = null; // Overrideable
+    @Prop() edit_svg_src: string | null = null; // Overrideable
 
     // State
     @State() mounted = false;
@@ -104,8 +104,8 @@ export class DjangoHstoreWidget {
 
     async #handleTextAreaInput(event: Event) {
         const target = event.currentTarget as HTMLTextAreaElement;
-        const value = target.value;
-        this.#parseJson(value || '{}');
+        const value = target.value || '{}';
+        this.#parseJson(value);
 
         this.__json.forEach(item => {
             if (typeof item.value === 'object') {
@@ -136,7 +136,7 @@ export class DjangoHstoreWidget {
                     <strong>:</strong>
                     <input value={item.value} onInput={event => this.#handleDictionaryInput(event, item, 'value')} placeholder="value" class="min-width-[300px]" />
                     <div class="items-center justify-center flex cursor-pointer select-none" onClick={() => this.#handleDelete(item.index)}>
-                        <img src={this.delete_svg_src} alt="❌" />
+                        <img src={this.delete_svg_src || '#'} alt="❌" />
                     </div>
                 </div>
             </div>
@@ -187,7 +187,7 @@ export class DjangoHstoreWidget {
                             class={`items-center select-none justify-center flex gap-1 cursor-pointer ${this.output_render_type === 'textarea' ? 'invisible' : ''}`}
                             onClick={this.#handleRowAdd.bind(this)}
                         >
-                            <img src={this.add_svg_src} alt="➕" />
+                            <img src={this.add_svg_src || '#'} alt="➕" />
                             Add row
                         </div>
 
@@ -197,12 +197,12 @@ export class DjangoHstoreWidget {
                         >
                             {this.output_render_type === 'textarea' ? (
                                 <Fragment>
-                                    <img src={this.delete_svg_src} alt="❌" />
+                                    <img src={this.delete_svg_src || '#'} alt="❌" />
                                     Close TextArea
                                 </Fragment>
                             ) : this.output_render_type === 'rows' ? (
                                 <Fragment>
-                                    <img src={this.edit_svg_src} alt="✏️" />
+                                    <img src={this.edit_svg_src || '#'} alt="✏️" />
                                     Open TextArea
                                 </Fragment>
                             ) : (
