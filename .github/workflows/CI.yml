@@ -6,9 +6,26 @@ on:
             - created
 
 jobs:
+    test:
+        name: Test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v4
+
+            - name: Install Node.JS
+              uses: actions/setup-node@v4
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Build ( frontend )
+              run: npm run build
+
     release:
         name: Release
         runs-on: ubuntu-latest
+        requires: [test]
         steps:
             - name: Checkout Repo
               uses: actions/checkout@v4
