@@ -7,12 +7,12 @@ import { Component, Host, h, Prop, State, Fragment, Watch } from '@stencil/core'
 })
 export class DjangoHstoreWidget {
     // Primary Attributes
-    @Prop({ mutable: true }) json: string;
-    @Prop() field_name: string;
+    @Prop({ reflect: true }) json: string;
+    @Prop({ reflect: true }) field_name: string;
 
     // Updateable from admin panel
-    @Prop() cols = 40;
-    @Prop() rows = 10;
+    @Prop({ reflect: true }) cols = 40;
+    @Prop({ reflect: true }) rows = 10;
 
     // Image
     @Prop() delete_svg_src: string = '/static/admin/img/icon-deletelink.svg'; // Overrideable
@@ -50,10 +50,7 @@ export class DjangoHstoreWidget {
             return acc;
         }, {} as Record<string, string>);
 
-        let indent: number = 0;
-        if (Object.keys(jsonObject).length > 1) {
-            indent = 4;
-        }
+        let indent: number = Object.keys(jsonObject).length > 1 ? 4 : 0;
         return globalThis.JSON.stringify(jsonObject, null, indent);
     }
 
@@ -68,8 +65,7 @@ export class DjangoHstoreWidget {
             }));
             this.error = null;
         } catch (err) {
-            this.error = String(err);
-            throw err;
+            this.error = err.toString();
         } finally {
             this.__json = globalThis.structuredClone(this.__json);
         }
@@ -78,7 +74,9 @@ export class DjangoHstoreWidget {
     // Handlers
 
     async #handleDelete(index: number) {
-        this.__json = this.__json.filter(obj => obj.index !== index);
+        this.__json = this.__json.filter(obj => {
+            return obj.index !== index;
+        });
         this.__json = globalThis.structuredClone(this.__json);
     }
 
@@ -100,18 +98,20 @@ export class DjangoHstoreWidget {
             if (this.error !== null) return;
             this.output_render_type = 'rows';
         } else {
-            console.error(`Something is wrong with \`output_render_type\`. It is ${this.output_render_type}`);
+            console.error(`Something is wrong with 'output_render_type'. It is ${this.output_render_type}`);
         }
     }
 
     async #handleTextAreaInput(event: Event) {
         const target = event.currentTarget as HTMLTextAreaElement;
         const value = target.value;
-        if (value) {
-            this.#parseJson(value);
-        } else {
-            this.#parseJson('{}');
-        }
+        this.#parseJson(value || '{}');
+
+        this.__json.forEach(item => {
+            if (typeof item.value === 'object') {
+                this.error = `SyntaxError: 'ltree' doesn't support nested json`;
+            }
+        });
     }
 
     async #handleDictionaryInput(event: Event, item: (typeof this.__json)[0], type: 'key' | 'value') {
@@ -131,11 +131,11 @@ export class DjangoHstoreWidget {
     JSONComponent(item: (typeof this.__json)[0]) {
         return (
             <div class="form-row field-data">
-                <div class="flex gap-2.5">
+                <div class="flex gap-2.5 items-center justify-start">
                     <input value={item.key} onInput={event => this.#handleDictionaryInput(event, item, 'key')} placeholder="key" class="min-width-[150px]" />
                     <strong>:</strong>
                     <input value={item.value} onInput={event => this.#handleDictionaryInput(event, item, 'value')} placeholder="value" class="min-width-[300px]" />
-                    <div class="items-center justify-center flex cursor-pointer" onClick={() => this.#handleDelete(item.index)}>
+                    <div class="items-center justify-center flex cursor-pointer select-none" onClick={() => this.#handleDelete(item.index)}>
                         <img src={this.delete_svg_src} alt="❌" />
                     </div>
                 </div>
@@ -173,9 +173,9 @@ export class DjangoHstoreWidget {
                         >
                             {this.#getJSONString}
                         </textarea>
-                        {this.error !== null ? <div class="warning brightness-90">{this.error}</div> : <Fragment></Fragment>}
+                        {this.error !== null && <div class="warning brightness-90">{this.error}</div>}
                     </div>
-                    {this.output_render_type === 'rows' && this.__json && (
+                    {this.output_render_type === 'rows' && this.error === null && this.__json && (
                         <Fragment>
                             {this.__json.map(item => {
                                 return this.JSONComponent(item);
@@ -184,14 +184,17 @@ export class DjangoHstoreWidget {
                     )}
                     <div class="form-row justify-between items-center flex">
                         <div
-                            class={`items-center justify-center flex gap-1 cursor-pointer ${this.output_render_type === 'textarea' ? 'invisible' : ''}`}
+                            class={`items-center select-none justify-center flex gap-1 cursor-pointer ${this.output_render_type === 'textarea' ? 'invisible' : ''}`}
                             onClick={this.#handleRowAdd.bind(this)}
                         >
                             <img src={this.add_svg_src} alt="➕" />
                             Add row
                         </div>
 
-                        <div class={`items-center justify-center flex gap-1 ${this.error === null ? 'cursor-pointer' : 'opacity-60'}`} onClick={this.#handleToggleClick.bind(this)}>
+                        <div
+                            class={`items-center select-none justify-center flex gap-1 ${this.error === null ? 'cursor-pointer' : 'opacity-60'}`}
+                            onClick={this.#handleToggleClick.bind(this)}
+                        >
                             {this.output_render_type === 'textarea' ? (
                                 <Fragment>
                                     <img src={this.delete_svg_src} alt="❌" />
