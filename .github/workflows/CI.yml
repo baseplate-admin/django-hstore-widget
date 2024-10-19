@@ -1,9 +1,10 @@
-name: Release
+name: CI
 
-on:
-    release:
-        types:
-            - created
+on: [push]
+
+permissions:
+    contents: write
+    pull-requests: write
 
 jobs:
     test:
@@ -24,8 +25,10 @@ jobs:
 
     release:
         name: Release
+        if: "startsWith(github.ref, 'refs/tags/')"
         runs-on: ubuntu-latest
         requires: [test]
+
         steps:
             - name: Checkout Repo
               uses: actions/checkout@v4
