@@ -20,9 +20,9 @@ export class DjangoHstoreWidget {
     @Prop() edit_svg_src: string = '/static/admin/img/icon-changelink.svg'; // Overrideable
 
     // State
-    @State() output_render_type: 'rows' | 'textarea' = 'rows';
     @State() mounted = false;
-    @State() close_textarea_clickable = true;
+    @State() error: string | null = null;
+    @State() output_render_type: 'rows' | 'textarea' = 'rows';
 
     // Very Fragile state. Please update with care. This is the core state of the entire code
     @State() __json = new Array<{ key: string; value: string; index: number }>();
@@ -66,6 +66,10 @@ export class DjangoHstoreWidget {
                 value: json_object[key],
                 index: index,
             }));
+            this.error = null;
+        } catch (err) {
+            this.error = String(err);
+            throw err;
         } finally {
             this.__json = globalThis.structuredClone(this.__json);
         }
@@ -93,7 +97,7 @@ export class DjangoHstoreWidget {
         if (this.output_render_type === 'rows') {
             this.output_render_type = 'textarea';
         } else if (this.output_render_type === 'textarea') {
-            if (this.close_textarea_clickable === false) return;
+            if (this.error !== null) return;
             this.output_render_type = 'rows';
         } else {
             console.error(`Something is wrong with \`output_render_type\`. It is ${this.output_render_type}`);
@@ -104,13 +108,7 @@ export class DjangoHstoreWidget {
         const target = event.currentTarget as HTMLTextAreaElement;
         const value = target.value;
         if (value) {
-            this.#parseJson(value)
-                .then(() => {
-                    this.close_textarea_clickable = true;
-                })
-                .catch(() => {
-                    this.close_textarea_clickable = false;
-                });
+            this.#parseJson(value);
         } else {
             this.#parseJson('{}');
         }
@@ -165,16 +163,18 @@ export class DjangoHstoreWidget {
         } else {
             return (
                 <Host>
-                    <textarea
-                        class={`${this.output_render_type === 'textarea' ? '' : 'hidden invisible'} ${this.close_textarea_clickable ? '' : 'warning'} vLargeTextField`}
-                        cols={this.cols}
-                        name={this.field_name}
-                        rows={this.rows}
-                        onInput={this.#handleTextAreaInput.bind(this)}
-                    >
-                        {this.#getJSONString}
-                    </textarea>
-
+                    <div class="flex gap-2.5 items-center">
+                        <textarea
+                            class={`${this.output_render_type === 'textarea' ? '' : 'hidden invisible'} ${this.error === null ? '' : 'warning'} vLargeTextField`}
+                            cols={this.cols}
+                            name={this.field_name}
+                            rows={this.rows}
+                            onInput={this.#handleTextAreaInput.bind(this)}
+                        >
+                            {this.#getJSONString}
+                        </textarea>
+                        {this.error !== null ? <div class="warning brightness-90">{this.error}</div> : <Fragment></Fragment>}
+                    </div>
                     {this.output_render_type === 'rows' && this.__json && (
                         <Fragment>
                             {this.__json.map(item => {
@@ -191,10 +191,7 @@ export class DjangoHstoreWidget {
                             Add row
                         </div>
 
-                        <div
-                            class={`items-center justify-center flex gap-1 ${this.close_textarea_clickable ? 'cursor-pointer' : 'opacity-60'}`}
-                            onClick={this.#handleToggleClick.bind(this)}
-                        >
+                        <div class={`items-center justify-center flex gap-1 ${this.error === null ? 'cursor-pointer' : 'opacity-60'}`} onClick={this.#handleToggleClick.bind(this)}>
                             {this.output_render_type === 'textarea' ? (
                                 <Fragment>
                                     <img src={this.delete_svg_src} alt="❌" />
