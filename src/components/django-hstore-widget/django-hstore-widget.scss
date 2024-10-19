@@ -12,9 +12,15 @@ django-hstore-widget {
     .flex {
         display: flex;
     }
+    .select-none {
+        user-select: none;
+    }
 
     .justify-center {
         justify-content: center;
+    }
+    .justify-start {
+        justify-content: flex-start;
     }
     .justify-between {
         justify-content: space-between;
