@@ -34,10 +34,13 @@ export class DjangoHstoreWidget {
     }
 
     // Callbacks
-    connectedCallback() {
-        this.#parseJson(this.json).then(() => {
+    async connectedCallback() {
+        await this.#parseJson(this.json);
+        if (this.error === null) {
             this.mounted = true;
-        });
+        } else {
+            this.mounted = false;
+        }
     }
 
     // Getters
@@ -130,7 +133,7 @@ export class DjangoHstoreWidget {
     // Reusuable components
     JSONComponent(item: (typeof this.__json)[0]) {
         return (
-            <div class="form-row field-data">
+            <div class="form-row field-data" id="json_items">
                 <div class="flex gap-2.5 items-center justify-start">
                     <input value={item.key} onInput={event => this.#handleDictionaryInput(event, item, 'key')} placeholder="key" class="min-width-[150px]" />
                     <strong>:</strong>
@@ -147,12 +150,12 @@ export class DjangoHstoreWidget {
         if (!this.mounted) {
             return (
                 <Host>
-                    <div class="flex items-center justify-center gap-1">
+                    <div class="flex items-center justify-center gap-1" id="mount_error">
                         <p>
                             Failed to mount. Unexpected JSON from <code>django backend</code>
                         </p>
                         <p>
-                            The provided json is <code>{this.json}</code> which is not valid.
+                            The provided json is <code class="warning">{this.json}</code> which is not valid.
                         </p>
                         <p>
                             Please check the json or <a href={this.#GITHUB_ISSUE_URL}>file an issue at Github</a>
@@ -173,7 +176,11 @@ export class DjangoHstoreWidget {
                         >
                             {this.#getJSONString}
                         </textarea>
-                        {this.error !== null && <div class="warning brightness-90">{this.error}</div>}
+                        {this.error !== null && (
+                            <div class="warning brightness-90" id="textbox_error">
+                                {this.error}
+                            </div>
+                        )}
                     </div>
                     {this.output_render_type === 'rows' && this.error === null && this.__json && (
                         <Fragment>
@@ -193,7 +200,12 @@ export class DjangoHstoreWidget {
 
                         <div
                             class={`items-center select-none justify-center flex gap-1 ${this.error === null ? 'cursor-pointer' : 'opacity-60'}`}
-                            onClick={this.#handleToggleClick.bind(this)}
+                            onClick={async () => {
+                                if (this.error === null) {
+                                    await this.#handleToggleClick();
+                                }
+                            }}
+                            id="textarea_open_close_toggle"
                         >
                             {this.output_render_type === 'textarea' ? (
                                 <Fragment>
