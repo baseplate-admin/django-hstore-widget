@@ -42,7 +42,6 @@ class MyModelAdminForm(forms.ModelForm):
 
     class Meta:
        model = Yourmodel
-       exclude = ()
 
 @admin.register(Yourmodel)
 class YourmodelAdmin(admin.ModelAdmin):
