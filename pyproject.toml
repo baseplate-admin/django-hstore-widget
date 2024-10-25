@@ -36,10 +36,21 @@ classifiers = [
 
 ]
 
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/baseplate-admin/django-hstore-widget/issues"
+"homepage" = "https://github.com/baseplate-admin/django-hstore-widget"
+"repository" = "https://github.com/baseplate-admin/django-hstore-widget"
+
 [tool.poetry.dependencies]
-python = ">3.6"
+python = ">=3.8"
 django = "*"
 
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.0.1"
+pytest-django = "^4.8.0"
+psycopg2 = {extras = ["binary"], version = "^2.9.10"}
+psycopg = {extras = ["binary"], version = "^3.2.3"}
 
 [build-system]
 requires = ["poetry-core"]
