@@ -25,6 +25,13 @@ jobs:
 
             - name: Test
               run: npm run test
+            # Upload the entire workspace
+            - name: Upload entire workspace
+              uses: actions/upload-artifact@v4
+              with:
+                  name: workspace
+                  path: .
+                  # retention-days: 1
 
     'test-backend':
         runs-on: ubuntu-latest
@@ -61,6 +68,13 @@ jobs:
             DJANGO_DATABASE_NAME: postgres
 
         steps:
+            # Download the entire workspace
+            - name: Download workspace
+              uses: actions/download-artifact@v4
+              with:
+                  name: workspace
+                  path: .
+
             - uses: actions/checkout@v4
             - name: Set up Python
               uses: actions/setup-python@v5
