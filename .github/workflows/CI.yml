@@ -7,9 +7,29 @@ permissions:
     pull-requests: write
 
 jobs:
+    'test-frontend':
+        name: Test Frontend
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v4
+
+            - name: Install Node.JS
+              uses: actions/setup-node@v4
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Build
+              run: npm run build
+
+            - name: Test
+              run: npm run test
+
     'test-backend':
         runs-on: ubuntu-latest
         name: Python ${{ matrix.python-version }} sample with Postgres ${{ matrix.postgres-version }}
+        requires: ['test-frontend']
         strategy:
             matrix:
                 python-version: [
@@ -60,25 +80,6 @@ jobs:
             - name: Run tests
               run: |
                   poetry run pytest -v -x
-
-    'test-frontend':
-        name: Test Frontend
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout Repo
-              uses: actions/checkout@v4
-
-            - name: Install Node.JS
-              uses: actions/setup-node@v4
-
-            - name: Install dependencies
-              run: npm ci
-
-            - name: Build
-              run: npm run build
-
-            - name: Test
-              run: npm run test
 
     release:
         name: Release
