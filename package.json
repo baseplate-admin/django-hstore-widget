@@ -27,7 +27,7 @@
         "jest": "^29.7.0",
         "jest-cli": "^29.7.0",
         "puppeteer": "^23.6.1",
-        "sass": "^1.80.4",
+        "sass": "^1.80.6",
         "typescript": "^5.6.3"
     },
     "license": "MIT"
