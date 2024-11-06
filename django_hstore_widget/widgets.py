@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.admin.widgets import AdminTextareaWidget
 from django.template.loader import get_template
 from django.utils.safestring import mark_safe
@@ -8,6 +10,8 @@ try:
     from django.contrib.admin.templatetags.admin_static import static
 except ImportError:
     from django.templatetags.static import static
+
+logger = logging.getLogger("django_hstore_widget")
 
 
 @html_safe
