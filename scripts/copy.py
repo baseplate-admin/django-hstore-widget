@@ -13,12 +13,17 @@ TARGET_DIR = Path(
     "js",
     "django_hstore_widget",
 )
-if os.path.exists(TARGET_DIR) and os.path.isdir(TARGET_DIR):
+if TARGET_DIR.exists() and TARGET_DIR.is_dir():
     shutil.rmtree(TARGET_DIR)
 
-TARGET_DIR.mkdir(parents=True, exist_ok=True)
+TARGET_DIR.mkdir(parents=True,exist_ok=True)
 
-for js_file in DIST_DIR.glob("*.js"):
-    shutil.copy(js_file, TARGET_DIR / js_file.name)
+files = list(DIST_DIR.glob("*.js"))
 
-print("DONE")
+if len(files):
+    for js_file in files:
+        shutil.copy(js_file, os.path.join(TARGET_DIR,js_file.name))
+
+    print("DONE")
+else:
+    raise Exception("There are no js files.Re-Run `npm build`")
