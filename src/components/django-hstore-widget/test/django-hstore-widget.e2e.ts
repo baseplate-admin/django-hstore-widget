@@ -6,7 +6,7 @@ describe('django-hstore-widget', () => {
         await page.setContent('<django-hstore-widget></django-hstore-widget>');
 
         const element = await page.find('django-hstore-widget');
-        expect(element).toHaveClass('hydrated');
+        expect(element).toHaveAttribute('hydrated');
     });
 
     it('json and field render', async () => {

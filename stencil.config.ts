@@ -1,9 +1,14 @@
 import { Config } from '@stencil/core';
 import { sass } from '@stencil/sass';
+
 export const config: Config = {
     plugins: [sass()],
     sourceMap: false,
     namespace: 'django-hstore-widget',
+    extras: {
+        enableImportInjection: true,
+        experimentalSlotFixes: true,
+    },
     outputTargets: [
         {
             polyfills: true,
@@ -27,5 +32,8 @@ export const config: Config = {
     ],
     testing: {
         browserHeadless: 'new',
+    },
+    hydratedFlag: {
+        selector: 'attribute',
     },
 };
