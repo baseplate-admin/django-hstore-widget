@@ -153,11 +153,6 @@ jobs:
                   name: workspace
                   path: .
 
-            - name: Install python dependencies
-              run: |
-                  poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
-                    # Upload the .whl file to the GitHub Release
-
             - name: Build the dependency
               run: poetry build --output py-dist
 
