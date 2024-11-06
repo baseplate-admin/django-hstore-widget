@@ -1,10 +1,12 @@
 import json
+import logging
+
 from django.contrib.postgres.forms import HStoreField
 
 from .widgets import HStoreFormWidget
 
 
-from django.utils.html import format_html, html_safe
+logger = logging.getLogger("django_hstore_widget")
 
 
 class HStoreFormField(HStoreField):
