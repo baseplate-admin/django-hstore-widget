@@ -22,7 +22,8 @@ files = list(DIST_DIR.glob("*.js"))
 
 if len(files):
     for js_file in files:
-        shutil.copy(js_file, os.path.join(TARGET_DIR,js_file.name))
+        if os.path.getsize(js_file) > 0:
+            shutil.copy(js_file, os.path.join(TARGET_DIR,js_file.name))
 
     print("DONE")
 else:

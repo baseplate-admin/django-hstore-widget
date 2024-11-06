@@ -70,5 +70,6 @@ class HStoreFormWidget(AdminTextareaWidget):
         html = mark_safe(html)
 
         return html
+
     class Media:
         js = [ESM("admin/js/django_hstore_widget/django-hstore-widget.esm.js")]
