@@ -1,38 +1,18 @@
 import os
 import django
 from django.conf import settings
-import pytest
-from selenium import webdriver
-from selenium.common.exceptions import WebDriverException
-from django.utils.encoding import force_str
-import chromedriver_autoinstaller
-
-chromedriver_autoinstaller.install()
-
-
-@pytest.fixture(scope="session")
-def driver():
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--headless")
-
-    # Set up console logging preferences
-    chrome_options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
-
-    try:
-        b = webdriver.Chrome(options=chrome_options)
-    except WebDriverException as e:
-        pytest.skip(force_str(e))
-    else:
-        yield b
-        b.quit()
 
 
 def pytest_sessionstart(session):
+    """
+    This function is executed before the test session starts.
+    It configures the Django settings dynamically, using environment variables where available.
+    """
     settings.configure(
         DATABASES={
             "default": {
                 "ENGINE": "django.db.backends.postgresql",
-                "NAME": "django_hstore",
+                "NAME": "django_hstore",  # Adjust the database name as needed
                 "HOST": os.environ.get("DJANGO_DATABASE_HOST", "localhost"),
                 "USER": os.environ.get("DJANGO_DATABASE_USER", "postgres"),
                 "PASSWORD": os.environ.get(
@@ -48,8 +28,8 @@ def pytest_sessionstart(session):
             "django.contrib.messages",
             "django.contrib.staticfiles",
             "django.contrib.postgres",
-            "django_hstore_widget",
-            "cat",
+            "django_hstore_widget",  # Ensure this app is installed for hstore
+            "cat",  # Your custom app
         ),
         MIDDLEWARE=[
             "django.middleware.security.SecurityMiddleware",
@@ -60,7 +40,7 @@ def pytest_sessionstart(session):
             "django.contrib.messages.middleware.MessageMiddleware",
             "django.middleware.clickjacking.XFrameOptionsMiddleware",
         ],
-        SECRET_KEY="secret",
+        SECRET_KEY="secret",  # Change to a secure secret in production
         BASE_DIR=os.path.dirname(os.path.dirname(__file__)),
         DEBUG=True,
         LANGUAGE_CODE="en-us",
@@ -69,7 +49,7 @@ def pytest_sessionstart(session):
         USE_L10N=True,
         USE_TZ=True,
         STATIC_URL="/static/",
-        ROOT_URLCONF="cat.urls",
+        ROOT_URLCONF="cat.urls",  # Adjust to match your root URL config
         ALLOWED_HOSTS=[],
         TEMPLATES=[
             {
@@ -87,4 +67,4 @@ def pytest_sessionstart(session):
             },
         ],
     )
-    django.setup()
+    django.setup()  # Initialize Django settings
