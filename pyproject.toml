@@ -43,13 +43,15 @@ classifiers = [
 [tool.poetry.dependencies]
 python = ">=3.8"
 django = "*"
-selenium = "^4.26.1"
+
 
 
 [tool.poetry.group.test.dependencies]
 pytest = "^8.0.1"
 pytest-django = "^4.8.0"
 psycopg = {extras = ["binary"], version = "^3.2.3"}
+selenium = "^4.26.1"
+chromedriver-autoinstaller = "^0.6.4"
 
 [build-system]
 requires = ["poetry-core"]

@@ -84,16 +84,15 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
     change_url = f"{live_server.url}{reverse('admin:cat_cat_change', args=(cat.pk,))}"
     driver.get(change_url)
 
-    WebDriverWait(driver, 30).until(
-        lambda driver: driver.execute_script("return document.readyState") == "complete"
-    )
     actions = ActionChains(driver)
     actions.move_to_element(
         driver.find_element(By.CSS_SELECTOR, "django-hstore-widget")
     ).perform()
-
-    print(driver.page_source)
-
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located(
+            (By.CSS_SELECTOR, "django-hstore-widget textarea.vLargeTextField")
+        )
+    )
     # Assert the widget is present
     hstore_widget = driver.find_element(By.CSS_SELECTOR, "django-hstore-widget")
     assert hstore_widget is not None
