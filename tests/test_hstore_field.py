@@ -92,13 +92,13 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
     hstore_widget = driver.find_element(By.CSS_SELECTOR, "django-hstore-widget")
     assert hstore_widget is not None
 
+    # Assert that console is empty
+    console_logs = driver.get_log("browser")
+    warnings = [entry for entry in console_logs if entry["level"] == "WARNING"]
+    assert warnings == []
+
     # Assert that there is the hidden textarea
     hstore_widget_textarea = driver.find_element(
         By.CSS_SELECTOR, "django-hstore-widget textarea"
     )
     assert hstore_widget_textarea is not None
-
-    # Assert that console is empty
-    console_logs = driver.get_log("browser")
-    warnings = [entry for entry in console_logs if entry["level"] == "WARNING"]
-    assert warnings == []
