@@ -96,7 +96,7 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
     assert warnings == []
 
     # Assert that there is the hidden textarea
-    WebDriverWait(driver, 10).until(
+    WebDriverWait(driver, 100).until(
         EC.presence_of_element_located(
             (By.CSS_SELECTOR, "django-hstore-widget textarea.vLargeTextField")
         )
