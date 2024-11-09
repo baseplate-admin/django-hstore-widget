@@ -95,6 +95,7 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
     warnings = [entry for entry in console_logs if entry["level"] == "WARNING"]
     assert warnings == []
 
+    print(driver.page_source)
     # Assert that there is the hidden textarea
     hstore_widget_textarea = driver.find_element(
         By.CSS_SELECTOR, "django-hstore-widget textarea.vLargeTextField"
