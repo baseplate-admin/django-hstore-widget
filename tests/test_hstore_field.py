@@ -59,10 +59,11 @@ def test_hstore_field_edit_view_render_no_js(client_with_login):
 @pytest.mark.django_db
 def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
     """Selenium test to verify HStore widget renders correctly in the Django admin."""
+
     # Open the admin login page
     driver.get(f"{live_server.url}/admin/login/")
-    WebDriverWait(driver, 100).until(
-        EC.presence_of_element_located((By.CSS_SELECTOR, 'form input[name="username"]'))
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, 'input[name="username"]'))
     )
 
     # Log in to admin
@@ -72,13 +73,18 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
     driver.find_element(By.CSS_SELECTOR, 'form input[name="password"]').send_keys("cat")
     driver.find_element(By.CSS_SELECTOR, 'form input[type="submit"]').click()
 
+    # Wait for login
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, "body.dashboard"))
+    )
+
     # Go to the Cat change page
     cat = Cat.objects.create(name="Murphy", data={"race": "", "gender": "male"})
     change_url = f"{live_server.url}{reverse('admin:cat_cat_change', args=(cat.pk,))}"
     driver.get(change_url)
 
     # Wait for HStore widget to load
-    WebDriverWait(driver, 100).until(
+    WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, "django-hstore-widget"))
     )
 
@@ -91,3 +97,8 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
         By.CSS_SELECTOR, "django-hstore-widget textarea"
     )
     assert hstore_widget_textarea is not None
+
+    # Assert that console is empty
+    console_logs = driver.get_log("browser")
+    warnings = [entry for entry in console_logs if entry["level"] == "WARNING"]
+    assert warnings == []

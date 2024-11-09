@@ -1,5 +1,4 @@
 import os
-
 import django
 from django.conf import settings
 import pytest
@@ -10,10 +9,14 @@ from django.utils.encoding import force_str
 
 @pytest.fixture(scope="session")
 def driver():
-    firefox_options = webdriver.FirefoxOptions()
-    # firefox_options.add_argument("--headless")
+    chrome_options = webdriver.ChromeOptions()
+    # chrome_options.add_argument("--headless")  # Run in headless mode (optional)
+
+    # Set up console logging preferences
+    chrome_options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
+
     try:
-        b = webdriver.Firefox(options=firefox_options)
+        b = webdriver.Chrome(options=chrome_options)
     except WebDriverException as e:
         pytest.skip(force_str(e))
     else:
