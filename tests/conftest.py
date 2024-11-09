@@ -5,9 +5,6 @@ import pytest
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from django.utils.encoding import force_str
-import chromedriver_autoinstaller
-
-chromedriver_autoinstaller.install()
 
 
 @pytest.fixture(scope="session")

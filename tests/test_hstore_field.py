@@ -99,8 +99,7 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
 
     # Assert that console is empty
     console_logs = driver.get_log("browser")
-    warnings = [entry for entry in console_logs if entry["level"] == "WARNING"]
-    assert warnings == []
+    assert not any(entry for entry in console_logs if entry["level"] == "WARNING")
 
     # Assert that there is the hidden textarea ( works locally fails in github actions )
     # hstore_widget_textarea = driver.find_element(
