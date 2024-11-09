@@ -2,6 +2,23 @@ import os
 
 import django
 from django.conf import settings
+import pytest
+from selenium import webdriver
+from selenium.common.exceptions import WebDriverException
+from django.utils.encoding import force_str
+
+
+@pytest.fixture(scope="session")
+def driver():
+    firefox_options = webdriver.FirefoxOptions()
+    firefox_options.add_argument("--headless=new")
+    try:
+        b = webdriver.Firefox(options=firefox_options)
+    except WebDriverException as e:
+        pytest.skip(force_str(e))
+    else:
+        yield b
+        b.quit()
 
 
 def pytest_sessionstart(session):
