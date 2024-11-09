@@ -100,3 +100,5 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
         By.CSS_SELECTOR, "django-hstore-widget textarea.vLargeTextField"
     )
     assert hstore_widget_textarea is not None
+
+    # __import__('time').sleep(100)
