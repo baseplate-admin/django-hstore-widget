@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from cat.models import Cat
 import pytest
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -62,7 +61,7 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
     """Selenium test to verify HStore widget renders correctly in the Django admin."""
     # Open the admin login page
     driver.get(f"{live_server.url}/admin/login/")
-    WebDriverWait(driver, 10).until(
+    WebDriverWait(driver, 100).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, 'form input[name="username"]'))
     )
 
@@ -79,10 +78,16 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
     driver.get(change_url)
 
     # Wait for HStore widget to load
-    WebDriverWait(driver, 1000).until(
-        EC.presence_of_element_located((By.CLASS_NAME, "django-hstore-widget"))
+    WebDriverWait(driver, 100).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, "django-hstore-widget"))
     )
 
     # Assert the widget is present
-    hstore_widget = driver.find_element(By.CLASS_NAME, "django-hstore-widget")
+    hstore_widget = driver.find_element(By.CSS_SELECTOR, "django-hstore-widget")
     assert hstore_widget is not None
+
+    # Assert that there is the hidden textarea
+    hstore_widget_textarea = driver.find_element(
+        By.CSS_SELECTOR, "django-hstore-widget textarea"
+    )
+    assert hstore_widget_textarea is not None

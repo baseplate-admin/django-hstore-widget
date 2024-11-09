@@ -1,5 +1,10 @@
 import { Component, Host, h, Prop, State, Fragment, Watch } from '@stencil/core';
 
+const django_mapping = {
+    input: 'vTextField',
+    textarea: 'vLargeTextField',
+};
+
 @Component({
     tag: 'django-hstore-widget',
     styleUrl: 'django-hstore-widget.scss',
@@ -135,9 +140,19 @@ export class DjangoHstoreWidget {
         return (
             <div class="form-row field-data" id="json_items">
                 <div class="flex gap-2.5 items-center justify-start">
-                    <input value={item.key} onInput={event => this.#handleDictionaryInput(event, item, 'key')} placeholder="key" class="min-width-[150px]" />
+                    <input
+                        value={item.key}
+                        onInput={event => this.#handleDictionaryInput(event, item, 'key')}
+                        placeholder="key"
+                        class={`min-width-[150px] ${django_mapping['input']}`}
+                    />
                     <strong>:</strong>
-                    <input value={item.value} onInput={event => this.#handleDictionaryInput(event, item, 'value')} placeholder="value" class="min-width-[300px]" />
+                    <input
+                        value={item.value}
+                        onInput={event => this.#handleDictionaryInput(event, item, 'value')}
+                        placeholder="value"
+                        class={`min-width-[300px] ${django_mapping['input']}`}
+                    />
                     <div class="items-center justify-center flex cursor-pointer select-none" onClick={() => this.#handleDelete(item.index)}>
                         <img src={this.delete_svg_src || '#'} alt="❌" />
                     </div>
@@ -168,7 +183,7 @@ export class DjangoHstoreWidget {
                 <Host>
                     <div class="flex gap-2.5 items-center">
                         <textarea
-                            class={`${this.output_render_type === 'textarea' ? '' : 'hidden invisible'} ${this.error === null ? '' : 'warning'} vLargeTextField`}
+                            class={`${this.output_render_type === 'textarea' ? '' : 'hidden invisible'} ${this.error === null ? '' : 'warning'} ${django_mapping['textarea']}`}
                             cols={this.cols}
                             name={this.field_name}
                             rows={this.rows}
