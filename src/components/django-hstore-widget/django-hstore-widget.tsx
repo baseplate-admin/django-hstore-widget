@@ -41,10 +41,10 @@ export class DjangoHstoreWidget {
     // Callbacks
     async connectedCallback() {
         await this.#parseJson(this.json);
-        if (this.error === null) {
-            this.mounted = true;
-        } else {
+        if (this.error) {
             this.mounted = false;
+        } else {
+            this.mounted = true;
         }
     }
 
@@ -58,14 +58,14 @@ export class DjangoHstoreWidget {
             return acc;
         }, {} as Record<string, string>);
 
-        let indent: number = Object.keys(jsonObject).length > 1 ? 4 : 0;
+        const indent: number = Object.keys(jsonObject).length > 1 ? 4 : 0;
         return globalThis.JSON.stringify(jsonObject, null, indent);
     }
 
     // Functions
     async #parseJson(json_string: string) {
         try {
-            let json_object = globalThis.JSON.parse(json_string);
+            const json_object = globalThis.JSON.parse(json_string);
             this.__json = Object.keys(json_object).map((key, index) => ({
                 key: key,
                 value: json_object[key],
@@ -100,10 +100,11 @@ export class DjangoHstoreWidget {
     }
 
     async #handleToggleClick() {
+        if (this.error) return;
+
         if (this.output_render_type === 'rows') {
             this.output_render_type = 'textarea';
         } else if (this.output_render_type === 'textarea') {
-            if (this.error !== null) return;
             this.output_render_type = 'rows';
         } else {
             console.error(`Something is wrong with 'output_render_type'. It is ${this.output_render_type}`);
@@ -112,8 +113,7 @@ export class DjangoHstoreWidget {
 
     async #handleTextAreaInput(event: Event) {
         const target = event.currentTarget as HTMLTextAreaElement;
-        const value = target.value || '{}';
-        this.#parseJson(value);
+        this.#parseJson(target.value || '{}');
 
         this.__json.forEach(item => {
             if (typeof item.value === 'object') {
@@ -153,7 +153,7 @@ export class DjangoHstoreWidget {
                         placeholder="value"
                         class={`min-width-[300px] ${django_mapping['input']}`}
                     />
-                    <div class="items-center justify-center flex cursor-pointer select-none" id="delete-button" onClick={() => this.#handleDelete(item.index)}>
+                    <div class="items-center justify-center flex cursor-pointer select-none" id="delete-button" onClick={this.#handleDelete.bind(this, item.index)}>
                         <img src={this.delete_svg_src || '#'} alt="❌" />
                     </div>
                 </div>
@@ -197,13 +197,9 @@ export class DjangoHstoreWidget {
                             </div>
                         )}
                     </div>
-                    {this.output_render_type === 'rows' && this.error === null && this.__json && (
-                        <Fragment>
-                            {this.__json.map(item => {
-                                return this.JSONComponent(item);
-                            })}
-                        </Fragment>
-                    )}
+
+                    {this.output_render_type === 'rows' && this.error === null && this.__json && <Fragment>{this.__json.map(item => this.JSONComponent(item))}</Fragment>}
+
                     <div class="form-row justify-between items-center flex">
                         <div
                             class={`items-center select-none justify-center flex gap-1 cursor-pointer ${this.output_render_type === 'textarea' ? 'invisible' : ''}`}
@@ -216,11 +212,7 @@ export class DjangoHstoreWidget {
 
                         <div
                             class={`items-center select-none justify-center flex gap-1 ${this.error === null ? 'cursor-pointer' : 'opacity-60'}`}
-                            onClick={async () => {
-                                if (this.error === null) {
-                                    await this.#handleToggleClick();
-                                }
-                            }}
+                            onClick={this.#handleToggleClick.bind(this)}
                             id="textarea_open_close_toggle"
                         >
                             {this.output_render_type === 'textarea' ? (
