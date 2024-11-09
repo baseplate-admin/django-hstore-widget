@@ -83,10 +83,10 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
     change_url = f"{live_server.url}{reverse('admin:cat_cat_change', args=(cat.pk,))}"
     driver.get(change_url)
 
-    # Assert the widget is present
-    WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.CSS_SELECTOR, "django-hstore-widget"))
+    WebDriverWait(driver, 30).until(
+        lambda driver: driver.execute_script("return document.readyState") == "complete"
     )
+    # Assert the widget is present
     hstore_widget = driver.find_element(By.CSS_SELECTOR, "django-hstore-widget")
     assert hstore_widget is not None
 
@@ -96,11 +96,6 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
     assert warnings == []
 
     # Assert that there is the hidden textarea
-    WebDriverWait(driver, 100).until(
-        EC.presence_of_element_located(
-            (By.CSS_SELECTOR, "django-hstore-widget textarea.vLargeTextField")
-        )
-    )
     hstore_widget_textarea = driver.find_element(
         By.CSS_SELECTOR, "django-hstore-widget textarea.vLargeTextField"
     )
