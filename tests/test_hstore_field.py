@@ -99,6 +99,6 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
 
     # Assert that there is the hidden textarea
     hstore_widget_textarea = driver.find_element(
-        By.CSS_SELECTOR, "django-hstore-widget textarea"
+        By.CSS_SELECTOR, "textarea.vLargeTextField"
     )
     assert hstore_widget_textarea is not None
