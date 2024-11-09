@@ -27,4 +27,4 @@ UserInterfaceState.xcuserstate
 
 __pycache__
 
-django_hstore_widget/static/admin/js/django_hstore_widget/*.js
+# django_hstore_widget/static/admin/js/django_hstore_widget/*.js
