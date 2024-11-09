@@ -11,7 +11,7 @@ from django.utils.encoding import force_str
 @pytest.fixture(scope="session")
 def driver():
     firefox_options = webdriver.FirefoxOptions()
-    firefox_options.add_argument("--headless=new")
+    # firefox_options.add_argument("--headless")
     try:
         b = webdriver.Firefox(options=firefox_options)
     except WebDriverException as e:
