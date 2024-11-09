@@ -50,13 +50,9 @@ django = "*"
 pytest = "^8.0.1"
 pytest-django = "^4.8.0"
 psycopg = {extras = ["binary"], version = "^3.2.3"}
-playwright = "^1.48.0"
-pytest-asyncio = "^0.24.0"
-
+selenium = "^4.26.1"
+chromedriver-autoinstaller = "^0.6.4"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.pytest.ini_options]
-asyncio_default_fixture_loop_scope = 'function'

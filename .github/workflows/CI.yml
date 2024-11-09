@@ -111,7 +111,6 @@ jobs:
               run: |
                   poetry install
                   poetry run pip install -e .
-                  poetry run playwright install
 
             - name: Run tests
               run: |

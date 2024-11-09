@@ -3,7 +3,10 @@ from django.test import Client
 from django.contrib.auth.models import User
 from cat.models import Cat
 import pytest
-from playwright.sync_api import sync_playwright
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 @pytest.fixture
@@ -55,48 +58,54 @@ def test_hstore_field_edit_view_render_no_js(client_with_login):
 
 
 @pytest.mark.django_db
-def test_hstore_field_edit_view_render_js(live_server, admin_user):
-    """Playwright test to verify HStore widget renders correctly in the Django admin."""
+def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
+    """Selenium test to verify HStore widget renders correctly in the Django admin."""
 
-    # Ensure all database interactions are completed before Playwright starts
+    # Open the admin login page
+    driver.get(f"{live_server.url}/admin/login/")
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, 'input[name="username"]'))
+    )
+
+    # Log in to admin
+    driver.find_element(By.CSS_SELECTOR, 'form input[name="username"]').send_keys(
+        admin_user.username
+    )
+    driver.find_element(By.CSS_SELECTOR, 'form input[name="password"]').send_keys("cat")
+    driver.find_element(By.CSS_SELECTOR, 'form input[type="submit"]').click()
+
+    # Wait for login
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, "body.dashboard"))
+    )
+
+    # Go to the Cat change page
     cat = Cat.objects.create(name="Murphy", data={"race": "", "gender": "male"})
+    change_url = f"{live_server.url}{reverse('admin:cat_cat_change', args=(cat.pk,))}"
+    driver.get(change_url)
 
-    # Use sync_playwright() to interact with the browser synchronously
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
-
-        # Listen to console messages
-        console_messages = []
-        page.on("console", lambda msg: console_messages.append(msg.text))
-
-        # Open the admin login page
-        page.goto(f"{live_server.url}/admin/login/")
-
-        # Log in to admin
-        page.fill('input[name="username"]', admin_user.username)
-        page.fill('input[name="password"]', "cat")
-        page.click('input[type="submit"]')
-
-        # Wait for login to complete
-        page.wait_for_selector("body.dashboard")
-
-        # Navigate to the Cat change page
-        change_url = (
-            f"{live_server.url}{reverse('admin:cat_cat_change', args=(cat.pk,))}"
+    actions = ActionChains(driver)
+    actions.move_to_element(
+        driver.find_element(By.CSS_SELECTOR, "django-hstore-widget")
+    ).perform()
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located(
+            (By.CSS_SELECTOR, "django-hstore-widget textarea.vLargeTextField")
         )
-        page.goto(change_url)
+    )
+    # Assert the widget is present
+    hstore_widget = driver.find_element(By.CSS_SELECTOR, "django-hstore-widget")
+    assert hstore_widget is not None
 
-        # Wait for the HStore widget to load
-        page.wait_for_selector("django-hstore-widget")
-        hstore_widget = page.query_selector("django-hstore-widget")
-        assert hstore_widget is not None
+    # Assert that console is empty
+    console_logs = driver.get_log("browser")
+    warnings = [entry for entry in console_logs if entry["level"] == "WARNING"]
+    assert warnings == []
 
-        # Check if the textarea is within the widget
-        hstore_widget_textarea = page.query_selector(
-            "django-hstore-widget textarea.vLargeTextField"
-        )
-        assert hstore_widget_textarea is not None
+    # Assert that there is the hidden textarea
+    hstore_widget_textarea = driver.find_element(
+        By.CSS_SELECTOR, "django-hstore-widget textarea.vLargeTextField"
+    )
+    assert hstore_widget_textarea is not None
 
-        # Assert that no warnings are in the console logs
-        assert not any("WARNING" in entry for entry in console_messages)
+    # __import__('time').sleep(100)
