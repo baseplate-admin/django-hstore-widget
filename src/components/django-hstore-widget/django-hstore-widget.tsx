@@ -153,7 +153,7 @@ export class DjangoHstoreWidget {
                         placeholder="value"
                         class={`min-width-[300px] ${django_mapping['input']}`}
                     />
-                    <div class="items-center justify-center flex cursor-pointer select-none" onClick={() => this.#handleDelete(item.index)}>
+                    <div class="items-center justify-center flex cursor-pointer select-none" id="delete-button" onClick={() => this.#handleDelete(item.index)}>
                         <img src={this.delete_svg_src || '#'} alt="❌" />
                     </div>
                 </div>
@@ -207,6 +207,7 @@ export class DjangoHstoreWidget {
                     <div class="form-row justify-between items-center flex">
                         <div
                             class={`items-center select-none justify-center flex gap-1 cursor-pointer ${this.output_render_type === 'textarea' ? 'invisible' : ''}`}
+                            id="add-button"
                             onClick={this.#handleRowAdd.bind(this)}
                         >
                             <img src={this.add_svg_src || '#'} alt="➕" />

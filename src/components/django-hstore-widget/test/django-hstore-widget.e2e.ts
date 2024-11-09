@@ -47,4 +47,26 @@ describe('django-hstore-widget', () => {
         const textbox_error = await page.find('#textbox_error');
         expect(textbox_error).not.toBeNull();
     });
+
+    it('test delete click', async () => {
+        const page = await newE2EPage();
+        await page.setContent(`<django-hstore-widget json='{"hello": "world"}'></django-hstore-widget>`);
+
+        const delete_button = await page.find('div#delete-button');
+        await delete_button.click();
+
+        const form_element = await page.findAll('div#json_items');
+        expect(form_element.length).toBe(0);
+    });
+
+    it('test add click', async () => {
+        const page = await newE2EPage();
+        await page.setContent(`<django-hstore-widget json='{"hello": "world"}'></django-hstore-widget>`);
+
+        const delete_button = await page.find('div#add-button');
+        await delete_button.click();
+
+        const form_element = await page.findAll('div#json_items');
+        expect(form_element.length).toBe(2);
+    });
 });
