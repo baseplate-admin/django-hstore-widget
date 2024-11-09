@@ -98,6 +98,7 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
     assert hstore_widget is not None
 
     # Assert that console is empty
+    # If console is empty, there is no mounting issue
     console_logs = driver.get_log("browser")
     assert not any(entry for entry in console_logs if entry["level"] == "WARNING")
 
