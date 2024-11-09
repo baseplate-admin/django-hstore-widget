@@ -6,6 +6,7 @@ import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 @pytest.fixture
@@ -86,6 +87,13 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
     WebDriverWait(driver, 30).until(
         lambda driver: driver.execute_script("return document.readyState") == "complete"
     )
+    actions = ActionChains(driver)
+    actions.move_to_element(
+        driver.find_element(By.CSS_SELECTOR, "django-hstore-widget")
+    ).perform()
+
+    print(driver.page_source)
+
     # Assert the widget is present
     hstore_widget = driver.find_element(By.CSS_SELECTOR, "django-hstore-widget")
     assert hstore_widget is not None
@@ -95,7 +103,6 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
     warnings = [entry for entry in console_logs if entry["level"] == "WARNING"]
     assert warnings == []
 
-    print(driver.page_source)
     # Assert that there is the hidden textarea
     hstore_widget_textarea = driver.find_element(
         By.CSS_SELECTOR, "django-hstore-widget textarea.vLargeTextField"
