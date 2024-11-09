@@ -45,11 +45,12 @@ python = ">=3.8"
 django = "*"
 
 
+
 [tool.poetry.group.test.dependencies]
 pytest = "^8.0.1"
 pytest-django = "^4.8.0"
-psycopg2 = {extras = ["binary"], version = "^2.9.10"}
 psycopg = {extras = ["binary"], version = "^3.2.3"}
+selenium = "^4.26.1"
 
 [build-system]
 requires = ["poetry-core"]
