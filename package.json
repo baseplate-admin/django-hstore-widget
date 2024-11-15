@@ -13,7 +13,7 @@
         "url": "https://github.com/ionic-team/stencil-component-starter.git"
     },
     "scripts": {
-        "build": "stencil build && tsx ./scripts/copy.ts",
+        "build": "stencil build && tsx --tsconfig ./tsconfig.json ./scripts/copy.ts",
         "start": "stencil build --dev --watch --serve",
         "test": "stencil test --spec --e2e",
         "test.watch": "stencil test --spec --e2e --watchAll",
