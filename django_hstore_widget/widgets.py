@@ -55,9 +55,6 @@ class HStoreFormWidget(AdminTextareaWidget):
         if attrs is None:
             attrs = {}
 
-        # get default HTML from AdminTextareaWidget
-        html = super().render(name, value, attrs)
-
         # prepare template context
         template_context = {
             "field_name": name,
@@ -67,13 +64,9 @@ class HStoreFormWidget(AdminTextareaWidget):
         # get template object
         template = get_template("django_hstore_widget.html")
         # render additional html
-        additional_html = template.render(template_context)
+        html = template.render(template_context)
 
-        # append additional HTML and mark as safe
-        html = additional_html
-        html = mark_safe(html)
-
-        return html
+        return mark_safe(html)
 
     class Media:
         js = [ESM("admin/js/django_hstore_widget/django-hstore-widget.esm.js")]
