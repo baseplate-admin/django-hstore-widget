@@ -5,6 +5,7 @@ export const config: Config = {
     plugins: [sass()],
     sourceMap: false,
     namespace: 'django-hstore-widget',
+    srcDir: 'src/frontend',
     extras: {
         enableImportInjection: true,
         experimentalSlotFixes: true,
@@ -13,7 +14,6 @@ export const config: Config = {
         {
             polyfills: true,
             type: 'dist',
-            esmLoaderPath: '../loader',
         },
         // {
         //     type: 'dist-custom-elements',

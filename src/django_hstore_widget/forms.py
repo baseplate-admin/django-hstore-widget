@@ -12,7 +12,5 @@ logger = logging.getLogger("django_hstore_widget")
 class HStoreFormField(HStoreField):
     widget = HStoreFormWidget
 
-    def clean(self, value):
-        if not value:
-            value = "{}"
+    def clean(self, value={}):
         return json.loads(value)

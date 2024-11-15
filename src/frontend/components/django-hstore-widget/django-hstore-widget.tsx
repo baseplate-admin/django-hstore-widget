@@ -12,8 +12,8 @@ const django_mapping = {
 })
 export class DjangoHstoreWidget {
     // Primary Attributes
-    @Prop({ reflect: true }) json: string;
-    @Prop({ reflect: true }) field_name: string;
+    @Prop({ reflect: true }) json!: string;
+    @Prop({ reflect: true }) field_name!: string;
 
     // Updateable from admin panel
     @Prop({ reflect: true }) cols = 40;
@@ -73,7 +73,11 @@ export class DjangoHstoreWidget {
             }));
             this.error = null;
         } catch (err) {
-            this.error = err.toString();
+            if (err instanceof Error) {
+                this.error = err.toString();
+            } else {
+                this.error = 'An unknown error occurred';
+            }
         } finally {
             this.__json = globalThis.structuredClone(this.__json);
         }
@@ -136,7 +140,7 @@ export class DjangoHstoreWidget {
     }
 
     // Reusuable components
-    JSONComponent(item: (typeof this.__json)[0]) {
+    #JSONComponent(item: (typeof this.__json)[0]) {
         return (
             <div class="form-row field-data" id="json_items">
                 <div class="flex gap-2.5 items-center justify-start">
@@ -183,7 +187,7 @@ export class DjangoHstoreWidget {
                 <Host>
                     <div class="flex gap-2.5 items-center">
                         <textarea
-                            class={`${this.output_render_type === 'textarea' ? '' : 'hidden invisible'} ${this.error === null ? '' : 'warning'} ${django_mapping['textarea']}`}
+                            class={`${this.output_render_type === 'textarea' ? '' : 'hidden invisible'} ${!this.error ? '' : 'warning'} ${django_mapping['textarea']}`}
                             cols={this.cols}
                             name={this.field_name}
                             rows={this.rows}
@@ -197,7 +201,7 @@ export class DjangoHstoreWidget {
                         )}
                     </div>
 
-                    {this.output_render_type === 'rows' && this.error === null && this.__json && <Fragment>{this.__json.map(item => this.JSONComponent(item))}</Fragment>}
+                    {this.output_render_type === 'rows' && this.error === null && this.__json && <Fragment>{this.__json.map(item => this.#JSONComponent(item))}</Fragment>}
 
                     <div class="form-row justify-between items-center flex">
                         {this.output_render_type === 'rows' && (
@@ -207,7 +211,7 @@ export class DjangoHstoreWidget {
                             </div>
                         )}
 
-                        <div class={`items-center select-none justify-center flex gap-1 ${this.error === null ? 'cursor-pointer' : 'opacity-60'}`} id="textarea_open_close_toggle">
+                        <div class={`items-center select-none justify-center flex gap-1 ${this.error ? 'opacity-60' : 'cursor-pointer'}`} id="textarea_open_close_toggle">
                             {this.output_render_type === 'textarea' ? (
                                 <div onClick={this.#handleToggleClick.bind(this)}>
                                     <img src={this.delete_svg_src || '#'} alt="❌" />
