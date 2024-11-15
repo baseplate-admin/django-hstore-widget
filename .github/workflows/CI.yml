@@ -57,7 +57,7 @@ jobs:
     'test-backend':
         runs-on: ubuntu-latest
         name: Python ${{ matrix.python-version }} sample with Postgres ${{ matrix.postgres-version }}
-        needs: ['test-frontend']
+        needs: ['build-frontend']
         strategy:
             matrix:
                 python-version: [
