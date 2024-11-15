@@ -8,6 +8,9 @@ authors = [
 ]
 readme = "README.md"
 license = "MIT"
+include = [
+    "**/django_hstore_widget/*.js"
+]
 packages = [{include = "django_hstore_widget"}]
 classifiers = [ 
     "Development Status :: 5 - Production/Stable",
