@@ -13,7 +13,7 @@
         "url": "https://github.com/ionic-team/stencil-component-starter.git"
     },
     "scripts": {
-        "build": "stencil build && python ./scripts/copy.py",
+        "build": "stencil build && tsx ./scripts/copy.ts",
         "start": "stencil build --dev --watch --serve",
         "test": "stencil test --spec --e2e",
         "test.watch": "stencil test --spec --e2e --watchAll",
@@ -28,6 +28,7 @@
         "jest-cli": "^29.7.0",
         "puppeteer": "^23.7.1",
         "sass": "^1.80.6",
+        "tsx": "^4.19.2",
         "typescript": "^5.6.3"
     },
     "license": "MIT"
