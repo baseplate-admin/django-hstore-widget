@@ -99,14 +99,14 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
     assert not any(entry for entry in console_logs if entry["level"] == "WARNING")
 
     # Assert that there is the hidden textarea ( works locally fails in github actions )
-    # WebDriverWait(driver, 10).until(
-    #     EC.presence_of_element_located(
-    #         (By.CSS_SELECTOR, "django-hstore-widget textarea.vLargeTextField")
-    #     )
-    # )
-    # hstore_widget_textarea = driver.find_element(
-    #     By.CSS_SELECTOR, "django-hstore-widget textarea.vLargeTextField"
-    # )
-    # assert hstore_widget_textarea is not None
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located(
+            (By.CSS_SELECTOR, "django-hstore-widget textarea.vLargeTextField")
+        )
+    )
+    hstore_widget_textarea = driver.find_element(
+        By.CSS_SELECTOR, "django-hstore-widget textarea.vLargeTextField"
+    )
+    assert hstore_widget_textarea is not None
 
     # __import__('time').sleep(100)
