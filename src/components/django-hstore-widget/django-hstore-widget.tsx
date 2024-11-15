@@ -27,9 +27,9 @@ export class DjangoHstoreWidget {
     // State
     @State() mounted = false;
     @State() error: string | null = null;
-    @State() output_render_type: 'rows' | 'textarea' = 'rows';
+    @State() output_render_type: 'rows' | 'textarea' | null = 'rows'; // `null` here is only used for testing. It should never be null in the code
 
-    // Very Fragile state. Please update with care. This is the core state of the entire code
+    // Very Fragile state. Please update with care. This is the core state of the entire component
     @State() __json = new Array<{ key: string; value: string; index: number }>();
 
     // Watchers
@@ -58,7 +58,7 @@ export class DjangoHstoreWidget {
             return acc;
         }, {} as Record<string, string>);
 
-        const indent: number = Object.keys(jsonObject).length > 1 ? 4 : 0;
+        const indent = Object.keys(jsonObject).length > 1 ? 4 : 0;
         return globalThis.JSON.stringify(jsonObject, null, indent);
     }
 
@@ -170,7 +170,7 @@ export class DjangoHstoreWidget {
                             Failed to mount. Unexpected JSON from <code>django backend</code>
                         </p>
                         <p>
-                            The provided json is <code class="warning">{this.json}</code> which is not valid.
+                            The provided json is: <code class="warning">{this.json}</code> which is not valid.
                         </p>
                         <p>
                             Please check the json or <a href={this.#GITHUB_ISSUE_URL}>file an issue at Github</a>
@@ -188,9 +188,8 @@ export class DjangoHstoreWidget {
                             name={this.field_name}
                             rows={this.rows}
                             onInput={this.#handleTextAreaInput.bind(this)}
-                        >
-                            {this.#getJSONString}
-                        </textarea>
+                            value={this.#getJSONString}
+                        />
                         {this.error !== null && (
                             <div class="warning brightness-90" id="textbox_error">
                                 {this.error}
@@ -201,33 +200,35 @@ export class DjangoHstoreWidget {
                     {this.output_render_type === 'rows' && this.error === null && this.__json && <Fragment>{this.__json.map(item => this.JSONComponent(item))}</Fragment>}
 
                     <div class="form-row justify-between items-center flex">
-                        <div
-                            class={`items-center select-none justify-center flex gap-1 cursor-pointer ${this.output_render_type === 'textarea' ? 'invisible' : ''}`}
-                            id="add-button"
-                            onClick={this.#handleRowAdd.bind(this)}
-                        >
-                            <img src={this.add_svg_src || '#'} alt="➕" />
-                            Add row
-                        </div>
+                        {this.output_render_type === 'rows' && (
+                            <div class={`items-center select-none justify-center flex gap-1 cursor-pointer`} id="add-button" onClick={this.#handleRowAdd.bind(this)}>
+                                <img src={this.add_svg_src || '#'} alt="➕" />
+                                Add row
+                            </div>
+                        )}
 
-                        <div
-                            class={`items-center select-none justify-center flex gap-1 ${this.error === null ? 'cursor-pointer' : 'opacity-60'}`}
-                            onClick={this.#handleToggleClick.bind(this)}
-                            id="textarea_open_close_toggle"
-                        >
+                        <div class={`items-center select-none justify-center flex gap-1 ${this.error === null ? 'cursor-pointer' : 'opacity-60'}`} id="textarea_open_close_toggle">
                             {this.output_render_type === 'textarea' ? (
-                                <Fragment>
+                                <div onClick={this.#handleToggleClick.bind(this)}>
                                     <img src={this.delete_svg_src || '#'} alt="❌" />
                                     Close TextArea
-                                </Fragment>
+                                </div>
                             ) : this.output_render_type === 'rows' ? (
-                                <Fragment>
+                                <div onClick={this.#handleToggleClick.bind(this)}>
                                     <img src={this.edit_svg_src || '#'} alt="✏️" />
                                     Open TextArea
-                                </Fragment>
+                                </div>
                             ) : (
-                                <div>
-                                    Output render type is {this.output_render_type} which doesn't fall in <code>rows</code> or <code>textarea</code>
+                                <div class="flex items-center justify-center w-full gap-1">
+                                    <p>Output render type is </p>
+                                    <code class="warning curosr-default">{this.output_render_type}</code>
+                                    <p>which doesn't fall in</p>
+                                    <code class="warning curosr-default">rows</code>
+                                    <p>or</p>
+                                    <code class="warning curosr-default">textarea</code>
+                                    <p>
+                                        Please <a href={this.#GITHUB_ISSUE_URL}>file an issue at Github</a>
+                                    </p>
                                 </div>
                             )}
                         </div>
