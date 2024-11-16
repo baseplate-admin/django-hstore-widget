@@ -1,19 +1,12 @@
 {
     "compilerOptions": {
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "allowUnreachableCode": false,
-        "declaration": false,
-        "experimentalDecorators": true,
-        "lib": ["dom", "es2017"],
+        "target": "ES2022",
+        "module": "ESNext",
         "moduleResolution": "node",
-        "module": "esnext",
-        "target": "es2020",
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "jsx": "react",
-        "jsxFactory": "h"
+        "strict": true,
+        "esModuleInterop": true,
+        "outDir": "./dist",
+        "skipLibCheck": true
     },
-    "include": ["src"],
-    "exclude": ["node_modules"]
+    "include": ["src/**/*"]
 }
