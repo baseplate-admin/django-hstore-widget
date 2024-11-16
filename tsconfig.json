@@ -1,5 +1,7 @@
 {
     "compilerOptions": {
+        "baseUrl": ".",
+        "strict": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "allowUnreachableCode": false,
@@ -12,7 +14,10 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "jsx": "react",
-        "jsxFactory": "h"
+        "jsxFactory": "h",
+        "paths": {
+            "$lib/*": ["src/lib/*"]
+        }
     },
     "include": ["src"],
     "exclude": ["node_modules"]

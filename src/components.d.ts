@@ -33,8 +33,8 @@ declare namespace LocalJSX {
         "cols"?: number;
         "delete_svg_src"?: string | null;
         "edit_svg_src"?: string | null;
-        "field_name"?: string;
-        "json"?: string;
+        "field_name": string;
+        "json": string;
         "rows"?: number;
     }
     interface IntrinsicElements {

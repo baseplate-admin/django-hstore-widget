@@ -1,4 +1,5 @@
-import { Component, Host, h, Prop, State, Fragment, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, State, Fragment, Watch, Element } from '@stencil/core';
+import { addGlobalStylesToShadowRoot } from '$lib/injectStyles';
 
 const django_mapping = {
     input: 'vTextField',
@@ -8,12 +9,15 @@ const django_mapping = {
 @Component({
     tag: 'django-hstore-widget',
     styleUrl: 'django-hstore-widget.scss',
-    shadow: false,
+    shadow: true,
 })
 export class DjangoHstoreWidget {
+    // Element
+    @Element() el!: HTMLElement;
+
     // Primary Attributes
-    @Prop({ reflect: true }) json: string;
-    @Prop({ reflect: true }) field_name: string;
+    @Prop({ reflect: true }) json!: string;
+    @Prop({ reflect: true }) field_name!: string;
 
     // Updateable from admin panel
     @Prop({ reflect: true }) cols = 40;
@@ -40,6 +44,10 @@ export class DjangoHstoreWidget {
 
     // Callbacks
     async connectedCallback() {
+        if (this.el.shadowRoot) {
+            addGlobalStylesToShadowRoot(this.el.shadowRoot);
+        }
+
         await this.#parseJson(this.json);
         if (this.error) {
             this.mounted = false;
@@ -73,7 +81,11 @@ export class DjangoHstoreWidget {
             }));
             this.error = null;
         } catch (err) {
-            this.error = err.toString();
+            if (err instanceof Error) {
+                this.error = err.toString();
+            } else {
+                this.error = 'An unknown error occurred';
+            }
         } finally {
             this.__json = globalThis.structuredClone(this.__json);
         }
