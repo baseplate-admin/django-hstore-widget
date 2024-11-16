@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Fragment, Watch, Element } from '@stencil/core';
+import { Component, Host, Prop, State, Fragment, Watch, Element, h } from '@stencil/core';
 import { addGlobalStylesToShadowRoot } from '$lib/injectStyles';
 
 const django_mapping = {
