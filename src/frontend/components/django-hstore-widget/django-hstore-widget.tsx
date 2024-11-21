@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop, State, Fragment, Watch } from '@stencil/core';
-
+import { cn } from '$lib/classnames';
 const django_mapping = {
     input: 'vTextField',
     textarea: 'vLargeTextField',
@@ -148,14 +148,14 @@ export class DjangoHstoreWidget {
                         value={item.key}
                         onInput={event => this.#handleDictionaryInput(event, item, 'key')}
                         placeholder="key"
-                        class={`min-width-[150px] ${django_mapping['input']}`}
+                        class={cn(`min-width-[150px]`, django_mapping['input'])}
                     />
                     <strong>:</strong>
                     <input
                         value={item.value}
                         onInput={event => this.#handleDictionaryInput(event, item, 'value')}
                         placeholder="value"
-                        class={`min-width-[300px] ${django_mapping['input']}`}
+                        class={cn('min-width-[300px]', django_mapping['input'])}
                     />
                     <div class="items-center justify-center flex cursor-pointer select-none" id="delete-button" onClick={this.#handleDelete.bind(this, item.index)}>
                         <img src={this.delete_svg_src || '#'} alt="❌" />
@@ -187,7 +187,7 @@ export class DjangoHstoreWidget {
                 <Host>
                     <div class="flex gap-2.5 items-center">
                         <textarea
-                            class={`${this.output_render_type === 'textarea' ? '' : 'hidden invisible'} ${!this.error ? '' : 'warning'} ${django_mapping['textarea']}`}
+                            class={cn(this.output_render_type === 'rows' && 'hidden invisible', this.error && 'warning', django_mapping['textarea'])}
                             cols={this.cols}
                             name={this.field_name}
                             rows={this.rows}
@@ -205,13 +205,13 @@ export class DjangoHstoreWidget {
 
                     <div class="form-row justify-between items-center flex">
                         {this.output_render_type === 'rows' && (
-                            <div class={`items-center select-none justify-center flex gap-1 cursor-pointer`} id="add-button" onClick={this.#handleRowAdd.bind(this)}>
+                            <div class="items-center select-none justify-center flex gap-1 cursor-pointer" id="add-button" onClick={this.#handleRowAdd.bind(this)}>
                                 <img src={this.add_svg_src || '#'} alt="➕" />
                                 Add row
                             </div>
                         )}
 
-                        <div class={`items-center select-none justify-center flex gap-1 ${this.error ? 'opacity-60' : 'cursor-pointer'}`} id="textarea_open_close_toggle">
+                        <div class={cn('items-center select-none justify-center flex gap-1', this.error ? 'opacity-60' : 'cursor-pointer')} id="textarea_open_close_toggle">
                             {this.output_render_type === 'textarea' ? (
                                 <div onClick={this.#handleToggleClick.bind(this)}>
                                     <img src={this.delete_svg_src || '#'} alt="❌" />
