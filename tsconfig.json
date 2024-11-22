@@ -1,5 +1,7 @@
 {
     "compilerOptions": {
+        "baseUrl": "./src/frontend",
+        "strict": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "allowUnreachableCode": false,
@@ -12,8 +14,11 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "jsx": "react",
-        "jsxFactory": "h"
+        "jsxFactory": "h",
+        "paths": {
+            "$lib/*": ["lib/*"]
+        }
     },
-    "include": ["src"],
+    "include": ["src/frontend"],
     "exclude": ["node_modules"]
 }

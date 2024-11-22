@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop, State, Fragment, Watch } from '@stencil/core';
-
+import { cn } from '$lib/classnames';
 const django_mapping = {
     input: 'vTextField',
     textarea: 'vLargeTextField',
@@ -12,8 +12,8 @@ const django_mapping = {
 })
 export class DjangoHstoreWidget {
     // Primary Attributes
-    @Prop({ reflect: true }) json: string;
-    @Prop({ reflect: true }) field_name: string;
+    @Prop({ reflect: true }) json!: string;
+    @Prop({ reflect: true }) field_name!: string;
 
     // Updateable from admin panel
     @Prop({ reflect: true }) cols = 40;
@@ -73,7 +73,11 @@ export class DjangoHstoreWidget {
             }));
             this.error = null;
         } catch (err) {
-            this.error = err.toString();
+            if (err instanceof Error) {
+                this.error = err.toString();
+            } else {
+                this.error = 'An unknown error occurred';
+            }
         } finally {
             this.__json = globalThis.structuredClone(this.__json);
         }
@@ -136,7 +140,7 @@ export class DjangoHstoreWidget {
     }
 
     // Reusuable components
-    JSONComponent(item: (typeof this.__json)[0]) {
+    #JSONComponent(item: (typeof this.__json)[0]) {
         return (
             <div class="form-row field-data" id="json_items">
                 <div class="flex gap-2.5 items-center justify-start">
@@ -144,14 +148,14 @@ export class DjangoHstoreWidget {
                         value={item.key}
                         onInput={event => this.#handleDictionaryInput(event, item, 'key')}
                         placeholder="key"
-                        class={`min-width-[150px] ${django_mapping['input']}`}
+                        class={cn(`min-width-[150px]`, django_mapping['input'])}
                     />
                     <strong>:</strong>
                     <input
                         value={item.value}
                         onInput={event => this.#handleDictionaryInput(event, item, 'value')}
                         placeholder="value"
-                        class={`min-width-[300px] ${django_mapping['input']}`}
+                        class={cn('min-width-[300px]', django_mapping['input'])}
                     />
                     <div class="items-center justify-center flex cursor-pointer select-none" id="delete-button" onClick={this.#handleDelete.bind(this, item.index)}>
                         <img src={this.delete_svg_src || '#'} alt="❌" />
@@ -183,7 +187,7 @@ export class DjangoHstoreWidget {
                 <Host>
                     <div class="flex gap-2.5 items-center">
                         <textarea
-                            class={`${this.output_render_type === 'textarea' ? '' : 'hidden invisible'} ${this.error === null ? '' : 'warning'} ${django_mapping['textarea']}`}
+                            class={cn(this.output_render_type === 'rows' && 'hidden invisible', this.error && 'warning', django_mapping['textarea'])}
                             cols={this.cols}
                             name={this.field_name}
                             rows={this.rows}
@@ -197,17 +201,17 @@ export class DjangoHstoreWidget {
                         )}
                     </div>
 
-                    {this.output_render_type === 'rows' && this.error === null && this.__json && <Fragment>{this.__json.map(item => this.JSONComponent(item))}</Fragment>}
+                    {this.output_render_type === 'rows' && this.error === null && this.__json && <Fragment>{this.__json.map(item => this.#JSONComponent(item))}</Fragment>}
 
                     <div class="form-row justify-between items-center flex">
                         {this.output_render_type === 'rows' && (
-                            <div class={`items-center select-none justify-center flex gap-1 cursor-pointer`} id="add-button" onClick={this.#handleRowAdd.bind(this)}>
+                            <div class="items-center select-none justify-center flex gap-1 cursor-pointer" id="add-button" onClick={this.#handleRowAdd.bind(this)}>
                                 <img src={this.add_svg_src || '#'} alt="➕" />
                                 Add row
                             </div>
                         )}
 
-                        <div class={`items-center select-none justify-center flex gap-1 ${this.error === null ? 'cursor-pointer' : 'opacity-60'}`} id="textarea_open_close_toggle">
+                        <div class={cn('items-center select-none justify-center flex gap-1', this.error ? 'opacity-60' : 'cursor-pointer')} id="textarea_open_close_toggle">
                             {this.output_render_type === 'textarea' ? (
                                 <div onClick={this.#handleToggleClick.bind(this)}>
                                     <img src={this.delete_svg_src || '#'} alt="❌" />

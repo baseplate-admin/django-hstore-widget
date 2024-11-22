@@ -7,6 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent
 DIST_DIR = Path(BASE_DIR.parent, "dist", "django-hstore-widget")
 TARGET_DIR = Path(
     BASE_DIR.parent,
+    "src",
     "django_hstore_widget",
     "static",
     "admin",
