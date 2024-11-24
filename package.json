@@ -9,7 +9,7 @@
     "unpkg": "dist/django-hstore-widget/django-hstore-widget.esm.js",
     "repository": {
         "type": "git",
-        "url": "https://github.com/ionic-team/stencil-component-starter.git"
+        "url": "https://github.com/baseplate-admin/django-hstore-widget.git"
     },
     "scripts": {
         "build": "stencil build && python ./scripts/copy.py",
