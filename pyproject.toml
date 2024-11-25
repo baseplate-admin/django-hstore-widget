@@ -9,7 +9,8 @@ authors = [
 readme = "README.md"
 license = "MIT"
 include = [
-    "./src/django_hstore_widget/**/django_hstore_widget/*.js"
+    "./src/django_hstore_widget/**/django_hstore_widget/*.js",
+    "LICENSE",
 ]
 packages = [{include = "django_hstore_widget", from ='src'}]
 classifiers = [ 

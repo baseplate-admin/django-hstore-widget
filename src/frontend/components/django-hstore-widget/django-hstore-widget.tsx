@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, State, Fragment, Watch } from '@stencil/core';
 import { cn } from '$lib/classnames';
+
 const django_mapping = {
     input: 'vTextField',
     textarea: 'vLargeTextField',
@@ -25,12 +26,12 @@ export class DjangoHstoreWidget {
     @Prop() edit_svg_src: string | null = null; // Overrideable
 
     // State
-    @State() mounted = false;
-    @State() error: string | null = null;
-    @State() output_render_type: 'rows' | 'textarea' | null = 'rows'; // `null` here is only used for testing. It should never be null in the code
+    @State() private mounted = false;
+    @State() private error: string | null = null;
+    @State() private output_render_type: 'rows' | 'textarea' | null = 'rows'; // `null` here is only used for testing. It should never be null in the code
 
     // Very Fragile state. Please update with care. This is the core state of the entire component
-    @State() __json = new Array<{ key: string; value: string; index: number }>();
+    @State() private __json = new Array<{ key: string; value: string; index: number }>();
 
     // Watchers
     @Watch('json')
@@ -89,17 +90,15 @@ export class DjangoHstoreWidget {
         this.__json = this.__json.filter(obj => {
             return obj.index !== index;
         });
-        this.__json = globalThis.structuredClone(this.__json);
     }
 
     async #handleRowAdd() {
         const last_item = this.__json.at(-1);
-        const data = {
+        this.__json.push({
             index: last_item ? last_item.index + 1 : 0,
             key: '',
             value: '',
-        };
-        this.__json.push(data);
+        });
         this.__json = globalThis.structuredClone(this.__json);
     }
 

@@ -12,13 +12,13 @@ export const config: Config = {
     },
     outputTargets: [
         {
-            polyfills: true,
             type: 'dist',
         },
         // {
         //     type: 'dist-custom-elements',
         //     minify: true,
-        //     customElementsExportBehavior: 'auto-define-custom-elements' /* 'bundle' */,
+
+        //     customElementsExportBehavior: 'bundle' /*'auto-define-custom-elements'*/,
         //     externalRuntime: false,
         //     empty: true,
         // },

@@ -1,6 +1,6 @@
 {
     "name": "django-hstore-widget",
-    "description": "Stencil Component Starter",
+    "description": "Human friendly HStoreWidget. Continual of django-admin-hstore-widget.",
     "main": "dist/index.cjs.js",
     "module": "dist/index.js",
     "types": "dist/types/index.d.ts",
