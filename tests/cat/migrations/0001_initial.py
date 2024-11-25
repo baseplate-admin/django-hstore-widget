@@ -2,16 +2,15 @@
 from django.db import migrations, models
 import django.contrib.postgres.fields
 
-from django.contrib.postgres.operations import HStoreExtension
-
 
 class Migration(migrations.Migration):
     initial = True
 
-    dependencies = []
+    dependencies = [
+        ("django_hstore_widget", "__latest__"),
+    ]
 
     operations = [
-        HStoreExtension(),
         migrations.CreateModel(
             name="Cat",
             fields=[
