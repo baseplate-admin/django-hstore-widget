@@ -217,31 +217,40 @@ export class DjangoHstoreWidget {
                             onInput={this.#handleTextAreaInput.bind(this)}
                             value={this.textarea_value}
                         />
-                        {this.error && (
-                            <div class="warning brightness-90" id="textbox_error">
-                                {this.error}
-                            </div>
-                        )}
+                        <div class={cn('warning brightness-90', this.error || 'invisible')} id="textbox_error">
+                            {this.error}
+                        </div>
                     </div>
 
-                    {this.output_render_type === 'rows' && this.error === null && this.__json && <Fragment>{this.__json.map(item => this.#JSONComponent(item))}</Fragment>}
+                    {this.output_render_type === 'rows' && !this.error && this.__json && <Fragment>{this.__json.map(item => this.#JSONComponent(item))}</Fragment>}
 
                     <div class="form-row justify-between items-center flex">
-                        {this.output_render_type === 'rows' && (
-                            <button class="items-center select-none justify-center flex gap-1 cursor-pointer button" id="add-button" onClick={this.#handleRowAdd.bind(this)}>
-                                <img src={this.add_svg_src || '#'} alt="➕" />
-                                Add row
-                            </button>
-                        )}
+                        <button
+                            class={cn('items-center select-none justify-center flex gap-1 cursor-pointer', this.output_render_type === 'rows' || 'invisible')}
+                            id="add-button"
+                            aria-label="Add Row"
+                            onClick={this.#handleRowAdd.bind(this)}
+                        >
+                            <img src={this.add_svg_src || '#'} alt="➕" />
+                            Add row
+                        </button>
 
                         <div class={cn('items-center select-none justify-center flex gap-1', this.error ? 'opacity-60' : 'cursor-pointer')} id="textarea_open_close_toggle">
                             {this.output_render_type === 'textarea' ? (
-                                <button class="button" aria-label="Close TextArea" onClick={this.#handleToggleClick.bind(this)}>
+                                <button
+                                    class="items-center select-none justify-center flex gap-1 cursor-pointer"
+                                    aria-label="Close TextArea"
+                                    onClick={this.#handleToggleClick.bind(this)}
+                                >
                                     <img src={this.delete_svg_src || '#'} alt="❌" />
                                     Close TextArea
                                 </button>
                             ) : this.output_render_type === 'rows' ? (
-                                <button class="button" aria-label="Open TextArea" onClick={this.#handleToggleClick.bind(this)}>
+                                <button
+                                    class="items-center select-none justify-center flex gap-1 cursor-pointer"
+                                    aria-label="Open TextArea"
+                                    onClick={this.#handleToggleClick.bind(this)}
+                                >
                                     <img src={this.edit_svg_src || '#'} alt="✏️" />
                                     Open TextArea
                                 </button>
