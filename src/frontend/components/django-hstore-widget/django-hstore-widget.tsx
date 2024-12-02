@@ -156,7 +156,13 @@ export class DjangoHstoreWidget {
                         placeholder="value"
                         class={cn('min-width-[300px]', django_mapping['input'])}
                     />
-                    <div class="items-center justify-center flex cursor-pointer select-none" id="delete-button" onClick={this.#handleDelete.bind(this, item.index)}>
+                    <div
+                        role="button"
+                        aria-label={`Delete ${item.key}:${item.value} at index ${item.index}`}
+                        class="items-center justify-center flex cursor-pointer select-none"
+                        id="delete-button"
+                        onClick={this.#handleDelete.bind(this, item.index)}
+                    >
                         <img src={this.delete_svg_src || '#'} alt="❌" />
                     </div>
                 </div>
@@ -204,23 +210,23 @@ export class DjangoHstoreWidget {
 
                     <div class="form-row justify-between items-center flex">
                         {this.output_render_type === 'rows' && (
-                            <div class="items-center select-none justify-center flex gap-1 cursor-pointer" id="add-button" onClick={this.#handleRowAdd.bind(this)}>
+                            <button class="items-center select-none justify-center flex gap-1 cursor-pointer button" id="add-button" onClick={this.#handleRowAdd.bind(this)}>
                                 <img src={this.add_svg_src || '#'} alt="➕" />
                                 Add row
-                            </div>
+                            </button>
                         )}
 
                         <div class={cn('items-center select-none justify-center flex gap-1', this.error ? 'opacity-60' : 'cursor-pointer')} id="textarea_open_close_toggle">
                             {this.output_render_type === 'textarea' ? (
-                                <div onClick={this.#handleToggleClick.bind(this)}>
+                                <button class="button" aria-label="Close TextArea" onClick={this.#handleToggleClick.bind(this)}>
                                     <img src={this.delete_svg_src || '#'} alt="❌" />
                                     Close TextArea
-                                </div>
+                                </button>
                             ) : this.output_render_type === 'rows' ? (
-                                <div onClick={this.#handleToggleClick.bind(this)}>
+                                <button class="button" aria-label="Open TextArea" onClick={this.#handleToggleClick.bind(this)}>
                                     <img src={this.edit_svg_src || '#'} alt="✏️" />
                                     Open TextArea
-                                </div>
+                                </button>
                             ) : (
                                 <div class="flex items-center justify-center w-full gap-1">
                                     <p>Output render type is </p>

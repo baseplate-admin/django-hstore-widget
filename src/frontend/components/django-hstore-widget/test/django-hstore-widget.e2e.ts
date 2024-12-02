@@ -63,7 +63,7 @@ describe('django-hstore-widget', () => {
         const page = await newE2EPage();
         await page.setContent(`<django-hstore-widget json='{"hello": "world"}'></django-hstore-widget>`);
 
-        const delete_button = await page.find('div#add-button');
+        const delete_button = await page.find('button#add-button');
         await delete_button.click();
 
         const form_element = await page.findAll('div#json_items');
