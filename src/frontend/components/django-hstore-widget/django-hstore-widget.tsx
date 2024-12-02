@@ -28,15 +28,26 @@ export class DjangoHstoreWidget {
     // State
     @State() private mounted = false;
     @State() private error: string | null = null;
+    @State() private textarea_value: string = '';
     @State() private output_render_type: 'rows' | 'textarea' | null = 'rows'; // `null` here is only used for testing. It should never be null in the code
 
     // Very Fragile state. Please update with care. This is the core state of the entire component
     @State() private __json = new Array<{ key: string; value: string; index: number }>();
 
     // Watchers
+    /** This method will only invoke if the `prop` is changed from outside using JS  */
     @Watch('json')
     async jsonWatcher(newValue: string) {
         await this.#parseJson(newValue);
+    }
+    /** This method is the core logic behind keeping `rows` mapped with `textarea` */
+    @Watch('__json')
+    async __jsonWatcher() {
+        // Do silent update if the state is in row mode
+        if (this.output_render_type === 'rows') {
+            console.log('Updated in backgrround');
+            this.textarea_value = this.#getJSONString();
+        }
     }
 
     // Callbacks
@@ -53,7 +64,7 @@ export class DjangoHstoreWidget {
     get #GITHUB_ISSUE_URL() {
         return 'https://github.com/baseplate-admin/django-hstore-widget/issues';
     }
-    get #getJSONString() {
+    #getJSONString() {
         const jsonObject = this.__json.reduce((acc, curr) => {
             acc[curr.key] = curr.value;
             return acc;
@@ -105,9 +116,12 @@ export class DjangoHstoreWidget {
     async #handleToggleClick() {
         if (this.error) return;
 
+        // `rows` to `textarea`
         if (this.output_render_type === 'rows') {
             this.output_render_type = 'textarea';
-        } else if (this.output_render_type === 'textarea') {
+        }
+        // `textarea` to `rows`
+        else if (this.output_render_type === 'textarea') {
             this.output_render_type = 'rows';
         } else {
             console.error(`Something is wrong with 'output_render_type'. It is ${this.output_render_type}`);
@@ -197,9 +211,9 @@ export class DjangoHstoreWidget {
                             name={this.field_name}
                             rows={this.rows}
                             onInput={this.#handleTextAreaInput.bind(this)}
-                            value={this.#getJSONString}
+                            value={this.textarea_value}
                         />
-                        {this.error !== null && (
+                        {this.error && (
                             <div class="warning brightness-90" id="textbox_error">
                                 {this.error}
                             </div>
