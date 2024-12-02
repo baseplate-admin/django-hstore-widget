@@ -46,7 +46,7 @@ export class DjangoHstoreWidget {
         // Do silent update if the state is in row mode
         if (this.output_render_type === 'rows') {
             console.log('Updated in backgrround');
-            this.textarea_value = this.#getJSONString();
+            this.textarea_value = this.#getJSONString({ indent: 0 });
         }
     }
 
@@ -64,13 +64,16 @@ export class DjangoHstoreWidget {
     get #GITHUB_ISSUE_URL() {
         return 'https://github.com/baseplate-admin/django-hstore-widget/issues';
     }
-    #getJSONString() {
+    #getJSONString({ indent }: { indent?: number } = {}) {
         const jsonObject = this.__json.reduce((acc, curr) => {
             acc[curr.key] = curr.value;
             return acc;
         }, {} as Record<string, string>);
 
-        const indent = Object.keys(jsonObject).length > 1 ? 4 : 0;
+        if (indent === undefined) {
+            indent = Object.keys(jsonObject).length > 1 ? 4 : 0;
+        }
+
         return globalThis.JSON.stringify(jsonObject, null, indent);
     }
 
@@ -119,6 +122,7 @@ export class DjangoHstoreWidget {
         // `rows` to `textarea`
         if (this.output_render_type === 'rows') {
             this.output_render_type = 'textarea';
+            this.textarea_value = this.#getJSONString();
         }
         // `textarea` to `rows`
         else if (this.output_render_type === 'textarea') {
