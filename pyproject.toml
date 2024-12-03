@@ -6,14 +6,14 @@ authors = [
     "baseplate-admin <61817579+baseplate-admin@users.noreply.github.com>",
     "Alexandre Dufour <adufour@poka.io>",
 ]
+maintainers = [
+    "baseplate-admin <61817579+baseplate-admin@users.noreply.github.com>",
+]
 readme = "README.md"
 license = "MIT"
-include = [
-    "./src/django_hstore_widget/**/django_hstore_widget/*.js",
-    "LICENSE",
-]
-packages = [{include = "django_hstore_widget", from ='src'}]
-classifiers = [ 
+include = ["./src/django_hstore_widget/**/django_hstore_widget/*.js", "LICENSE"]
+packages = [{ include = "django_hstore_widget", from = 'src' }]
+classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Framework :: Django",
     "Framework :: Django :: 2.1",
@@ -28,8 +28,6 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python :: Implementation :: PyPy",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.6",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -49,11 +47,10 @@ python = ">=3.8"
 django = "*"
 
 
-
 [tool.poetry.group.test.dependencies]
 pytest = "^8.0.1"
 pytest-django = "^4.8.0"
-psycopg = {extras = ["binary"], version = "^3.2.3"}
+psycopg = { version = "^3" }
 selenium = "^4.26.1"
 
 [build-system]
