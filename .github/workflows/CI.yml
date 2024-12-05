@@ -115,7 +115,6 @@ jobs:
                   virtualenvs-in-project: true
             - name: Install python dependencies
               run: |
-                  poetry lock
                   poetry install
                   poetry run pip install -e .
 

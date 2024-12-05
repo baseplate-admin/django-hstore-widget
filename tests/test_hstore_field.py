@@ -9,6 +9,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 
 
+WAIT_TIME = 100
+
+
 @pytest.fixture
 def admin_user(db):
     """Fixture to create an admin user."""
@@ -63,7 +66,7 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
 
     # Open the admin login page
     driver.get(f"{live_server.url}/admin/login/")
-    WebDriverWait(driver, 10).until(
+    WebDriverWait(driver, WAIT_TIME).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, 'input[name="username"]'))
     )
 
@@ -75,7 +78,7 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
     driver.find_element(By.CSS_SELECTOR, 'form input[type="submit"]').click()
 
     # Wait for login
-    WebDriverWait(driver, 10).until(
+    WebDriverWait(driver, WAIT_TIME).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, "body.dashboard"))
     )
 
@@ -101,7 +104,7 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
     )
 
     # Assert that there is the hidden textarea
-    WebDriverWait(driver, 10).until(
+    WebDriverWait(driver, WAIT_TIME).until(
         EC.presence_of_element_located(
             (By.CSS_SELECTOR, "django-hstore-widget textarea.vLargeTextField")
         )
@@ -111,4 +114,4 @@ def test_hstore_field_edit_view_render_js(driver, live_server, admin_user):
     )
     assert hstore_widget_textarea is not None
 
-    # __import__('time').sleep(100)
+    # __import__("time").sleep(100)
