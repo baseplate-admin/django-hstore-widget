@@ -11,6 +11,7 @@ from django.utils.encoding import force_str
 def driver():
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--window-size=1920,1200")
 
     # Set up console logging preferences
     chrome_options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
