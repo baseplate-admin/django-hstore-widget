@@ -51,10 +51,7 @@ class ESM(Asset):
 
 
 class HStoreFormWidget(AdminTextareaWidget):
-    def render(self, name, value, attrs=None, renderer=None):
-        if attrs is None:
-            attrs = {}
-
+    def render(self, name, value, attrs={}, renderer=None):
         # prepare template context
         template_context = {
             "field_name": name,
