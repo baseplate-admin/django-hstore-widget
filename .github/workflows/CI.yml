@@ -55,7 +55,7 @@ jobs:
               run: npm run test
 
     'test-backend':
-        runs-on: windows-latest
+        runs-on: ubuntu-latest
         name: Python ${{ matrix.python-version }} sample with Postgres ${{ matrix.postgres-version }}
         needs: ['build-frontend']
         strategy:
