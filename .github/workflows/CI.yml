@@ -95,11 +95,14 @@ jobs:
               with:
                   name: workspace
                   path: .
-            - uses: browser-actions/setup-chrome@v1
+            - uses: nanasess/setup-chromedriver@v2
               with:
-                  install-chromedriver: true
-
-            - run: chrome --version
+                  # Optional: if your chrome binary name is different
+                  chromeapp: chrome
+            - run: |
+                  export DISPLAY=:99
+                  chromedriver --url-base=/wd/hub &
+                  sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
 
             - uses: actions/checkout@v4
             - name: Set up Python
