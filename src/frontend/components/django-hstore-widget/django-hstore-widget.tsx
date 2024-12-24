@@ -1,10 +1,10 @@
 import { Component, Host, h, Prop, State, Fragment, Watch } from '@stencil/core';
 import { cn } from '$lib/classnames';
 
-const django_mapping = {
+const django_mapping = Object.freeze({
     input: 'vTextField',
     textarea: 'vLargeTextField',
-};
+});
 
 @Component({
     tag: 'django-hstore-widget',
