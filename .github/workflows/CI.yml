@@ -57,11 +57,11 @@ jobs:
                     --health-timeout 5s
                     --health-retries 5
             selenium:
-                image: selenium/standalone-chrome:latest # use the latest stable Chrome version
+                image: selenium/standalone-chrome:latest
                 ports:
                     - 4444:4444
                 options: >-
-                    --health-cmd="curl -s http://localhost:4444/wd/hub/status | grep \"\"ready\"\""
+                    --health-cmd="curl -s http://localhost:4444/wd/hub/status | grep \"ready\""
                     --health-interval=10s
                     --health-timeout=5s
                     --health-retries=5
@@ -79,23 +79,14 @@ jobs:
               with:
                   name: workspace
                   path: .
-            - name: Set up Python
-              uses: actions/setup-python@v5
+            - name: Install uv and set Python
+              uses: astral-sh/setup-uv@v5
               with:
                   python-version: ${{ matrix.python-version }}
-            - name: Install Poetry
-              uses: snok/install-poetry@v1
-              with:
-                  virtualenvs-create: true
-                  virtualenvs-in-project: true
-            - name: Install dependencies
-              run: |
-                  poetry install
-                  poetry run pip install -e .
+            - name: Install the project & deps
+              run: uv sync --all-extras --dev
             - name: Run backend tests
-              run: |
-                  # Your pytest setup should read SELENIUM_REMOTE_URL
-                  poetry run pytest -v -x -rs
+              run: uv run pytest -v -x -rs
 
     merge:
         name: Auto-merge Dependabot
@@ -115,7 +106,6 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         needs: [test-frontend, test-backend]
         runs-on: ubuntu-latest
-
         environment:
             name: pypi
             url: https://pypi.org/project/django-hstore-widget
@@ -124,16 +114,18 @@ jobs:
             id-token: write
         steps:
             - uses: actions/checkout@v4
-            - uses: snok/install-poetry@v1
-              with:
-                  virtualenvs-create: true
-                  virtualenvs-in-project: true
             - uses: actions/download-artifact@v4
               with:
                   name: workspace
                   path: .
+            - name: Install uv and set Python
+              uses: astral-sh/setup-uv@v5
+              with:
+                  python-version: '3.12'
+            - name: Install the project & deps
+              run: uv sync --all-extras --dev
             - name: Build package
-              run: poetry build --output py-dist
+              run: python -m build --outdir py-dist
             - name: Upload release assets
               uses: svenstaro/upload-release-action@v2
               with:

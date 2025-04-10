@@ -1,18 +1,18 @@
-[tool.poetry]
+[project]
 name = "django-hstore-widget"
 version = "0.0.16"
 description = "Human friendly HStoreWidget. Continual of django-admin-hstore-widget."
+readme = "README.md"
 authors = [
-    "baseplate-admin <61817579+baseplate-admin@users.noreply.github.com>",
-    "Alexandre Dufour <adufour@poka.io>",
+    { name = "baseplate-admin", email = "61817579+baseplate-admin@users.noreply.github.com" },
+    { name = "Alexandre Dufour", email = "adufour@poka.io" },
 ]
 maintainers = [
-    "baseplate-admin <61817579+baseplate-admin@users.noreply.github.com>",
+    { name = "baseplate-admin", email = "61817579+baseplate-admin@users.noreply.github.com" },
 ]
-readme = "README.md"
-license = "MIT"
-include = ["./src/django_hstore_widget/**/django_hstore_widget/*.js", "LICENSE"]
-packages = [{ include = "django_hstore_widget", from = 'src' }]
+license = { text = "MIT" }
+requires-python = ">=3.8"
+dependencies = ["django"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Framework :: Django",
@@ -34,25 +34,24 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
-
 ]
 
-[tool.poetry.urls]
+[project.urls]
 "Bug Tracker" = "https://github.com/baseplate-admin/django-hstore-widget/issues"
-"homepage" = "https://github.com/baseplate-admin/django-hstore-widget"
-"repository" = "https://github.com/baseplate-admin/django-hstore-widget"
+homepage = "https://github.com/baseplate-admin/django-hstore-widget"
+repository = "https://github.com/baseplate-admin/django-hstore-widget"
 
-[tool.poetry.dependencies]
-python = ">=3.8"
-django = "*"
+[tool.uv]
+default-groups = ["dev","test"]
 
+[dependency-groups]
+dev = ["django-hstore-widget"]
+test = [
+    "pytest<9.0.0,>=8.0.1",
+    "pytest-django<5.0.0,>=4.8.0",
+    "psycopg<4,>=3",
+    "selenium<5.0.0,>=4.26.1",
+]
 
-[tool.poetry.group.test.dependencies]
-pytest = "^8.0.1"
-pytest-django = "^4.8.0"
-psycopg = { version = "^3" }
-selenium = "^4.26.1"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.uv.sources]
+django-hstore-widget = { workspace = true }
