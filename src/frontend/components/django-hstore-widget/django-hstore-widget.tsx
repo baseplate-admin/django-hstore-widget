@@ -226,6 +226,7 @@ export class DjangoHstoreWidget {
 
                     <div class="form-row justify-between items-center flex">
                         <button
+                            type="button"
                             class={cn('items-center select-none justify-center flex gap-1 cursor-pointer', this.output_render_type === 'rows' || 'invisible')}
                             id="add-button"
                             aria-label="Add Row"
@@ -238,6 +239,7 @@ export class DjangoHstoreWidget {
                         <div class={cn('items-center select-none justify-center flex gap-1', this.error ? 'opacity-60' : 'cursor-pointer')} id="textarea_open_close_toggle">
                             {this.output_render_type === 'textarea' ? (
                                 <button
+                                    type="button"
                                     class="items-center select-none justify-center flex gap-1 cursor-pointer"
                                     aria-label="Close TextArea"
                                     onClick={this.#handleToggleClick.bind(this)}
@@ -247,6 +249,7 @@ export class DjangoHstoreWidget {
                                 </button>
                             ) : this.output_render_type === 'rows' ? (
                                 <button
+                                    type="button"
                                     class="items-center select-none justify-center flex gap-1 cursor-pointer"
                                     aria-label="Open TextArea"
                                     onClick={this.#handleToggleClick.bind(this)}
