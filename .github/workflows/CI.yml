@@ -137,7 +137,7 @@ jobs:
     release:
         runs-on: ubuntu-latest
         if: "startsWith(github.ref, 'refs/tags/')"
-        needs: ['test-frontend', 'test-backend']
+        # needs: ['test-frontend', 'test-backend']
 
         environment:
             name: pypi

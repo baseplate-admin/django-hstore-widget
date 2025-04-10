@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-hstore-widget"
-version = "0.0.15"
+version = "0.0.16"
 description = "Human friendly HStoreWidget. Continual of django-admin-hstore-widget."
 authors = [
     "baseplate-admin <61817579+baseplate-admin@users.noreply.github.com>",
