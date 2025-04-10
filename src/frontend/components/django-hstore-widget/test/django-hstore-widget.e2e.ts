@@ -69,4 +69,16 @@ describe('django-hstore-widget', () => {
         const form_element = await page.findAll('div#json_items');
         expect(form_element.length).toBe(2);
     });
+
+    it("test all buttons should have type='button'", async () => {
+        const page = await newE2EPage();
+        await page.setContent(`<django-hstore-widget json='{"hello": "world"}'></django-hstore-widget>`);
+
+        const buttons = await page.findAll('button');
+        expect(buttons.length).not.toBeNull();
+        for (const button of buttons) {
+            const type = await button.getAttribute('type');
+            expect(type).toBe('button');
+        }
+    });
 });
