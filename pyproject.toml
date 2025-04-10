@@ -11,8 +11,17 @@ maintainers = [
 ]
 readme = "README.md"
 license = "MIT"
-include = ["./src/django_hstore_widget/**/django_hstore_widget/*.js", "LICENSE"]
-packages = [{ include = "django_hstore_widget", from = 'src' }]
+include = [
+    { path = "src/django_hstore_widget/static/admin/js/django_hstore_widget/*.js", format = [
+        "sdist",
+        "wheel",
+    ] },
+    { path = "LICENSE", format = [
+        "sdist",
+        "wheel",
+    ] },
+]
+packages = [{ include = "django_hstore_widget", from = "src" }]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Framework :: Django",
@@ -34,7 +43,6 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
-
 ]
 
 [tool.poetry.urls]
@@ -45,7 +53,6 @@ classifiers = [
 [tool.poetry.dependencies]
 python = ">=3.8"
 django = "*"
-
 
 [tool.poetry.group.test.dependencies]
 pytest = "^8.0.1"
