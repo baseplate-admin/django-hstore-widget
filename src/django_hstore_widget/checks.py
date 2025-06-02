@@ -13,7 +13,7 @@ def check_database_backend_is_postgres(app_configs, **kwargs):
     ):
         errors.append(
             Warning(
-                "django_ltree needs postgres to support install the ltree extension.",
+                "django_hstore_widget needs postgres to support install the hstore extension.",
                 hint="Use the postgres engine or ignore if you already use a custom engine for postgres",
             )
         )

@@ -21,9 +21,9 @@ export class DjangoHstoreWidget {
     @Prop({ reflect: true }) rows = 10;
 
     // Image
-    @Prop() delete_svg_src: string | null = null; // Overrideable
-    @Prop() add_svg_src: string | null = null; // Overrideable
-    @Prop() edit_svg_src: string | null = null; // Overrideable
+    @Prop() delete_svg_src: string | undefined = undefined; // Overrideable
+    @Prop() add_svg_src: string | undefined = undefined; // Overrideable
+    @Prop() edit_svg_src: string | undefined = undefined; // Overrideable
 
     // State
     @State() private mounted = false;
@@ -66,14 +66,13 @@ export class DjangoHstoreWidget {
     }
     #getJSONString({ indent }: { indent?: number } = {}) {
         const jsonObject = this.__json.reduce((acc, curr) => {
-            acc[curr.key] = curr.value;
+            if (curr.key || curr.value) acc[curr.key ?? ''] = curr.value ?? '';
             return acc;
         }, {} as Record<string, string>);
 
         if (indent === undefined) {
             indent = Object.keys(jsonObject).length > 1 ? 4 : 0;
         }
-
         return globalThis.JSON.stringify(jsonObject, null, indent);
     }
 
@@ -181,11 +180,19 @@ export class DjangoHstoreWidget {
                         id="delete-button"
                         onClick={this.#handleDelete.bind(this, item.index)}
                     >
-                        <img src={this.delete_svg_src || '#'} alt="❌" />
+                        {this.#ImageIconComponent({ type: 'delete' })}
                     </div>
                 </div>
             </div>
         );
+    }
+
+    #ImageIconComponent({ type }: { type: 'delete' | 'add' | 'edit' }) {
+        const mapping = { delete: { src: this.delete_svg_src, alt: '❌' }, add: { src: this.add_svg_src, alt: '➕' }, edit: { src: this.edit_svg_src, alt: '✏️' } };
+
+        const icon = mapping[type];
+
+        return icon ? <img src={icon.src} alt={icon.alt} /> : <p>Item not found for {icon}</p>;
     }
 
     render() {
@@ -222,6 +229,7 @@ export class DjangoHstoreWidget {
                         </div>
                     </div>
 
+                    {/* Render JSON only in `rows` mode */}
                     {this.output_render_type === 'rows' && !this.error && this.__json && <Fragment>{this.__json.map(item => this.#JSONComponent(item))}</Fragment>}
 
                     <div class="form-row justify-between items-center flex">
@@ -232,7 +240,7 @@ export class DjangoHstoreWidget {
                             aria-label="Add Row"
                             onClick={this.#handleRowAdd.bind(this)}
                         >
-                            <img src={this.add_svg_src || '#'} alt="➕" />
+                            {this.#ImageIconComponent({ type: 'add' })}
                             Add row
                         </button>
 
@@ -244,7 +252,7 @@ export class DjangoHstoreWidget {
                                     aria-label="Close TextArea"
                                     onClick={this.#handleToggleClick.bind(this)}
                                 >
-                                    <img src={this.delete_svg_src || '#'} alt="❌" />
+                                    {this.#ImageIconComponent({ type: 'delete' })}
                                     Close TextArea
                                 </button>
                             ) : this.output_render_type === 'rows' ? (
@@ -254,7 +262,7 @@ export class DjangoHstoreWidget {
                                     aria-label="Open TextArea"
                                     onClick={this.#handleToggleClick.bind(this)}
                                 >
-                                    <img src={this.edit_svg_src || '#'} alt="✏️" />
+                                    {this.#ImageIconComponent({ type: 'edit' })}
                                     Open TextArea
                                 </button>
                             ) : (

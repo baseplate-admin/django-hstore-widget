@@ -6,6 +6,7 @@ export const config: Config = {
     sourceMap: false,
     namespace: 'django-hstore-widget',
     srcDir: 'src/frontend',
+    // buildEs5: 'prod',
     extras: {
         enableImportInjection: true,
         experimentalSlotFixes: true,
