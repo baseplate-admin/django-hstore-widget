@@ -1,31 +1,21 @@
-[tool.poetry]
+[project]
 name = "django-hstore-widget"
 version = "0.0.18"
 description = "Human friendly HStoreWidget. Continual of django-admin-hstore-widget."
-authors = [
-    "baseplate-admin <61817579+baseplate-admin@users.noreply.github.com>",
-    "Alexandre Dufour <adufour@poka.io>",
-]
-maintainers = [
-    "baseplate-admin <61817579+baseplate-admin@users.noreply.github.com>",
-]
 readme = "README.md"
-license = "MIT"
-include = [
-    { path = "src/django_hstore_widget/static/admin/js/django_hstore_widget/*.js", format = [
-        "sdist",
-        "wheel",
-    ] },
-    { path = "LICENSE", format = [
-        "sdist",
-        "wheel",
-    ] },
+license = { text = "MIT" }
+
+authors = [
+    { name = "baseplate-admin", email = "61817579+baseplate-admin@users.noreply.github.com" },
+    { name = "Alexandre Dufour", email = "adufour@poka.io" },
 ]
-packages = [{ include = "django_hstore_widget", from = "src" }]
+
+maintainers = [
+    { name = "baseplate-admin", email = "61817579+baseplate-admin@users.noreply.github.com" },
+]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Framework :: Django",
-    "Framework :: Django :: 2.1",
     "Framework :: Django :: 2.2",
     "Framework :: Django :: 3.1",
     "Framework :: Django :: 3.2",
@@ -33,33 +23,47 @@ classifiers = [
     "Framework :: Django :: 4.2",
     "Framework :: Django :: 5.0",
     "Framework :: Django :: 5.1",
+    "Framework :: Django :: 5.2",
     "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
-    "Programming Language :: Python :: Implementation :: PyPy",
     "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.8"
+dependencies = ["django"]
+
+[dependency-groups]
+build = ["brotli>=1.1.0", "hatch>=1.14.1"]
+test = [
+    "pytest>=8.0.1",
+    "pytest-django>=4.8.0",
+    "psycopg>=3",
+    "selenium>=4.26.1",
 ]
 
-[tool.poetry.urls]
+[project.urls]
+Homepage = "https://github.com/baseplate-admin/django-hstore-widget"
+Repository = "https://github.com/baseplate-admin/django-hstore-widget"
 "Bug Tracker" = "https://github.com/baseplate-admin/django-hstore-widget/issues"
-"homepage" = "https://github.com/baseplate-admin/django-hstore-widget"
-"repository" = "https://github.com/baseplate-admin/django-hstore-widget"
 
-[tool.poetry.dependencies]
-python = ">=3.8"
-django = "*"
 
-[tool.poetry.group.test.dependencies]
-pytest = "^8.0.1"
-pytest-django = "^4.8.0"
-psycopg = { version = "^3" }
-selenium = "^4.26.1"
+[tool.hatch.build]
+ignore-vcs = true
+include = ['src/django_hstore_widget/**/*']
+packages = ["src/django_hstore_widget"]
+directory = 'py-dist'
+
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"

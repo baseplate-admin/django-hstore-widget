@@ -57,7 +57,7 @@ jobs:
                     --health-timeout 5s
                     --health-retries 5
             selenium:
-                image: selenium/standalone-chrome:latest # use the latest stable Chrome version
+                image: selenium/standalone-chrome:latest
                 ports:
                     - 4444:4444
                 options: >-
@@ -83,19 +83,17 @@ jobs:
               uses: actions/setup-python@v5
               with:
                   python-version: ${{ matrix.python-version }}
-            - name: Install Poetry
-              uses: snok/install-poetry@v1
-              with:
-                  virtualenvs-create: true
-                  virtualenvs-in-project: true
+            - name: Install UV
+              run: pip install uv
             - name: Install dependencies
               run: |
-                  poetry install
-                  poetry run pip install -e .
+                  uv venv .venv
+                  source .venv/bin/activate
+                  uv pip install -e .[test]
             - name: Run backend tests
               run: |
-                  # Your pytest setup should read SELENIUM_REMOTE_URL
-                  poetry run pytest -v -x -rs
+                  source .venv/bin/activate
+                  pytest -v -x -rs
 
     merge:
         name: Auto-merge Dependabot
@@ -124,16 +122,15 @@ jobs:
             id-token: write
         steps:
             - uses: actions/checkout@v4
-            - uses: snok/install-poetry@v1
-              with:
-                  virtualenvs-create: true
-                  virtualenvs-in-project: true
+            - name: Install Hatch
+              run: pip install hatch
             - uses: actions/download-artifact@v4
               with:
                   name: workspace
                   path: .
             - name: Build package
-              run: poetry build --output py-dist
+              run: |
+                  hatch build
             - name: Upload release assets
               uses: svenstaro/upload-release-action@v2
               with:
