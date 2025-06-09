@@ -12,7 +12,10 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
+            - uses: actions/setup-python@v5
             - uses: actions/setup-node@v4
+            - name: Install UV
+              run: pip install brotli
             - run: npm ci
             - run: npm run build
             - uses: actions/upload-artifact@v4
@@ -41,7 +44,7 @@ jobs:
         strategy:
             matrix:
                 python-version: ['3.9', '3.10', '3.11', '3.12', '3.13', 'pypy-3.9', 'pypy-3.10']
-                postgres-version: ['13', '14', '15', '16', '17']
+                postgres-version: ['14', '15', '16', '17']
         services:
             database:
                 image: postgres:${{ matrix.postgres-version }}
@@ -73,28 +76,26 @@ jobs:
             DJANGO_DATABASE_NAME: postgres
             SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
 
+
         steps:
             - uses: actions/checkout@v4
             - uses: actions/download-artifact@v4
               with:
-                  name: workspace
-                  path: .
-            - name: Set up Python
-              uses: actions/setup-python@v5
+                name: workspace
+                path: .
+            - name: Set up Python (uv)
+              uses: astral-sh/setup-uv@v5
               with:
-                  python-version: ${{ matrix.python-version }}
-            - name: Install UV
-              run: pip install uv
-            - name: Install dependencies
+                enable-cache: true
+                python-version: ${{ matrix.python-version }}
+                cache-dependency-glob: "uv.lock"
+            - name: Create virtual environment and install dependencies
               run: |
-                  uv venv .venv
-                  source .venv/bin/activate
-                  uv pip install -e .[test]
+                uv sync --group test --group build
             - name: Run backend tests
-              run: |
-                  source .venv/bin/activate
-                  pytest -v -x -rs
+              run: uv run pytest -v -x -rs
 
+            
     merge:
         name: Auto-merge Dependabot
         runs-on: ubuntu-latest
