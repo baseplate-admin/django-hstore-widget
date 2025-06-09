@@ -30,4 +30,4 @@ UserInterfaceState.xcuserstate
 __pycache__
 
 !poetry.lock
-/src/django_hstore_widget/static/admin/js/django_hstore_widget/*.js
+/src/django_hstore_widget/static/admin/js/django_hstore_widget/*
