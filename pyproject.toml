@@ -1,6 +1,6 @@
 [project]
 name = "django-hstore-widget"
-version = "0.0.18"
+version = "0.0.19"
 description = "Human friendly HStoreWidget. Continual of django-admin-hstore-widget."
 readme = "README.md"
 license = { text = "MIT" }
