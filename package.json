@@ -1,5 +1,6 @@
 {
     "name": "django-hstore-widget",
+    "type": "module",
     "description": "Human friendly HStoreWidget. Continual of django-admin-hstore-widget.",
     "main": "dist/index.cjs.js",
     "module": "dist/index.js",
@@ -12,7 +13,7 @@
         "url": "https://github.com/baseplate-admin/django-hstore-widget.git"
     },
     "scripts": {
-        "build": "stencil build && node --import=tsx ./scripts/copy.ts",
+        "build": "stencil build && node --experimental-transform-types ./scripts/copy.ts",
         "start": "stencil build --dev --watch --serve",
         "test": "stencil test --spec --e2e",
         "test.watch": "stencil test --spec --e2e --watchAll",
@@ -27,7 +28,6 @@
         "jest-cli": "^29.7.0",
         "puppeteer": "^24.10.1",
         "sass": "^1.89.2",
-        "tsx": "^4.20.3",
         "typescript": "^5.8.3"
     },
     "license": "MIT"
