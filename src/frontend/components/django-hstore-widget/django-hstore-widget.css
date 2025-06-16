@@ -1,79 +1,103 @@
-
 django-hstore-widget {
-  button {
-    all: unset;
-  }
+    button {
+        all: unset;
+    }
 
-  .min-width-\[150px\] {
-    min-width: 150px;
-  }
+    /* Arbitrary min-width */
+    .min-width-\[150px\] {
+        min-width: 150px;
+    }
 
-  .min-width-\[300px\] {
-    min-width: 300px;
-  }
+    .min-width-\[300px\] {
+        min-width: 300px;
+    }
 
-  .flex {
-    display: flex;
-  }
+    /* Display types */
 
-  .hidden {
-    display: none;
-  }
+    .flex {
+        display: flex;
+    }
 
-  .select-none {
-    user-select: none;
-  }
+    .hidden {
+        display: none;
+    }
 
-  .justify-center {
-    justify-content: center;
-  }
+    /* User Select */
 
-  .justify-start {
-    justify-content: flex-start;
-  }
+    .select-none {
+        user-select: none;
+    }
 
-  .justify-between {
-    justify-content: space-between;
-  }
+    /* Justify Items */
 
-  .items-center {
-    align-items: center;
-  }
+    .justify-center {
+        justify-content: center;
+    }
 
-  .flex-col {
-    flex-direction: column;
-  }
+    .justify-start {
+        justify-content: flex-start;
+    }
 
-  .invisible {
-    visibility: hidden;
-  }
+    .justify-between {
+        justify-content: space-between;
+    }
 
-  .gap-1 {
-    gap: 0.25rem; /* 4px */
-  }
+    /* Align items */
 
-  .gap-2\.5 {
-    gap: 0.625rem; /* 10px */
-  }
+    .items-center {
+        align-items: center;
+    }
 
-  .opacity-60 {
-    opacity: 0.6;
-  }
+    /* Flex Direction */
 
-  .cursor-pointer {
-    cursor: pointer;
-  }
+    .flex-col {
+        flex-direction: column;
+    }
 
-  .cursor-default {
-    cursor: default;
-  }
+    /* Visibility */
 
-  .brightness-90 {
-    filter: brightness(0.9);
-  }
+    .invisible {
+        visibility: hidden;
+    }
 
-  .warning {
-    color: var(--error-fg, red);
-    border-color: var(--error-fg, red);
-  }
+    /* Gaps */
+
+    .gap-1 {
+        gap: 0.25rem;
+        /* 4px */
+    }
+
+    .gap-2\.5 {
+        gap: 0.625rem;
+        /* 10px */
+    }
+
+    /* Opacity */
+
+    .opacity-60 {
+        opacity: 0.6;
+    }
+
+    /* Cursor types */
+
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    .cursor-default {
+        cursor: default;
+    }
+
+    /* Brightness */
+
+    .brightness-90 {
+        filter: brightness(0.9);
+    }
+
+    /* Colors */
+
+    .warning {
+        color: var(--error-fg, red);
+        border-color: var(--error-fg, red);
+    }
 }
