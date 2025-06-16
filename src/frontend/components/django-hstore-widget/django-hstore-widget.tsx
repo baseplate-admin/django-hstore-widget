@@ -29,7 +29,7 @@ export class DjangoHstoreWidget {
     @State() private mounted = false;
     @State() private error: string | null = null;
     @State() private textarea_value: string = '';
-    @State() private output_render_type: 'rows' | 'textarea' | null = 'rows'; // `null` here is only used for testing. It should never be null in the code
+    @State() private output_render_type: 'rows' | 'textarea' = 'rows';
 
     // Very Fragile state. Please update with care. This is the core state of the entire component
     @State() private __json = new Array<{ key: string; value: string; index: number }>();
@@ -64,6 +64,7 @@ export class DjangoHstoreWidget {
     get #GITHUB_ISSUE_URL() {
         return 'https://github.com/baseplate-admin/django-hstore-widget/issues';
     }
+
     #getJSONString({ indent }: { indent?: number } = {}) {
         const jsonObject = this.__json.reduce((acc, curr) => {
             if (curr.key || curr.value) acc[curr.key ?? ''] = curr.value ?? '';
@@ -191,8 +192,8 @@ export class DjangoHstoreWidget {
         const mapping = { delete: { src: this.delete_svg_src, alt: '❌' }, add: { src: this.add_svg_src, alt: '➕' }, edit: { src: this.edit_svg_src, alt: '✏️' } };
 
         const icon = mapping[type];
-
-        return icon ? <img src={icon.src} alt={icon.alt} /> : <p>Item not found for {icon}</p>;
+        if (!icon) throw new Error(`Icon type "${type}" is not defined in the mapping.`);
+        return <img src={icon.src} alt={icon.alt} />;
     }
 
     render() {
