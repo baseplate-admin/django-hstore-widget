@@ -8,7 +8,7 @@ const django_mapping = Object.freeze({
 
 @Component({
     tag: 'django-hstore-widget',
-    styleUrl: 'django-hstore-widget.scss',
+    styleUrl: 'django-hstore-widget.css',
     shadow: false,
 })
 export class DjangoHstoreWidget {
