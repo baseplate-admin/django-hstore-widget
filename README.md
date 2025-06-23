@@ -5,6 +5,9 @@
 
 FormField that properly renders HStoreField Data in django Admin based on [`djangoauts package`](https://github.com/djangonauts/django-hstore) and an updated fork of [`django-admin-hstore-widget`](https://github.com/PokaInc/django-admin-hstore-widget)
 
+> [!NOTE]  
+If you want a field based implementation, please check [django-hstore-field](https://github.com/baseplate-admin/django-hstore-field). The package builds on top of this to give an ergonomic implementation. 
+
 ## Requirements
 
 -   Python 3.9 and Up ( well technically any python version from 3.6 should work )
