@@ -3,8 +3,6 @@
 
 [![Downloads](https://static.pepy.tech/badge/django-hstore-widget)](https://pepy.tech/project/django-hstore-widget)  [![CI](https://github.com/baseplate-admin/django-hstore-widget/actions/workflows/CI.yml/badge.svg)](https://github.com/baseplate-admin/django-hstore-widget/actions/workflows/test.yml) [![Pypi Badge](https://img.shields.io/pypi/v/django-hstore-widget.svg)](https://pypi.org/project/django-hstore-widget/) [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/baseplate-admin/django-hstore-widget/master.svg)](https://results.pre-commit.ci/latest/github/baseplate-admin/django-hstore-widget/master)
 
----
-
 FormField that properly render HStoreField Data in django Admin based on [`djangoauts package`](https://github.com/djangonauts/django-hstore) and an updated fork of [`django-admin-hstore-widget`](https://github.com/PokaInc/django-admin-hstore-widget)
 
 ## Requirements
