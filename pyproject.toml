@@ -47,7 +47,7 @@ build = ["brotli>=1.1.0", "hatch>=1.14.1"]
 test = [
     "pytest>=8.0.1",
     "pytest-django>=4.8.0",
-    "psycopg>=3",
+    "psycopg[binary]>=3",
     "selenium>=4.26.1",
 ]
 

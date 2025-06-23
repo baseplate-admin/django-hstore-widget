@@ -13,16 +13,12 @@ export const config: Config = {
     },
     outputTargets: [
         {
-            type: 'dist',
+            type: 'dist-custom-elements',
+            minify: true,
+            customElementsExportBehavior: 'auto-define-custom-elements' /*'auto-define-custom-elements'*/,
+            externalRuntime: false,
+            empty: true,
         },
-        // {
-        //     type: 'dist-custom-elements',
-        //     minify: true,
-
-        //     customElementsExportBehavior: 'bundle' /*'auto-define-custom-elements'*/,
-        //     externalRuntime: false,
-        //     empty: true,
-        // },
         // {
         //   type: 'docs-readme',
         // },
