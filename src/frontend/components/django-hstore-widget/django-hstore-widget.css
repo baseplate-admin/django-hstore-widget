@@ -13,7 +13,6 @@ django-hstore-widget {
     }
 
     /* Display types */
-
     .flex {
         display: flex;
     }
@@ -23,13 +22,11 @@ django-hstore-widget {
     }
 
     /* User Select */
-
     .select-none {
         user-select: none;
     }
 
     /* Justify Items */
-
     .justify-center {
         justify-content: center;
     }
@@ -43,28 +40,23 @@ django-hstore-widget {
     }
 
     /* Align items */
-
     .items-center {
         align-items: center;
     }
 
     /* Flex Direction */
-
     .flex-col {
         flex-direction: column;
     }
 
     /* Visibility */
-
     .invisible {
         visibility: hidden;
     }
 
     /* Gaps */
-
     .gap-1 {
-        gap: 0.25rem;
-        /* 4px */
+        gap: 0.25rem; /* 4px */
     }
 
     .gap-2\.5 {
@@ -73,13 +65,11 @@ django-hstore-widget {
     }
 
     /* Opacity */
-
     .opacity-60 {
         opacity: 0.6;
     }
 
     /* Cursor types */
-
     .cursor-pointer {
         cursor: pointer;
     }
@@ -89,13 +79,11 @@ django-hstore-widget {
     }
 
     /* Brightness */
-
     .brightness-90 {
         filter: brightness(0.9);
     }
 
     /* Colors */
-
     .warning {
         color: var(--error-fg, red);
         border-color: var(--error-fg, red);
