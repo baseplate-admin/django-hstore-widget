@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const BASE_DIR = path.resolve(__dirname);
-const DIST_DIR = path.resolve(BASE_DIR, '..', 'dist', 'django-hstore-widget');
+const DIST_DIR = path.resolve(BASE_DIR, '..', 'dist', 'components');
 const TARGET_DIR = path.resolve(BASE_DIR, '..', 'src', 'django_hstore_widget', 'static', 'admin', 'js', 'django_hstore_widget');
 
 try {

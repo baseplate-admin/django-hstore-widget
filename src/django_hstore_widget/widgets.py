@@ -67,5 +67,5 @@ class HStoreFormWidget(AdminTextareaWidget):
 
     class Media:
         js = [
-            ESM("admin/js/django_hstore_widget/django-hstore-widget.esm.js"),
+            ESM("admin/js/django_hstore_widget/django-hstore-widget.js"),
         ]

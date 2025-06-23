@@ -29,17 +29,17 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dependencies = ["django"]
 
 [dependency-groups]
@@ -47,7 +47,7 @@ build = ["brotli>=1.1.0", "hatch>=1.14.1"]
 test = [
     "pytest>=8.0.1",
     "pytest-django>=4.8.0",
-    "psycopg>=3",
+    "psycopg[binary]>=3",
     "selenium>=4.26.1",
 ]
 
