@@ -15,6 +15,7 @@ export const config: Config = {
         {
             type: 'dist-custom-elements',
             minify: true,
+            generateTypeDeclarations: false,
             customElementsExportBehavior: 'auto-define-custom-elements' /*'auto-define-custom-elements'*/,
             externalRuntime: false,
             empty: true,
