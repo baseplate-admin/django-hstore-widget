@@ -23,7 +23,7 @@
         "@stencil/core": "^4.35.3",
         "@stencil/sass": "^3.2.1",
         "@types/jest": "^29.5.14",
-        "@types/node": "^24.0.13",
+        "@types/node": "^24.0.14",
         "jest": "^29.7.0",
         "jest-cli": "^29.7.0",
         "puppeteer": "^24.12.1",
