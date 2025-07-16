@@ -21,7 +21,7 @@
     },
     "devDependencies": {
         "@stencil/core": "^4.36.0",
-        "@stencil/sass": "^3.2.1",
+        "@stencil/sass": "^3.2.2",
         "@types/jest": "^29.5.14",
         "@types/node": "^24.0.14",
         "jest": "^29.7.0",
