@@ -11,7 +11,7 @@ jobs:
         name: Build Frontend
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v5
             - uses: actions/setup-node@v4
               with:
                 node-version: 24
@@ -27,7 +27,7 @@ jobs:
         needs: build-frontend
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v5
             - uses: actions/download-artifact@v5
               with:
                   name: workspace
@@ -79,7 +79,7 @@ jobs:
 
 
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v5
             - uses: actions/download-artifact@v5
               with:
                 name: workspace
@@ -103,7 +103,7 @@ jobs:
         needs: [test-frontend, test-backend]
         if: github.actor == 'dependabot[bot]'
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v5
             - name: Enable auto-merge
               run: gh pr merge --auto --merge "$PR_URL"
               env:
@@ -123,7 +123,7 @@ jobs:
             contents: write
             id-token: write
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v5
             - name: Install Hatch
               run: pip install hatch
             - uses: actions/download-artifact@v5
