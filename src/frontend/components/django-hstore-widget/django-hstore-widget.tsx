@@ -50,7 +50,7 @@ export class DjangoHstoreWidget {
 
     // Callbacks
     async componentDidLoad() {
-        requestAnimationFrame(async () => {
+        globalThis.requestAnimationFrame(async () => {
             await this.#parseJson(this.json);
             if (this.error) {
                 this.mounted = false;
