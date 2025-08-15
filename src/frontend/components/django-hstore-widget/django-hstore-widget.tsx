@@ -51,15 +51,12 @@ export class DjangoHstoreWidget {
 
     // Callbacks
     async componentWillLoad() {
-        if (this.delete_svg_src) {
-            imageState.delete_svg_src = this.delete_svg_src;
-        }
-        if (this.add_svg_src) {
-            imageState.add_svg_src = this.add_svg_src;
-        }
-        if (this.edit_svg_src) {
-            imageState.edit_svg_src = this.edit_svg_src;
-        }
+        const props = ['delete_svg_src', 'add_svg_src', 'edit_svg_src'] as const;
+        props.forEach(key => {
+            if (this[key]) {
+                imageState[key] = this[key];
+            }
+        });
     }
 
     async componentDidLoad() {
