@@ -49,13 +49,15 @@ export class DjangoHstoreWidget {
     }
 
     // Callbacks
-    async connectedCallback() {
-        await this.#parseJson(this.json);
-        if (this.error) {
-            this.mounted = false;
-        } else {
-            this.mounted = true;
-        }
+    async componentDidLoad() {
+        requestAnimationFrame(async () => {
+            await this.#parseJson(this.json);
+            if (this.error) {
+                this.mounted = false;
+            } else {
+                this.mounted = true;
+            }
+        });
     }
 
     // Getters
