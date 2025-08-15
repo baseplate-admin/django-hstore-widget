@@ -30,6 +30,9 @@ export namespace Components {
          */
         "rows": number;
     }
+    interface ImageIcon {
+        "type": 'delete' | 'add' | 'edit';
+    }
 }
 declare global {
     interface HTMLDjangoHstoreWidgetElement extends Components.DjangoHstoreWidget, HTMLStencilElement {
@@ -38,8 +41,15 @@ declare global {
         prototype: HTMLDjangoHstoreWidgetElement;
         new (): HTMLDjangoHstoreWidgetElement;
     };
+    interface HTMLImageIconElement extends Components.ImageIcon, HTMLStencilElement {
+    }
+    var HTMLImageIconElement: {
+        prototype: HTMLImageIconElement;
+        new (): HTMLImageIconElement;
+    };
     interface HTMLElementTagNameMap {
         "django-hstore-widget": HTMLDjangoHstoreWidgetElement;
+        "image-icon": HTMLImageIconElement;
     }
 }
 declare namespace LocalJSX {
@@ -67,8 +77,12 @@ declare namespace LocalJSX {
          */
         "rows"?: number;
     }
+    interface ImageIcon {
+        "type": 'delete' | 'add' | 'edit';
+    }
     interface IntrinsicElements {
         "django-hstore-widget": DjangoHstoreWidget;
+        "image-icon": ImageIcon;
     }
 }
 export { LocalJSX as JSX };
@@ -76,6 +90,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "django-hstore-widget": LocalJSX.DjangoHstoreWidget & JSXBase.HTMLAttributes<HTMLDjangoHstoreWidgetElement>;
+            "image-icon": LocalJSX.ImageIcon & JSXBase.HTMLAttributes<HTMLImageIconElement>;
         }
     }
 }

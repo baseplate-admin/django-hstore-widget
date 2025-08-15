@@ -16,7 +16,8 @@
         "jsx": "react",
         "jsxFactory": "h",
         "paths": {
-            "$lib/*": ["lib/*"]
+            "$lib/*": ["lib/*"],
+            "$store/*": ["stores/*"]
         }
     },
     "include": ["src/frontend"],

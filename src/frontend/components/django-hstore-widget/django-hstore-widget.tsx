@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, State, Fragment, Watch } from '@stencil/core';
 import { cn } from '$lib/classnames';
+import imageState from '$store/image';
 
 const django_mapping = Object.freeze({
     input: 'vTextField',
@@ -49,6 +50,18 @@ export class DjangoHstoreWidget {
     }
 
     // Callbacks
+    async componentWillLoad() {
+        if (this.delete_svg_src) {
+            imageState.delete_svg_src = this.delete_svg_src;
+        }
+        if (this.add_svg_src) {
+            imageState.add_svg_src = this.add_svg_src;
+        }
+        if (this.edit_svg_src) {
+            imageState.edit_svg_src = this.edit_svg_src;
+        }
+    }
+
     async componentDidLoad() {
         globalThis.requestAnimationFrame(async () => {
             await this.#parseJson(this.json);
@@ -181,19 +194,11 @@ export class DjangoHstoreWidget {
                         id="delete-button"
                         onClick={this.#handleDelete.bind(this, item.index)}
                     >
-                        {this.#ImageIconComponent({ type: 'delete' })}
+                        <image-icon type="delete"></image-icon>
                     </div>
                 </div>
             </div>
         );
-    }
-
-    #ImageIconComponent({ type }: { type: 'delete' | 'add' | 'edit' }) {
-        const mapping = { delete: { src: this.delete_svg_src, alt: '❌' }, add: { src: this.add_svg_src, alt: '➕' }, edit: { src: this.edit_svg_src, alt: '✏️' } };
-
-        const icon = mapping[type];
-        if (!icon) throw new Error(`Icon type "${type}" is not defined in the mapping.`);
-        return <img src={icon.src} alt={icon.alt} />;
     }
 
     render() {
@@ -241,7 +246,7 @@ export class DjangoHstoreWidget {
                             aria-label="Add Row"
                             onClick={this.#handleRowAdd.bind(this)}
                         >
-                            {this.#ImageIconComponent({ type: 'add' })}
+                            <image-icon type="add"></image-icon>
                             Add row
                         </button>
 
@@ -253,7 +258,7 @@ export class DjangoHstoreWidget {
                                     aria-label="Close TextArea"
                                     onClick={this.#handleToggleClick.bind(this)}
                                 >
-                                    {this.#ImageIconComponent({ type: 'delete' })}
+                                    <image-icon type="delete"></image-icon>
                                     Close TextArea
                                 </button>
                             ) : this.output_render_type === 'rows' ? (
@@ -263,7 +268,7 @@ export class DjangoHstoreWidget {
                                     aria-label="Open TextArea"
                                     onClick={this.#handleToggleClick.bind(this)}
                                 >
-                                    {this.#ImageIconComponent({ type: 'edit' })}
+                                    <image-icon type="edit"></image-icon>
                                     Open TextArea
                                 </button>
                             ) : (
