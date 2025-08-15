@@ -1,4 +1,4 @@
-import { Component, Element, Host, h, Prop, State, Fragment, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, State, Fragment, Watch } from '@stencil/core';
 import { cn } from '$lib/classnames';
 
 const django_mapping = Object.freeze({
@@ -9,12 +9,9 @@ const django_mapping = Object.freeze({
 @Component({
     tag: 'django-hstore-widget',
     styleUrl: 'django-hstore-widget.css',
-    shadow: true,
+    shadow: false,
 })
 export class DjangoHstoreWidget {
-    @Element() el!: HTMLElement;
-    textareaElement: HTMLTextAreaElement | null = null;
-
     // Primary Attributes
     @Prop({ reflect: true }) json!: string;
     @Prop({ reflect: true }) field_name!: string;
@@ -47,38 +44,18 @@ export class DjangoHstoreWidget {
     @Watch('__json')
     async __jsonWatcher() {
         // Do silent update if the state is in row mode
-        if (this.textareaElement) {
-            this.textareaElement.value = this.#getJSONString({ indent: 0 });
-        }
-        if (this.output_render_type === 'rows') {
-            console.log('Updated in background');
-            this.textarea_value = this.#getJSONString({ indent: 0 });
-        }
-    }
-
-    async createHiddenTextarea() {
-        this.textareaElement = document.createElement('textarea');
-        this.textareaElement.style.display = 'none';
-        this.textareaElement.name = this.field_name;
-
-        this.el.appendChild(this.textareaElement);
+        console.debug('Updating __json state', this.__json);
+        this.textarea_value = this.#getJSONString({ indent: 0 });
     }
 
     // Callbacks
     async connectedCallback() {
         await this.#parseJson(this.json);
-
         if (this.error) {
             this.mounted = false;
         } else {
             this.mounted = true;
         }
-    }
-
-    async componentDidLoad() {
-        requestAnimationFrame(async () => {
-            await this.createHiddenTextarea();
-        });
     }
 
     // Getters
@@ -241,6 +218,7 @@ export class DjangoHstoreWidget {
                         <textarea
                             class={cn(this.output_render_type === 'rows' && 'hidden invisible', this.error && 'warning', django_mapping['textarea'])}
                             cols={this.cols}
+                            name={this.field_name}
                             rows={this.rows}
                             onInput={this.#handleTextAreaInput.bind(this)}
                             value={this.textarea_value}
