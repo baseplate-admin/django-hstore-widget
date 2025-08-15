@@ -44,6 +44,7 @@ export class DjangoHstoreWidget {
     @Watch('__json')
     async __jsonWatcher() {
         // Do silent update if the state is in row mode
+        console.debug('Updating __json state', this.__json);
         this.textarea_value = this.#getJSONString({ indent: 0 });
     }
 
