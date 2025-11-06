@@ -27,7 +27,7 @@
         "@types/node": "^24.10.0",
         "jest": "^29.7.0",
         "jest-cli": "^29.7.0",
-        "puppeteer": "^24.29.0",
+        "puppeteer": "^24.29.1",
         "sass": "^1.93.3",
         "typescript": "^5.9.3"
     },
