@@ -2,7 +2,7 @@
 
 
 > [!NOTE]  
-If you want a field based implementation, please check [django-hstore-field](https://github.com/baseplate-admin/django-hstore-field). The package builds on top of this to give an ergonomic implementation. 
+If you are new to `hstore`, please check [django-hstore-field](https://github.com/baseplate-admin/django-hstore-field). The package builds on top of this to give an ergonomic implementation. 
 
 
 [![Downloads](https://static.pepy.tech/badge/django-hstore-widget)](https://pepy.tech/project/django-hstore-widget)  [![CI](https://github.com/baseplate-admin/django-hstore-widget/actions/workflows/CI.yml/badge.svg)](https://github.com/baseplate-admin/django-hstore-widget/actions/workflows/test.yml) [![Pypi Badge](https://img.shields.io/pypi/v/django-hstore-widget.svg)](https://pypi.org/project/django-hstore-widget/) [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/baseplate-admin/django-hstore-widget/master.svg)](https://results.pre-commit.ci/latest/github/baseplate-admin/django-hstore-widget/master)
@@ -66,3 +66,21 @@ class YourmodelAdmin(admin.ModelAdmin):
 ## Result
 
 ![Rendered result](./assets/rendered.png)
+
+## Comparison
+
+### Vs `JSONB`
+
+| Feature                           | `HStoreField` | `JSONField` |
+| --------------------------------- | ------------- | ----------- |
+| Requires PostgreSQL extension     | ✅             | ❌           |
+| Flat key–value support            | ✅             | ✅           |
+| Nested structure support          | ❌             | ✅           |
+| Supports non-string values        | ❌             | ✅           |
+| Simple key-value admin UI         | ✅             | ❌           |
+| Easy validation                   | ✅             | ❌           |
+| Advanced JSON queries             | ❌             | ✅           |
+| Powerful containment queries      | ❌             | ✅           |
+| Smaller storage footprint         | ✅             | ❌           |
+| Suitable for metadata fields      | ✅             | ✅           |
+| Suitable for structured documents | ❌             | ✅           |
