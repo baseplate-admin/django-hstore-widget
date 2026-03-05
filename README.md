@@ -9,7 +9,7 @@ FormField that properly renders HStoreField Data in django Admin based on [`djan
 
 ## Requirements
 
-- Python 3.9 and up
+- Python 3.10 and up
 - Django 5.0 and up
 - Modern browsers ( Chrome 112+, Firefox 117+, Safari 16.5+ )
 
