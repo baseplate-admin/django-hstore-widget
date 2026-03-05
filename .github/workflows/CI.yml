@@ -60,22 +60,12 @@ jobs:
                     --health-interval 10s
                     --health-timeout 5s
                     --health-retries 5
-            selenium:
-                image: selenium/standalone-chrome:latest
-                ports:
-                    - 4444:4444
-                options: >-
-                    --health-cmd="curl -s http://localhost:4444/wd/hub/status | grep \"\"ready\"\""
-                    --health-interval=10s
-                    --health-timeout=5s
-                    --health-retries=5
 
         env:
             DJANGO_DATABASE_HOST: localhost
             DJANGO_DATABASE_USER: postgres
             DJANGO_DATABASE_PASSWORD: postgres
             DJANGO_DATABASE_NAME: postgres
-            SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
 
         steps:
             - uses: actions/checkout@v6
@@ -92,6 +82,11 @@ jobs:
             - name: Create virtual environment and install dependencies
               run: |
                   uv sync --group test --group build
+
+            - name: Install Playwright browser (Chromium)
+              if: ${{ !startsWith(matrix.python-version, 'pypy') }}
+              run: uv run playwright install --with-deps chromium
+
             - name: Run backend tests
               run: uv run pytest -v -x -rs
 

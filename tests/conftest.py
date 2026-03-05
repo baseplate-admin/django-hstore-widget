@@ -2,27 +2,30 @@ import os
 import django
 from django.conf import settings
 import pytest
-from selenium import webdriver
-from selenium.common.exceptions import WebDriverException
-from django.utils.encoding import force_str
+
+try:
+    from playwright.sync_api import Error as PlaywrightError
+    from playwright.sync_api import sync_playwright
+except ImportError:
+    PlaywrightError = None
+    sync_playwright = None
 
 
-@pytest.fixture(scope="session")
-def driver():
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--window-size=1920,1200")
-
-    # Set up console logging preferences
-    chrome_options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
+@pytest.fixture
+def page():
+    if sync_playwright is None:
+        pytest.skip("Playwright is not installed for this Python runtime")
 
     try:
-        b = webdriver.Chrome(options=chrome_options)
-    except WebDriverException as e:
-        pytest.skip(force_str(e))
-    else:
-        yield b
-        b.quit()
+        with sync_playwright() as playwright:
+            browser = playwright.chromium.launch(headless=True)
+            context = browser.new_context(viewport={"width": 1920, "height": 1200})
+            browser_page = context.new_page()
+            yield browser_page
+            context.close()
+            browser.close()
+    except PlaywrightError as exc:
+        pytest.skip(str(exc))
 
 
 def pytest_sessionstart(session):
