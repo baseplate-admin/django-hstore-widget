@@ -1,14 +1,11 @@
 import os
-import django
-from django.conf import settings
-import pytest
 
-try:
-    from playwright.sync_api import Error as PlaywrightError
-    from playwright.sync_api import sync_playwright
-except ImportError:
-    PlaywrightError = None
-    sync_playwright = None
+import django
+import pytest
+from django.conf import settings
+
+from playwright.sync_api import Error as PlaywrightError
+from playwright.sync_api import sync_playwright
 
 
 @pytest.fixture
@@ -29,11 +26,14 @@ def page():
 
 
 def pytest_sessionstart(session):
+    if settings.configured:
+        return
+
     settings.configure(
         DATABASES={
             "default": {
                 "ENGINE": "django.db.backends.postgresql",
-                "NAME": "django_hstore",
+                "NAME": os.environ.get("DJANGO_DATABASE_NAME", "postgres"),
                 "HOST": os.environ.get("DJANGO_DATABASE_HOST", "localhost"),
                 "USER": os.environ.get("DJANGO_DATABASE_USER", "postgres"),
                 "PASSWORD": os.environ.get(
@@ -67,11 +67,10 @@ def pytest_sessionstart(session):
         LANGUAGE_CODE="en-us",
         TIME_ZONE="UTC",
         USE_I18N=True,
-        USE_L10N=True,
         USE_TZ=True,
         STATIC_URL="/static/",
         ROOT_URLCONF="cat.urls",
-        ALLOWED_HOSTS=[],
+        ALLOWED_HOSTS=["*"],
         TEMPLATES=[
             {
                 "BACKEND": "django.template.backends.django.DjangoTemplates",

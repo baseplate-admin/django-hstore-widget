@@ -1,21 +1,17 @@
 # django-hstore-widget
 
-
 > [!NOTE]  
-If you are new to `hstore`, please check [django-hstore-field](https://github.com/baseplate-admin/django-hstore-field). The package builds on top of this to give an ergonomic implementation. 
+> If you are new to `hstore`, please check [django-hstore-field](https://github.com/baseplate-admin/django-hstore-field). The package builds on top of this to give an ergonomic implementation.
 
-
-[![Downloads](https://static.pepy.tech/badge/django-hstore-widget)](https://pepy.tech/project/django-hstore-widget)  [![CI](https://github.com/baseplate-admin/django-hstore-widget/actions/workflows/CI.yml/badge.svg)](https://github.com/baseplate-admin/django-hstore-widget/actions/workflows/test.yml) [![Pypi Badge](https://img.shields.io/pypi/v/django-hstore-widget.svg)](https://pypi.org/project/django-hstore-widget/) [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/baseplate-admin/django-hstore-widget/master.svg)](https://results.pre-commit.ci/latest/github/baseplate-admin/django-hstore-widget/master)
-
+[![Downloads](https://static.pepy.tech/badge/django-hstore-widget)](https://pepy.tech/project/django-hstore-widget) [![CI](https://github.com/baseplate-admin/django-hstore-widget/actions/workflows/CI.yml/badge.svg)](https://github.com/baseplate-admin/django-hstore-widget/actions/workflows/test.yml) [![Pypi Badge](https://img.shields.io/pypi/v/django-hstore-widget.svg)](https://pypi.org/project/django-hstore-widget/) [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/baseplate-admin/django-hstore-widget/master.svg)](https://results.pre-commit.ci/latest/github/baseplate-admin/django-hstore-widget/master)
 
 FormField that properly renders HStoreField Data in django Admin based on [`djangoauts package`](https://github.com/djangonauts/django-hstore) and an updated fork of [`django-admin-hstore-widget`](https://github.com/PokaInc/django-admin-hstore-widget)
 
-
 ## Requirements
 
--   Python 3.10 and Up ( well technically any python version from 3.6 should work )
--   Django 3.2 and Up
--   Modern browsers ( Chrome 112+, Firefox 117+, Safari 16.5+ )
+- Python 3.9 and up
+- Django 5.0 and up
+- Modern browsers ( Chrome 112+, Firefox 117+, Safari 16.5+ )
 
 Using pip:
 
@@ -38,7 +34,6 @@ INSTALLED_APPS = [
 ```
 
 ## Usage
-
 
 ```python
 # yourmodel/forms.py
@@ -73,14 +68,14 @@ class YourmodelAdmin(admin.ModelAdmin):
 
 | Feature                           | `HStoreField` | `JSONField` |
 | --------------------------------- | ------------- | ----------- |
-| Requires PostgreSQL extension     | ✅             | ❌           |
-| Flat key–value support            | ✅             | ✅           |
-| Nested structure support          | ❌             | ✅           |
-| Supports non-string values        | ❌             | ✅           |
-| Simple key-value admin UI         | ✅             | ❌           |
-| Easy validation                   | ✅             | ❌           |
-| Advanced JSON queries             | ❌             | ✅           |
-| Powerful containment queries      | ❌             | ✅           |
-| Smaller storage footprint         | ✅             | ❌           |
-| Suitable for metadata fields      | ✅             | ✅           |
-| Suitable for structured documents | ❌             | ✅           |
+| Requires PostgreSQL extension     | ✅            | ❌          |
+| Flat key–value support            | ✅            | ✅          |
+| Nested structure support          | ❌            | ✅          |
+| Supports non-string values        | ❌            | ✅          |
+| Simple key-value admin UI         | ✅            | ❌          |
+| Easy validation                   | ✅            | ❌          |
+| Advanced JSON queries             | ❌            | ✅          |
+| Powerful containment queries      | ❌            | ✅          |
+| Smaller storage footprint         | ✅            | ❌          |
+| Suitable for metadata fields      | ✅            | ✅          |
+| Suitable for structured documents | ❌            | ✅          |
