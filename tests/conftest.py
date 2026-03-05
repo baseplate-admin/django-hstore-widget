@@ -3,6 +3,7 @@ import os
 import django
 import pytest
 from django.conf import settings
+
 try:
     from playwright.sync_api import Error as PlaywrightError
     from playwright.sync_api import sync_playwright
