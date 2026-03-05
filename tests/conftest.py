@@ -1,62 +1,36 @@
 import os
-import sys
 
 import django
 import pytest
 from django.conf import settings
-from django.utils.encoding import force_str
-from selenium import webdriver
-from selenium.common.exceptions import WebDriverException
+try:
+    from playwright.sync_api import Error as PlaywrightError
+    from playwright.sync_api import sync_playwright
+except ImportError:
+    PlaywrightError = None
+    sync_playwright = None
 
 
-def _patch_django_template_context_copy_for_py314():
-    """Work around Django 4.x context copying on Python 3.14 during tests."""
-    if sys.version_info < (3, 14):
-        return
-
-    if django.VERSION >= (5, 0):
-        return
-
-    from django.template.context import BaseContext
-
-    def _base_context_copy(self):
-        duplicate = object.__new__(self.__class__)
-        duplicate.__dict__ = self.__dict__.copy()
-        duplicate.dicts = self.dicts[:]
-        return duplicate
-
-    BaseContext.__copy__ = _base_context_copy
-
-
-@pytest.fixture(scope="session")
-def driver():
-    """Create a Selenium driver using remote webdriver in CI when available."""
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--window-size=1920,1200")
-    chrome_options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
-
-    remote_url = os.environ.get("SELENIUM_REMOTE_URL")
+@pytest.fixture
+def page():
+    if sync_playwright is None:
+        pytest.skip("Playwright is not installed for this Python runtime")
 
     try:
-        if remote_url:
-            browser = webdriver.Remote(
-                command_executor=remote_url, options=chrome_options
-            )
-        else:
-            browser = webdriver.Chrome(options=chrome_options)
-    except WebDriverException as exc:
-        pytest.skip(force_str(exc))
-    else:
-        yield browser
-        browser.quit()
+        with sync_playwright() as playwright:
+            browser = playwright.chromium.launch(headless=True)
+            context = browser.new_context(viewport={"width": 1920, "height": 1200})
+            browser_page = context.new_page()
+            yield browser_page
+            context.close()
+            browser.close()
+    except PlaywrightError as exc:
+        pytest.skip(str(exc))
 
 
 def pytest_sessionstart(session):
     if settings.configured:
         return
-
-    _patch_django_template_context_copy_for_py314()
 
     settings.configure(
         DATABASES={
