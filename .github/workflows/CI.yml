@@ -84,7 +84,6 @@ jobs:
                   uv sync --group test --group build
 
             - name: Install Playwright browser (Chromium)
-              if: ${{ !startsWith(matrix.python-version, 'pypy') }}
               run: uv run playwright install --with-deps chromium
 
             - name: Run backend tests
