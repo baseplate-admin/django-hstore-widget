@@ -81,7 +81,9 @@ def test_hstore_field_edit_view_render_js(admin_user, cat_instance, page, live_s
     page.wait_for_selector("body.dashboard", timeout=WAIT_TIME)
 
     # Go to the Cat change page
-    change_url = f"{live_server.url}{reverse('admin:cat_cat_change', args=(cat_instance.pk,))}"
+    change_url = (
+        f"{live_server.url}{reverse('admin:cat_cat_change', args=(cat_instance.pk,))}"
+    )
     page.goto(change_url)
 
     # Assert the widget is present
