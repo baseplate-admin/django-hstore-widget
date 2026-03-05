@@ -30,6 +30,11 @@ def client_with_login(admin_user):
     return client
 
 
+@pytest.fixture
+def cat_instance(db):
+    return Cat.objects.create(name="Murphy", data={"race": "", "gender": "male"})
+
+
 @pytest.mark.django_db
 def test_admin_cat_creation(client_with_login):
     """Test creating a Cat instance through the Django admin."""
@@ -57,7 +62,7 @@ def test_hstore_field_edit_view_render_no_js(client_with_login):
 
 
 @pytest.mark.django_db
-def test_hstore_field_edit_view_render_js(page, live_server, admin_user):
+def test_hstore_field_edit_view_render_js(admin_user, cat_instance, page, live_server):
     """Playwright test to verify HStore widget renders correctly in the Django admin."""
 
     console_messages = []
@@ -76,8 +81,7 @@ def test_hstore_field_edit_view_render_js(page, live_server, admin_user):
     page.wait_for_selector("body.dashboard", timeout=WAIT_TIME)
 
     # Go to the Cat change page
-    cat = Cat.objects.create(name="Murphy", data={"race": "", "gender": "male"})
-    change_url = f"{live_server.url}{reverse('admin:cat_cat_change', args=(cat.pk,))}"
+    change_url = f"{live_server.url}{reverse('admin:cat_cat_change', args=(cat_instance.pk,))}"
     page.goto(change_url)
 
     # Assert the widget is present

@@ -16,9 +16,6 @@ def page():
     if sync_playwright is None:
         pytest.skip("Playwright is not installed for this Python runtime")
 
-    previous_async_unsafe = os.environ.get("DJANGO_ALLOW_ASYNC_UNSAFE")
-    os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
-
     try:
         with sync_playwright() as playwright:
             browser = playwright.chromium.launch(headless=True)
@@ -29,11 +26,6 @@ def page():
             browser.close()
     except PlaywrightError as exc:
         pytest.skip(str(exc))
-    finally:
-        if previous_async_unsafe is None:
-            os.environ.pop("DJANGO_ALLOW_ASYNC_UNSAFE", None)
-        else:
-            os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = previous_async_unsafe
 
 
 def pytest_sessionstart(session):
