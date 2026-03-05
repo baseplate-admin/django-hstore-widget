@@ -2,6 +2,7 @@
     "compilerOptions": {
         "baseUrl": "./src/frontend",
         "strict": true,
+        "types": ["jest", "jest-stencil-runner"],
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "allowUnreachableCode": false,
