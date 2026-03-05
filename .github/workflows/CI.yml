@@ -81,7 +81,7 @@ jobs:
                   cache-dependency-glob: 'uv.lock'
             - name: Create virtual environment and install dependencies
               run: |
-                  uv sync --group test --group build
+                  uv sync --group test
 
             - name: Install Playwright browser (Chromium)
               run: uv run playwright install --with-deps chromium
