@@ -42,7 +42,7 @@ test = [
     "pytest>=8.0.1",
     "pytest-django>=4.8.0",
     "psycopg[binary]>=3",
-    "playwright>=1.52.0; platform_python_implementation != 'PyPy'",
+    "playwright>=1.52.0",
 ]
 
 [project.urls]
