@@ -49,7 +49,7 @@ test = [
 dev = [
     "ruff>=0.16.1",
     "pyrefly>=1.2.0",
-    "django-stubs>=6.0.7",
+    "django-stubs>=6.0.9",
 ]
 
 [project.urls]
