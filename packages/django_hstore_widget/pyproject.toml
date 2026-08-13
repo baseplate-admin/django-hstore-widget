@@ -40,7 +40,7 @@ dependencies = ["django>=5.2.17"]
 [dependency-groups]
 test = [
     "pytest>=8.0.1",
-    "pytest-django>=4.13.0",
+    "pytest-django>=4.14.0",
     "psycopg[binary]>=3.3.4",
     "playwright>=1.62.0",
 ]
