@@ -24,7 +24,7 @@
         "@playwright/test": "^1.62.1",
         "@types/node": "^26.2.0",
         "@typescript/native-preview": "^7.0.0-dev.20260706.1",
-        "@vitest/browser": "^4.1.9",
+        "@vitest/browser": "^4.1.11",
         "@vitest/browser-playwright": "^4.1.10",
         "lightningcss": "^1.33.0",
         "lit": "^3.3.3",
